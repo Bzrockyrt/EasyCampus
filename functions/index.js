@@ -4,6 +4,11 @@ const functions = require("firebase-functions");
 // https://firebase.google.com/docs/functions/get-started
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
-    functions.logger.info("Hello logs!", {structuredData: true});
+    functions.logger.info("Hello logs!", { structuredData: true });
     response.send("Hello from Firebase!");
+});
+
+exports.niquePL = functions.https.onRequest((request, response) => {
+    functions.logger.info("niquePL!", { structuredData: true });
+    response.send("niquePL!");
 });
