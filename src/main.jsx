@@ -7,6 +7,7 @@ import Root from './root'
 import Profile from './Profile'
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/Navbar/Navbar";
+import SignIn from './SignIn'
 
 const router = createBrowserRouter([
   {
