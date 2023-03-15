@@ -9,6 +9,7 @@ import {
   AlertTitle,
   AlertDescription,
 } from '@chakra-ui/react'
+import './SignIn.css'
 
 export default function SignUp() {
     const [email, setEmail] = useState("");
@@ -37,24 +38,25 @@ export default function SignUp() {
 
     return (
         <div className="sign-in-container">
-            <form onSubmit={signUp}>
+            <div className="image-login"><img src="../public/login.jpg" alt="img-sign" /></div>
+            <form onSubmit={signUp} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
-                    <h1>Sign Up</h1>
-                    <Flex flexDirection="row" justifyContent={'center'}>
-                        <input
+                    <h1 className="text-login">Sign Up</h1>
+                    <Flex flexDirection="column" justifyContent={'center'}>
+                        <input className="champs-login"
                             type="email"
                             placeholder="Enter your email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         ></input>
-                        <input
+                        <input className="champs-login"
                             type="password"
                             placeholder="Enter your password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></input>
                     </Flex>
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" className="btn-sumbit-login">Sign Up</button>
                 </Flex>
             </form>
 

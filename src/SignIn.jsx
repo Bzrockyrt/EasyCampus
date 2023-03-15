@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "./firebase";
+import './SignIn.css'
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
@@ -22,26 +23,28 @@ export default function SignIn() {
 
     return (
         <div className="sign-in-container">
-            <form onSubmit={signIn}>
+            <div className="image-login"><img src="../public/login.jpg" alt="img-sign" /></div>
+            <form onSubmit={signIn} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
-                    <h1>Log In</h1>
-                    <Flex flexDirection="row" justifyContent={'center'}>
-                        <input
+                    <h1 className="text-login">Sign In</h1>
+                    <Flex flexDirection="column" justifyContent={'center'}>
+                        <input className="champs-login"
                             type="email"
                             placeholder="Enter your email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         ></input>
-                        <input
+                        <input className="champs-login"
                             type="password"
                             placeholder="Enter your password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></input>
                     </Flex>
-                    <button type="submit">Log In</button>
+                    <button type="submit" className="btn-sumbit-login">Sign In</button>
                 </Flex>
             </form>
-        </div>
+            </div>
+        // </div>
     )
 }

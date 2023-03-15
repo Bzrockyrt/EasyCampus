@@ -1,0 +1,51 @@
+.sign-in-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.image-login{
+    background-color: green;
+    height: 313px;
+}
+
+.sign-in-component {
+    display: flex;
+    justify-content: right;
+    height: 897px;
+    padding-right: 300px;
+    background-color: yellow;
+}
+
+.form-login{
+    display: flex;
+    justify-content: center;
+    height: 897px;
+    width: 2000px;
+    background-color: white;
+}
+
+.text-login {
+    font-size: 25px;
+    text-align: left;
+    width: 350px;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    font-family: Bahnschrift;
+    font-weight: bold;
+}
+
+.champs-login {
+    margin-top: 25px;
+    border-bottom: #0b1a3b solid;
+}
+
+.btn-sumbit-login {
+    border: #293a68 solid 2px;
+    border-radius: 5px;
+    margin-top: 35px;
+    margin-left: 125px;
+    margin-right: 125px;
+    justify-content: center;
+    background-color: #293a68;
+    color: white;
+}
