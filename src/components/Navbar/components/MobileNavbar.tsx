@@ -7,9 +7,10 @@ import {
   Link,
   Collapse,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
-  ChevronRightIcon,
+  ChevronDownIcon,
 } from '@chakra-ui/icons';
 import { NavItem } from '../type';
 import { NAV_ITEMS } from '../data/navItems';
