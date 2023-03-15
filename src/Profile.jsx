@@ -2,7 +2,6 @@ import { useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import './App.css'
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
-import firebaseApp from './firebase';
 
 export default function Profile() {
   const user = useOutletContext()
