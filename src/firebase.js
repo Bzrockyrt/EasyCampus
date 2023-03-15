@@ -1,15 +1,3 @@
-import './styles.css';
-import {
-  hideLoginError,
-  showLoginState,
-  showLoginForm,
-  showApp,
-  showLoginError,
-  btnLogin,
-  btnSignup,
-  btnLogout
-} from './ui'
-
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -29,3 +17,5 @@ const firebaseApp = initializeApp({
   appId: "1:123456789012:web:7c7abae699b868b7f896ec",
   measurementId: "G-ABCDEFGHIJ"
 });
+
+export default firebaseApp

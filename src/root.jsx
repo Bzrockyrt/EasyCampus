@@ -1,11 +1,13 @@
-import {Outlet} from 'react-router-dom'
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom'
 
 export default function root() {
-    return(
-    <div>
-        <div>The header</div>
-        <Outlet />
-        <div>The footer</div>
-    </div>
+    const [user, setUser] = useState(null)
+    return (
+        <div>
+            <div>The header</div>
+            <Outlet context={[user, setUser]} />
+            <div>The footer</div>
+        </div>
     )
 }
