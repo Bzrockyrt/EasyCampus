@@ -1,8 +1,6 @@
 import { Flex } from "@chakra-ui/react";
-import { updateEmail } from "firebase/auth";
+import {getAuth, updateEmail} from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "./firebase";
-import jwt_decode from "jwt-decode";
 
 export default function EditUser() {
     const [email, setEmail] = useState("");
@@ -11,12 +9,9 @@ export default function EditUser() {
     const EditUser = (e) => {
         e.preventDefault();
 
-        const test = window.localStorage.getItem("token")
-        console.log(test)
-        var decoded = jwt_decode(test);
-        setEmail(decoded)
-
-        updateEmail(auth, email)
+        const auth = getAuth();
+        console.log(auth.currentUser)
+        updateEmail(auth.currentUser, email)
             .then((userCredential) => {
                 console.log(userCredential);
                 //  window.localStorage.setItem('token', JSON.stringify(userCredential))

@@ -7,12 +7,13 @@ export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+
     const signIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log(userCredential);
-                window.localStorage.setItem('token', JSON.stringify(userCredential.user.refreshToken))
+                 console.log(userCredential);
+                // window.localStorage.setItem('uid', JSON.stringify(userCredential.user.uid))
             })
             .catch((error) => {
                 console.log(error);
