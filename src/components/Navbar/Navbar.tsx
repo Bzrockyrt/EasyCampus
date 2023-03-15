@@ -16,11 +16,11 @@ import MobileNav from './components/MobileNavbar';
 import { CloseIcon } from '@chakra-ui/icons';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
-export default function WithSubnavigation() {
+export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box>
+    <Box position={"sticky"} top={0} width="100%" zIndex={"1"}>
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
@@ -30,7 +30,8 @@ export default function WithSubnavigation() {
         borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}>
+        align={'center'}
+        backgroundColor="#48cae4">
         <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
