@@ -5,50 +5,51 @@ import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 export default function Profile() {
   const user = useOutletContext()
-
+  console.log('user', user)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function getUserDoc() {
-    const ref = doc(db, 'users', user.uid)
-    const userDoc = await getDoc(ref)
-    if (userDoc) {
-      setEmail(userDoc.data().email)
-      setPassword(userDoc.data().password)
-    }
-  }
+  // async function getUserDoc() {
+  //   const ref = doc(db, 'users', user.uid)
+  //   const userDoc = await getDoc(ref)
+  //   if (userDoc) {
+  //     setEmail(userDoc.data().email)
+  //     setPassword(userDoc.data().password)
+  //   }
+  // }
 
-  useEffect(() => {
-    getUserDoc()
-  }, [])
-
+  // useEffect(() => {
+  //   getUserDoc()
+  // }, [])
+  const db = getFirestore()
+  console.log('db', db)
   function handleSave() {
     const ref = doc(db, 'users', user.uid)
-    setDoc(ref, { name: name })
+    setDoc(ref, { email, password })
   }
-
-  if (!user) return <div>Please log in</div>
+  function getDocs() {
+    const ref = doc(db, 'users', user.uid)
+    setDoc(ref, { email, password })
+  }
+  // if (!user) return <div>Please log in</div>
 
   return (
     <div id="login">
-      <div class="header">
+      <div className="header">
         <h1>Getting Started with Firebase Auth</h1>
       </div>
-      <form>
-        <div class="group">
-          <input onchange={e => setEmail(e)} id="txtEmail" type="email" />
+      <form onSubmit={handleSave}>
+        <div className="group">
+          <input onChange={e => setEmail(e)} id="txtEmail" type="email" />
           <label>Email</label>
         </div>
-        <div class="group">
-          <input onchange={e => setPassword(e)} id="txtPassword" type="password" />
+        <div className="group">
+          <input onChange={e => setPassword(e)} id="txtPassword" type="password" />
           <label>Password</label>
         </div>
-        <div id="divLoginError" class="group">
-          <div id="lblLoginErrorMessage" class="errorlabel">Error message</div>
-        </div>
-        <button id="btnLogin" type="button" class="button buttonBlue">Log in</button>
-        <button id="btnSignup" type="button" class="button buttonBlue">Sign up</button>
+        <button id="btnSignup" type="button" className="button buttonBlue">Save</button>
       </form>
+      <button onClick={getDocs} id="btnSignup" type="button" className="button buttonBlue">get</button>
     </div>
   )
 }

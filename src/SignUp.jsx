@@ -2,21 +2,36 @@ import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "./firebase";
-import AuthDetails from './AuthDetails'
+// import AuthDetails from './AuthDetails'
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from '@chakra-ui/react'
 
 export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
+    const [isSucces, setSucces] = useState(false);
 
     const signUp = (e) => {
         e.preventDefault();
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log('ça marche')
                 console.log(userCredential);
+               setSucces(true);
+               setTimeout(() => {
+                setSucces(false)
+               }, 3000)
             })
             .catch((error) => {
                 console.log(error);
+                setError(true);
+                 setTimeout(() => {
+                                setSucces(false)
+                               }, 3000)
             });
     };
 
@@ -42,7 +57,23 @@ export default function SignUp() {
                     <button type="submit">Sign Up</button>
                 </Flex>
             </form>
-           <AuthDetails />
+
+
+            {error &&
+            <Alert status='error'>
+             <AlertIcon />
+             There was an error processing your request
+             </Alert>}
+
+             {isSucces &&
+                         <Alert status='error'>
+                          <AlertIcon />
+                          There was an error processing your request
+                          </Alert>}
+
+
+
+{/*            <AuthDetails /> */}
         </div>
     )
 }

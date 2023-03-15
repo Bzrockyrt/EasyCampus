@@ -9,6 +9,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/Navbar/Navbar";
 import SignIn from './SignIn'
 import SignUp from './SignUp'
+import EditUser from './EditUser'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     {
       path: "/signup",
       element: <SignUp />,
+    },
+    {
+      path: "/edit",
+      element: <EditUser />,
     },
     {
       path: "/profile",

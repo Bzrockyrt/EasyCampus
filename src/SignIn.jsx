@@ -11,8 +11,8 @@ export default function SignIn() {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log('ça marche')
                 console.log(userCredential);
+                window.localStorage.setItem('token', JSON.stringify(userCredential.user.refreshToken))
             })
             .catch((error) => {
                 console.log(error);
