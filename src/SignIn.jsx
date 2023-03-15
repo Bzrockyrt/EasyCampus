@@ -1,11 +1,16 @@
+import React, { useState } from "react";
+import { useOutletContext } from 'react-router-dom'
 import { Flex } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
 import { auth } from "./firebase";
+import { useNavigate } from "react-router-dom"
 
 export default function SignIn() {
+    const [user, setUser] = useOutletContext()
+    console.log('user', user)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const signIn = (e) => {
         e.preventDefault();
@@ -13,10 +18,13 @@ export default function SignIn() {
             .then((userCredential) => {
                 console.log('ça marche')
                 console.log(userCredential);
+                setUser(userCredential)
+                navigate('/profile')
             })
             .catch((error) => {
                 console.log(error);
             });
+
     };
 
     return (
