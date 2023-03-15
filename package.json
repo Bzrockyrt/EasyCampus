@@ -11,8 +11,13 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "firebase": "^9.17.2",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0",
+    "sort-by": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
@@ -20,5 +25,17 @@
     "@vitejs/plugin-react": "^3.1.0",
     "firebase-tools": "^11.24.1",
     "vite": "^4.1.0"
-  }
+  },
+  "description": "Projet CPINFO",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bzrockyrt/EasyCampus.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bzrockyrt/EasyCampus/issues"
+  },
+  "homepage": "https://github.com/Bzrockyrt/EasyCampus#readme"
 }
