@@ -1,10 +1,24 @@
 import {Outlet} from 'react-router-dom'
-import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
+import { getAuth, sendSignInLinkToEmail, signInWithPopup, GoogleAuthProvider, connectAuthEmulator, signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from 'react'
+import { initializeApp } from 'firebase/app';
+import reactLogo from './assets/react.svg'
+import './App.css'
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAf5Ug0WGWCXqo7K7WiwQ4Hz5ueoFaK9wM",
+  authDomain: "easycampus-e85f1.firebaseapp.com",
+  projectId: "easycampus-e85f1",
+  storageBucket: "easycampus-e85f1.appspot.com",
+  messagingSenderId: "835566955852",
+  appId: "1:835566955852:web:b21648cd8964595761f3e9"
+};
 
 export default function Profile() {
 
-  const auth = getAuth(firebaseapp);
-  connectAuthEmulator(auth, "http://localhost:9090");
+  const auth = getAuth(firebaseConfig);
+  connectAuthEmulator(auth, "http://localhost:5173");
 
   // Login using email/password
   const loginEmailPassword = async () => {
