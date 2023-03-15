@@ -1,8 +1,10 @@
 import { useState } from 'react'
+// import { initializeApp } from 'firebase/app';
+// import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-function App() {
+export default function App() {
   const [count, setCount] = useState(0)
 
   return (
@@ -30,5 +32,3 @@ function App() {
     </div>
   )
 }
-
-export default App
