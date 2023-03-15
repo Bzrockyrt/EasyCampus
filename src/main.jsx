@@ -5,16 +5,21 @@ import App from './App'
 import './index.css'
 import Root from './root'
 import Profile from './Profile'
+import SignIn from './SignIn'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: <SignIn />,
   },
-  {
-    path: "/login",
-    element: <Profile />,
-  },
+   {
+      path: "/test",
+      element: <Profile />,
+    },
+//   {
+//     path: "/login",
+//     element: <SignIn />,
+//   },
   /* THIS IS A TEST */
   {
     path: "/a",
