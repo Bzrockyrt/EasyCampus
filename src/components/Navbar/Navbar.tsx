@@ -23,19 +23,20 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 
 export default function Navbar() {
-  const [user, setUser] = useState(null)
+  const [userId, setUserId] = useState(null)
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate()
-  
-  function logout(){
+  console.log('userId', userId)
+
+  function logout() {
     signOut(auth).then(() => {
-      setUser(null)
+      setUserId(null)
       navigate('/a')
     }).catch((error) => {
       console.log(error)
     });
   }
-  
+
   return (
     <Box height='100%'>
       <Box position={"sticky"} top={0} width="100%" zIndex={"1"}>
@@ -77,69 +78,66 @@ export default function Navbar() {
             </Flex>
           </Flex>
 
-          {user ? 
+          {userId ?
             <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={'flex-end'}
-            direction={'row'}
-            spacing={6}>
-            <Button
-              fontSize={'sm'}
-              fontWeight={400}
-              color={'white'}
-              variant={'link'}
-              onClick={logout}>
-              Se déconnecter
-            </Button>
-            <Button
-              as={'a'}
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
-              fontWeight={600}
-              color={'white'}
-              bg={'#293b6b'}
-              href={'/profile'}
-              _hover={{
-                bg: 'pink.300',
-              }}>
-              Profil
-            </Button>
-          </Stack> 
+              flex={{ base: 1, md: 0 }}
+              justify={'flex-end'}
+              direction={'row'}
+              spacing={6}>
+              <Button
+                fontSize={'sm'}
+                fontWeight={400}
+                color={'white'}
+                variant={'link'}
+                onClick={logout}>
+                Se déconnecter
+              </Button>
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'#293b6b'}
+                onClick={() => navigate('/profile')}
+                _hover={{
+                  bg: 'pink.300',
+                }}>
+                Profil
+              </Button>
+            </Stack>
             : <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={'flex-end'}
-            direction={'row'}
-            spacing={6}>
-            <Button
-              as={'a'}
-              fontSize={'sm'}
-              fontWeight={400}
-              color={'white'}
-              variant={'link'}
-              href={'/signin'}>
-              Se connecter
-            </Button>
-            <Button
-              as={'a'}
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
-              fontWeight={600}
-              color={'white'}
-              bg={'#293b6b'}
-              href={'/signup'}
-              _hover={{
-                bg: 'pink.300',
-              }}>
-              Créer un compte
-            </Button>
-          </Stack>}
+              flex={{ base: 1, md: 0 }}
+              justify={'flex-end'}
+              direction={'row'}
+              spacing={6}>
+              <Button
+                fontSize={'sm'}
+                fontWeight={400}
+                color={'white'}
+                variant={'link'}
+                onClick={() => navigate('/signin')}>
+                Se connecter
+              </Button>
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'#293b6b'}
+                onClick={() => navigate('/signup')}
+                _hover={{
+                  bg: 'pink.300',
+                }}>
+                Créer un compte
+              </Button>
+            </Stack>}
         </Flex>
 
         <Collapse in={isOpen} animateOpacity>
           <MobileNav />
         </Collapse>
       </Box>
-      <Outlet context={[user, setUser]} />
+      <Outlet context={[userId, setUserId]} />
     </Box>
   );
 }
