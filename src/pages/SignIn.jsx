@@ -2,7 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { auth } from "../../firebase";
+import { auth } from "../firebase";
 import './style/SignIn.css'
 
 export default function SignIn() {

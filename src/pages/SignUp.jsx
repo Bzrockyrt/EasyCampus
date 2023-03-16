@@ -7,7 +7,7 @@ import {
     Alert,
     AlertIcon,
 } from '@chakra-ui/react'
-import './SignIn/style/SignIn.css'
+import './style/SignIn.css'
 
 // useEffect(() => {
 //
