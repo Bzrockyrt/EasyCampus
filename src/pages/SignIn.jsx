@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 import './style/SignIn.css'
 
 export default function SignIn() {
-    const [user, setUser] = useOutletContext()
+    const [userId, setUserId] = useOutletContext()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -15,9 +15,8 @@ export default function SignIn() {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log(userCredential);
+                setUserId(userCredential.user.uid)
                 navigate('/a')
-                setUser(userCredential)
                 // window.localStorage.setItem('uid', JSON.stringify(userCredential.user.uid))
             })
             .catch((error) => {

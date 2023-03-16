@@ -1,46 +1,64 @@
 import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "../firebase";
+import { app, auth, db } from "../firebase";
 // import AuthDetails from './AuthDetails'
 import {
     Alert,
     AlertIcon,
 } from '@chakra-ui/react'
 import './style/SignIn.css'
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useOutletContext } from "react-router-dom";
 
 // useEffect(() => {
 //
 // })
 
 export default function SignUp() {
+    const [, setUserId] = useOutletContext()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [nom, setNom] = useState("")
+    const [prenom, setPrenom] = useState("")
+
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [error, setError] = useState(false);
-    const [isSucces, setSucces] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [isSucces, setIsSucces] = useState(false);
+
+    async function saveUserToFirestore(user) {
+        if (nom && prenom) {
+            try {
+                const ref = doc(db, 'users', user.uid)
+                await setDoc(ref, { email, nom, prenom })
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
 
     const signUp = (e) => {
         e.preventDefault();
-        if (password == passwordConfirmation){
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                console.log(userCredential);
-                setSucces(true);
-                setTimeout(() => {
-                    setSucces(false)
-                }, 3000)
-            })
-            .catch((error) => {
-                console.log(error);
-                setError(true);
-                setTimeout(() => {
-                    setSucces(false)
-                }, 3000)
-            });
-            } else {
+        if (password == passwordConfirmation && email) {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    setUserId(userCredential.user)
+                    saveUserToFirestore(userCredential.user)
+                    setIsSucces(true);
+                    setTimeout(() => {
+                        setIsSucces(false)
+                    }, 3000)
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setIsError(true);
+                    setTimeout(() => {
+                        setIsError(false)
+                    }, 3000)
+                });
+        } else {
             console.log("erreur")
-            }
+        }
     };
 
     return (
@@ -51,21 +69,33 @@ export default function SignUp() {
                     <Flex flexDirection="column" justifyContent={'center'}>
                         <input className="champs-login"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         ></input>
                         <input className="champs-login"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Mot de passe"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></input>
                         <input className="champs-login"
-                         type="password"
-                         placeholder="Confirm your password"
-                         value={passwordConfirmation}
-                         onChange={(e) => setPasswordConfirmation(e.target.value)}
+                            type="password"
+                            placeholder="Confirmez votre mot de passe"
+                            value={passwordConfirmation}
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                        ></input>
+                        <input className="champs-login"
+                            type="nom"
+                            placeholder="Nom"
+                            value={nom}
+                            onChange={(e) => setNom(e.target.value)}
+                        ></input>
+                        <input className="champs-login"
+                            type="prenom"
+                            placeholder="Prénom"
+                            value={prenom}
+                            onChange={(e) => setPrenom(e.target.value)}
                         ></input>
                     </Flex>
                     <button type="submit" className="btn-sumbit-login">Sign Up</button>
@@ -73,16 +103,16 @@ export default function SignUp() {
             </form>
 
 
-            {error &&
+            {isError &&
                 <Alert status='error'>
                     <AlertIcon />
                     There was an error processing your request
                 </Alert>}
 
             {isSucces &&
-                <Alert status='error'>
+                <Alert status='success'>
                     <AlertIcon />
-                    There was an error processing your request
+                    Votre compte a été créé
                 </Alert>}
 
 

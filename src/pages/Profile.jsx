@@ -1,52 +1,29 @@
 import { useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import '../style/App.css'
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
+import { Text } from '@chakra-ui/react';
+import { db } from '../firebase';
 
 export default function Profile() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [userId,] = useOutletContext()
+  const [userData, setUserData] = useState(undefined)
 
-  // async function getUserDoc() {
-  //   const ref = doc(db, 'users', user.uid)
-  //   const userDoc = await getDoc(ref)
-  //   if (userDoc) {
-  //     setEmail(userDoc.data().email)
-  //     setPassword(userDoc.data().password)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getUserDoc()
-  // }, [])
-  const db = getFirestore()
-  function handleSave() {
-    const ref = doc(db, 'users', user.uid)
-    setDoc(ref, { email, password })
+  async function getUserData() {
+    const docRef = doc(db, "users", userId);
+    const user = await getDoc(docRef);
+    if (user) setUserData(user._document.data.value.mapValue.fields)
   }
-  function getDocs() {
-    const ref = doc(db, 'users', user.uid)
-    getDoc(ref, { email, password })
-  }
-  // if (!user) return <div>Please log in</div>
-
+  useEffect(() => {
+    getUserData()
+  }, [userId])
+  console.log('userData', userData)
   return (
     <div id="login">
-      <div className="header">
-        <h1>Getting Started with Firebase Auth</h1>
-      </div>
-      <form onSubmit={handleSave}>
-        <div className="group">
-          <input onChange={e => setEmail(e)} id="txtEmail" type="email" />
-          <label>Email</label>
-        </div>
-        <div className="group">
-          <input onChange={e => setPassword(e)} id="txtPassword" type="password" />
-          <label>Password</label>
-        </div>
-        <button id="btnSignup" type="button" className="button buttonBlue">Save</button>
-      </form>
-      <button onClick={getDocs} id="btnSignup" type="button" className="button buttonBlue">get</button>
+      <Text>PROFILE</Text>
+      <Text>Email: {userData?.email.stringValue}</Text>
+      <Text>Nom: {userData?.nom.stringValue}</Text>
+      <Text>Prenom: {userData?.prenom.stringValue}</Text>
     </div>
   )
 }
