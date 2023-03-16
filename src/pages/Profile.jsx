@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import './App.css'
+import '../style/App.css'
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 export default function Profile() {

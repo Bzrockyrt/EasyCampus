@@ -1,3 +1,5 @@
+// @ts-ignore
+// @ts-ignore
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import {
@@ -69,8 +71,9 @@ export default function Navbar() {
               as={'a'}
               fontSize={'sm'}
               fontWeight={400}
+              color={'white'}
               variant={'link'}
-              href={'#'}>
+              href={'/signin'}>
               Sign In
             </Button>
             <Button
@@ -79,8 +82,8 @@ export default function Navbar() {
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
-              bg={'pink.400'}
-              href={'#'}
+              bg={'#293b6b'}
+              href={'/signup'}
               _hover={{
                 bg: 'pink.300',
               }}>
