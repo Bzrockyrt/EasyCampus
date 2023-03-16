@@ -23,7 +23,6 @@ export default function SignIn() {
 
     return (
         <div className="sign-in-container">
-            <div className="image-login"><img src="../public/login.jpg" alt="img-sign" /></div>
             <form onSubmit={signIn} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
                     <h1 className="text-login">Sign In</h1>

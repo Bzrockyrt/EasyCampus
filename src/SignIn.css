@@ -3,11 +3,6 @@
     flex-direction: row;
 }
 
-.image-login{
-    background-color: green;
-    height: 313px;
-}
-
 .sign-in-component {
     display: flex;
     justify-content: right;
@@ -19,7 +14,7 @@
 .form-login{
     display: flex;
     justify-content: center;
-    height: 897px;
+    height: 600px;
     width: 2000px;
     background-color: white;
 }

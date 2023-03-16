@@ -11,14 +11,20 @@ import {
 } from '@chakra-ui/react'
 import './SignIn.css'
 
+// useEffect(() => {
+//
+// })
+
 export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [error, setError] = useState(false);
     const [isSucces, setSucces] = useState(false);
 
     const signUp = (e) => {
         e.preventDefault();
+        if (password == passwordConfirmation){
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log(userCredential);
@@ -34,11 +40,13 @@ export default function SignUp() {
                                 setSucces(false)
                                }, 3000)
             });
+            } else {
+            console.log("erreur")
+            }
     };
 
     return (
         <div className="sign-in-container">
-            <div className="image-login"><img src="../public/login.jpg" alt="img-sign" /></div>
             <form onSubmit={signUp} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
                     <h1 className="text-login">Sign Up</h1>
@@ -54,6 +62,12 @@ export default function SignUp() {
                             placeholder="Enter your password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                        ></input>
+                        <input className="champs-login"
+                         type="password"
+                         placeholder="Confirm your password"
+                         value={passwordConfirmation}
+                         onChange={(e) => setPasswordConfirmation(e.target.value)}
                         ></input>
                     </Flex>
                     <button type="submit" className="btn-sumbit-login">Sign Up</button>

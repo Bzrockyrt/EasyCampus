@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import {getAuth, updateEmail} from "firebase/auth";
 import React, { useState } from "react";
+import './SignIn.css'
 
 export default function EditUser() {
     const [email, setEmail] = useState("");
@@ -23,18 +24,18 @@ export default function EditUser() {
 
     return (
         <div className="sign-in-container">
-            <form onSubmit={EditUser}>
+            <form onSubmit={EditUser} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
-                    <h1>Log In</h1>
-                    <Flex flexDirection="row" justifyContent={'center'}>
-                        <input
+                    <h1 className="text-login">Edit User</h1>
+                    <Flex flexDirection="column" justifyContent={'center'}>
+                        <input className="champs-login"
                             type="email"
                             placeholder="Enter your email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         ></input>
                     </Flex>
-                    <button type="submit">Log In</button>
+                    <button type="submit" className="btn-sumbit-login">Edit</button>
                 </Flex>
             </form>
         </div>
