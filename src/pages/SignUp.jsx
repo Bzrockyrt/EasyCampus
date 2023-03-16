@@ -1,15 +1,13 @@
 import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 // import AuthDetails from './AuthDetails'
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
+    Alert,
+    AlertIcon,
 } from '@chakra-ui/react'
-import './SignIn.css'
+import './SignIn/style/SignIn.css'
 
 // useEffect(() => {
 //
@@ -28,17 +26,17 @@ export default function SignUp() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log(userCredential);
-               setSucces(true);
-               setTimeout(() => {
-                setSucces(false)
-               }, 3000)
+                setSucces(true);
+                setTimeout(() => {
+                    setSucces(false)
+                }, 3000)
             })
             .catch((error) => {
                 console.log(error);
                 setError(true);
-                 setTimeout(() => {
-                                setSucces(false)
-                               }, 3000)
+                setTimeout(() => {
+                    setSucces(false)
+                }, 3000)
             });
             } else {
             console.log("erreur")
@@ -76,20 +74,20 @@ export default function SignUp() {
 
 
             {error &&
-            <Alert status='error'>
-             <AlertIcon />
-             There was an error processing your request
-             </Alert>}
+                <Alert status='error'>
+                    <AlertIcon />
+                    There was an error processing your request
+                </Alert>}
 
-             {isSucces &&
-                         <Alert status='error'>
-                          <AlertIcon />
-                          There was an error processing your request
-                          </Alert>}
+            {isSucces &&
+                <Alert status='error'>
+                    <AlertIcon />
+                    There was an error processing your request
+                </Alert>}
 
 
 
-{/*            <AuthDetails /> */}
+            {/*            <AuthDetails /> */}
         </div>
     )
 }

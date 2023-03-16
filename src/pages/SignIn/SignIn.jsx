@@ -1,19 +1,18 @@
 import { Flex } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
-import { auth } from "./firebase";
-import './SignIn.css'
+import React, { useEffect, useState } from "react";
+import { auth } from "../../firebase";
+import './style/SignIn.css'
 
 export default function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-
     const signIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                 console.log(userCredential);
+                console.log(userCredential);
                 // window.localStorage.setItem('uid', JSON.stringify(userCredential.user.uid))
             })
             .catch((error) => {
@@ -43,7 +42,7 @@ export default function SignIn() {
                     <button type="submit" className="btn-sumbit-login">Sign In</button>
                 </Flex>
             </form>
-            </div>
+        </div>
         // </div>
     )
 }

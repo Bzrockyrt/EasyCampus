@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import {getAuth, updateEmail} from "firebase/auth";
+import { getAuth, updateEmail } from "firebase/auth";
 import React, { useState } from "react";
-import './SignIn.css'
+import './SignIn/style/SignIn.css'
 
 export default function EditUser() {
     const [email, setEmail] = useState("");

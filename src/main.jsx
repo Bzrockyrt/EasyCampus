@@ -1,15 +1,15 @@
 import { createBrowserRouter, RouterProvider, } from "react-router-dom";
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import Root from './root'
-import Profile from './Profile'
+import App from './pages/App'
+import './style/index.css'
+import Root from './pages/root'
+import Profile from './pages/Profile'
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/Navbar/Navbar";
-import SignIn from './SignIn'
-import SignUp from './SignUp'
-import EditUser from './EditUser'
+import SignIn from './pages/SignIn/SignIn'
+import SignUp from './pages/SignUp'
+import EditUser from './pages/EditUser'
 
 const router = createBrowserRouter([
   {
