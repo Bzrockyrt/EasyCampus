@@ -1,4 +1,4 @@
-# EaysCampus
+# EasyCampus
 Projet CPINFO
 
 # Jira Connexion
