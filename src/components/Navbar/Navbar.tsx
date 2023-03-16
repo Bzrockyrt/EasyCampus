@@ -1,7 +1,7 @@
 // @ts-ignore
 // @ts-ignore
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -13,15 +13,29 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Image,
 } from '@chakra-ui/react';
 import DesktopSubNav from './components/DesktopNavbar';
 import MobileNav from './components/MobileNavbar';
 import { CloseIcon } from '@chakra-ui/icons';
 import { HamburgerIcon } from '@chakra-ui/icons';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 export default function Navbar() {
+  const [user, setUser] = useState(null)
   const { isOpen, onToggle } = useDisclosure();
-
+  const navigate = useNavigate()
+  
+  function logout(){
+    signOut(auth).then(() => {
+      setUser(null)
+      navigate('/a')
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
+  
   return (
     <Box height='100%'>
       <Box position={"sticky"} top={0} width="100%" zIndex={"1"}>
@@ -50,19 +64,48 @@ export default function Navbar() {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Text
+            <Image src="easy_campus.png" height="44px" onClick={() => navigate('/')} cursor='pointer' textAlign={useBreakpointValue({ base: 'center', md: 'left' })} />
+            {/* <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily={'heading'}
               color={useColorModeValue('gray.800', 'white')}>
               Logo
-            </Text>
+            </Text> */}
 
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopSubNav />
             </Flex>
           </Flex>
 
-          <Stack
+          {user ? 
+            <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={'flex-end'}
+            direction={'row'}
+            spacing={6}>
+            <Button
+              fontSize={'sm'}
+              fontWeight={400}
+              color={'white'}
+              variant={'link'}
+              onClick={logout}>
+              Se déconnecter
+            </Button>
+            <Button
+              as={'a'}
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize={'sm'}
+              fontWeight={600}
+              color={'white'}
+              bg={'#293b6b'}
+              href={'/profile'}
+              _hover={{
+                bg: 'pink.300',
+              }}>
+              Profil
+            </Button>
+          </Stack> 
+            : <Stack
             flex={{ base: 1, md: 0 }}
             justify={'flex-end'}
             direction={'row'}
@@ -74,7 +117,7 @@ export default function Navbar() {
               color={'white'}
               variant={'link'}
               href={'/signin'}>
-              Sign In
+              Se connecter
             </Button>
             <Button
               as={'a'}
@@ -87,16 +130,16 @@ export default function Navbar() {
               _hover={{
                 bg: 'pink.300',
               }}>
-              Sign Up
+              Créer un compte
             </Button>
-          </Stack>
+          </Stack>}
         </Flex>
 
         <Collapse in={isOpen} animateOpacity>
           <MobileNav />
         </Collapse>
       </Box>
-      <Outlet />
+      <Outlet context={[user, setUser]} />
     </Box>
   );
 }

@@ -1,18 +1,23 @@
 import { Flex } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { auth } from "../../firebase";
 import './style/SignIn.css'
 
 export default function SignIn() {
+    const [user, setUser] = useOutletContext()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const signIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log(userCredential);
+                navigate('/a')
+                setUser(userCredential)
                 // window.localStorage.setItem('uid', JSON.stringify(userCredential.user.uid))
             })
             .catch((error) => {

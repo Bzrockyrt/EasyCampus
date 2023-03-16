@@ -4,8 +4,6 @@ import '../style/App.css'
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 export default function Profile() {
-  const user = useOutletContext()
-  console.log('user', user)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -22,14 +20,13 @@ export default function Profile() {
   //   getUserDoc()
   // }, [])
   const db = getFirestore()
-  console.log('db', db)
   function handleSave() {
     const ref = doc(db, 'users', user.uid)
     setDoc(ref, { email, password })
   }
   function getDocs() {
     const ref = doc(db, 'users', user.uid)
-    setDoc(ref, { email, password })
+    getDoc(ref, { email, password })
   }
   // if (!user) return <div>Please log in</div>
 
