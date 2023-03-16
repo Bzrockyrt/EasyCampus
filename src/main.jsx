@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 import SignIn from './pages/SignIn/SignIn'
 import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
+import DeleteAccount from './pages/DeleteAccount/DeleteAccount'
 
 const router = createBrowserRouter([
   {
