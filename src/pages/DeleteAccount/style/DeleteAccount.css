@@ -1,0 +1,22 @@
+.delete-account-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-account-form{
+    display: flex;
+    justify-content: center;
+    height: 600px;
+    width: 2000px;
+    background-color: white;
+}
+
+.delete-account-title {
+    font-size: 25px;
+    text-align: left;
+    width: 350px;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    font-family: Bahnschrift;
+    font-weight: bold;
+}
