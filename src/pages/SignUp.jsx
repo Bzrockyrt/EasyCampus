@@ -1,14 +1,14 @@
 import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
-import { app, auth, db } from "../firebase";
+import { auth, db } from "../firebase";
 // import AuthDetails from './AuthDetails'
 import {
     Alert,
     AlertIcon,
 } from '@chakra-ui/react'
 import './style/SignIn.css'
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useOutletContext } from "react-router-dom";
 
 // useEffect(() => {
