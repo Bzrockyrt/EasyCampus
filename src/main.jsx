@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar/Navbar";
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
+import SheerId from "./pages/SheerId";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
     {
       path: "/profile",
       element: <Profile />,
+    },
+    {
+      path: "/sheerid",
+      element: <SheerId />,
     },
     /* THIS IS A TEST */
     {
