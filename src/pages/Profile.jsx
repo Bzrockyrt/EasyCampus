@@ -1,24 +1,40 @@
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import '../style/App.css'
-import { doc, getDoc } from 'firebase/firestore';
-import { Button, Text } from '@chakra-ui/react';
-import { db } from '../firebase';
+import { deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { Button, HStack, Skeleton, Text } from '@chakra-ui/react';
+import { auth, db } from '../firebase';
+import { deleteUser, signOut } from 'firebase/auth';
 
 export default function Profile() {
-  const [userId,] = useOutletContext()
+  const [userId, setUserId] = useOutletContext()
   const [userData, setUserData] = useState(undefined)
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate();
+  const docRef = doc(db, "users", userId);
 
 
   async function getUserData() {
-    const docRef = doc(db, "users", userId);
     const user = await getDoc(docRef);
-    if (user) setUserData(user._document.data.value.mapValue.fields)
+    if (user) {
+      setUserData(user._document.data.value.mapValue.fields)
+      setIsLoading(false)
+    }
   }
 
-  function goToEditProfile() {
-    navigate('/edit')
+  async function deleteAccount() {
+    const user = auth.currentUser;
+    deleteUser(user).then(async () => {
+      await deleteDoc(docRef);
+      signOut(auth).then(() => {
+        setUserId(null)
+        navigate('/')
+      }).catch((error) => {
+        console.log(error)
+      });
+    }).catch((error) => {
+      console.log(error)
+    });
   }
 
   useEffect(() => {
@@ -29,14 +45,15 @@ export default function Profile() {
   return (
     <div id="login">
       <Text>PROFILE</Text>
-      <Text>Nom: {userData?.nom.stringValue}</Text>
-      <Text>Prenom: {userData?.prenom.stringValue}</Text>
-      <Text>Email: {userData?.email.stringValue}</Text>
-      <Text>Téléphone: {userData?.phone.stringValue}</Text>
+      <Skeleton isLoaded={!isLoading}><Text>Nom: {userData?.nom.stringValue}</Text></Skeleton>
+      <Skeleton isLoaded={!isLoading}><Text>Prenom: {userData?.prenom.stringValue}</Text></Skeleton>
+      <Skeleton isLoaded={!isLoading}><Text>Email: {userData?.email.stringValue}</Text></Skeleton>
+      <Skeleton isLoaded={!isLoading}><Text>Téléphone: {userData?.phone.stringValue}</Text></Skeleton>
 
-      <form onSubmit={goToEditProfile}>
-        <Button type="submit">Modifier mon profil</Button>
-      </form>
+      <HStack marginTop={"15px"} gap={"15px"} justifyContent="center">
+        <Button colorScheme={"blue"} onClick={() => navigate('/edit')}>Modifier mon compte</Button>
+        <Button colorScheme={"red"} onClick={() => deleteAccount()}>Supprimer mon compte</Button>
+      </HStack>
     </div>
   )
 }

@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { createContext, useState } from 'react';
 import Navbar from "../components/Navbar/Navbar";
-import { Outlet } from 'react-router-dom'
+import Alert from '../utils/Alerts';
+import AlertContext from './AlertContext';
 
 export default function Layout() {
-    const [user, setUser] = useState(null)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
 
-    return <div>
+    return <AlertContext.Provider value={{ setErrorMessage, setSuccessMessage }}>
         <Navbar />
-        <Outlet context={[user, setUser]} />
-    </div>
+        <Alert errorMessage={errorMessage} successMessage={successMessage} />
+    </AlertContext.Provider>
 }

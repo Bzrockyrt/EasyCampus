@@ -30,7 +30,7 @@ export default function Navbar() {
   function logout() {
     signOut(auth).then(() => {
       setUserId(null)
-      navigate('/a')
+      navigate('/')
     }).catch((error) => {
       console.log(error)
     });
