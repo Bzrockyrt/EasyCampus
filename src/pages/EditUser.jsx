@@ -1,10 +1,10 @@
-import {Flex} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { getAuth, updateEmail, updatePassword } from "firebase/auth";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import './style/SignIn.css'
-import {useOutletContext} from "react-router-dom";
-import {doc, getDoc, setDoc} from "firebase/firestore";
-import {db} from "../firebase.js";
+import { useOutletContext } from "react-router-dom";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase.js";
 
 export default function EditUser() {
     const [userId,] = useOutletContext()
@@ -12,6 +12,7 @@ export default function EditUser() {
     const [email, setEmail] = useState("");
     const [nom, setNom] = useState("")
     const [prenom, setPrenom] = useState("")
+    const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
@@ -19,13 +20,19 @@ export default function EditUser() {
     async function getUserData() {
         const docRef = doc(db, "users", userId);
         const user = await getDoc(docRef);
-        if (user) setUserData(user._document.data.value.mapValue.fields)
+        if (user) {
+            setUserData(user._document.data.value.mapValue.fields)
+            setEmail(user._document.data.value.mapValue.fields?.email.stringValue)
+            setNom(user._document.data.value.mapValue.fields?.nom.stringValue)
+            setPrenom(user._document.data.value.mapValue.fields?.prenom.stringValue)
+            setPhone(user._document.data.value.mapValue.fields?.phone.stringValue)
+        }
     }
 
     async function saveUserToFirestore() {
         try {
             const ref = doc(db, 'users', userId)
-            await setDoc(ref, { email, nom, prenom })
+            await setDoc(ref, { email, nom, prenom, phone })
         } catch (err) {
             console.log(err)
         }
@@ -37,7 +44,6 @@ export default function EditUser() {
         const auth = getAuth();
         updateEmail(auth.currentUser, email)
             .then((userCredential) => {
-                console.log(userCredential);
                 saveUserToFirestore()
             })
             .catch((error) => {
@@ -46,11 +52,9 @@ export default function EditUser() {
             });
 
         const authPassword = getAuth();
-        if (password == passwordConfirmation) {
-            console.log("password check")
+        if (password && password == passwordConfirmation) {
             updatePassword(authPassword.currentUser, password)
                 .then((userCredential) => {
-                    console.log(userCredential);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -58,11 +62,9 @@ export default function EditUser() {
         }
     };
 
-        useEffect(() => {
+    useEffect(() => {
         getUserData()
-        console.log('userId', userId)
     }, [userId])
-    console.log('userData', userData)
 
     return (
         <div className="sign-in-container">
@@ -71,37 +73,43 @@ export default function EditUser() {
                     <h1 className="text-login">Edit User</h1>
                     <Flex flexDirection="column" justifyContent={'center'}>
                         <input className="champs-login"
-                               type="email"
-                               placeholder={userData?.email.stringValue}
-                               value={email}
-                               onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            placeholder={email}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         ></input>
                         <input className="champs-login"
-                               type="text"
-                               placeholder={userData?.nom.stringValue}
-                               value={nom}
-                               onChange={(e) => setNom(e.target.value)}
+                            type="text"
+                            placeholder={nom}
+                            value={nom}
+                            onChange={(e) => setNom(e.target.value)}
                         ></input>
                         <input className="champs-login"
-                               type="text"
-                               placeholder={userData?.prenom.stringValue}
-                               value={prenom}
-                               onChange={(e) => setPrenom(e.target.value)}
+                            type="text"
+                            placeholder={prenom}
+                            value={prenom}
+                            onChange={(e) => setPrenom(e.target.value)}
                         ></input>
                         <input className="champs-login"
-                               type="password"
-                               placeholder="*************"
-                               value={password}
-                               onChange={(e) => setPassword(e.target.value)}
+                            type="number"
+                            placeholder={phone}
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                         ></input>
                         <input className="champs-login"
-                               type="password"
-                               placeholder="*************"
-                               value={passwordConfirmation}
-                               onChange={(e) => setPasswordConfirmation(e.target.value)}
+                            type="password"
+                            placeholder="*************"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        ></input>
+                        <input className="champs-login"
+                            type="password"
+                            placeholder="*************"
+                            value={passwordConfirmation}
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
                         ></input>
                     </Flex>
-                    <button type="submit" className="btn-sumbit-login">Edit</button>
+                    <button type="submit" className="btn-sumbit-login">Modifier</button>
                     <button className="btn-sumbit-login">Password</button>
                 </Flex>
             </form>

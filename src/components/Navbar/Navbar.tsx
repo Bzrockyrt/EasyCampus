@@ -26,7 +26,6 @@ export default function Navbar() {
   const [userId, setUserId] = useState(null)
   const { isOpen, onToggle } = useDisclosure();
   const navigate = useNavigate()
-  console.log('userId', userId)
 
   function logout() {
     signOut(auth).then(() => {

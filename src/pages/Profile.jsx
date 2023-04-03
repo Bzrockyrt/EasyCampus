@@ -1,42 +1,44 @@
-import {useNavigate, useOutletContext} from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import '../style/App.css'
 import { doc, getDoc } from 'firebase/firestore';
-import { Text } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import { db } from '../firebase';
 
 export default function Profile() {
-    const [userId,] = useOutletContext()
-    const [userData, setUserData] = useState(undefined)
-    const navigate = useNavigate();
+  const [userId,] = useOutletContext()
+  const [userData, setUserData] = useState(undefined)
+  const navigate = useNavigate();
 
 
-    async function getUserData() {
-        const docRef = doc(db, "users", userId);
-        const user = await getDoc(docRef);
-        if (user) setUserData(user._document.data.value.mapValue.fields)
-    }
+  async function getUserData() {
+    const docRef = doc(db, "users", userId);
+    const user = await getDoc(docRef);
+    if (user) setUserData(user._document.data.value.mapValue.fields)
+  }
 
-    function goToEditProfile(){
-        navigate('/edit')
-    }
+  function goToEditProfile() {
+    navigate('/edit')
+  }
 
-    useEffect(() => {
-        getUserData()
-    }, [userId])
-    console.log('userData', userData)
-    return (
-        <div id="login">
-            <Text>PROFILE</Text>
-            <Text>Email: {userData?.email.stringValue}</Text>
-            <Text>Nom: {userData?.nom.stringValue}</Text>
-            <Text>Prenom: {userData?.prenom.stringValue}</Text>
+  useEffect(() => {
+    if (!userId) navigate('/signin')
+    getUserData()
+  }, [userId])
 
-            <form onSubmit={goToEditProfile}>
-                <button type="submit">edit a profile</button>
-            </form>
-        </div>
-    )
+  return (
+    <div id="login">
+      <Text>PROFILE</Text>
+      <Text>Nom: {userData?.nom.stringValue}</Text>
+      <Text>Prenom: {userData?.prenom.stringValue}</Text>
+      <Text>Email: {userData?.email.stringValue}</Text>
+      <Text>Téléphone: {userData?.phone.stringValue}</Text>
+
+      <form onSubmit={goToEditProfile}>
+        <Button type="submit">Modifier mon profil</Button>
+      </form>
+    </div>
+  )
 }
 
 

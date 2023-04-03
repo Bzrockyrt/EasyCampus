@@ -42,6 +42,7 @@ export default function SignIn() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></input>
+                        <a href="/signup" style={{ marginTop: "20px" }}>No account? Create one!</a>
                     </Flex>
                     <button type="submit" className="btn-sumbit-login">Sign In</button>
                 </Flex>
