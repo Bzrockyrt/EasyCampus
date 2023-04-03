@@ -22,10 +22,10 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    if (!userId) navigate('/signin')
     getUserData()
   }, [userId])
 
+  if (!userId) navigate('/signin')
   return (
     <div id="login">
       <Text>PROFILE</Text>

@@ -2,11 +2,12 @@ import { Flex } from "@chakra-ui/react";
 import { getAuth, updateEmail, updatePassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import './style/SignIn.css'
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase.js";
 
 export default function EditUser() {
+    const navigate = useNavigate()
     const [userId,] = useOutletContext()
     const [userData, setUserData] = useState(undefined)
     const [email, setEmail] = useState("");
@@ -66,6 +67,7 @@ export default function EditUser() {
         getUserData()
     }, [userId])
 
+    if (!userId) navigate('/signin')
     return (
         <div className="sign-in-container">
             <form onSubmit={EditUser} className="form-login">
