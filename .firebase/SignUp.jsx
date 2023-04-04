@@ -2,13 +2,8 @@ import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { app, auth, db } from "../firebase";
-// import AuthDetails from './AuthDetails'
-import {
-    Alert,
-    AlertIcon,
-} from '@chakra-ui/react'
 import './style/SignIn.css'
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useOutletContext } from "react-router-dom";
 
 // useEffect(() => {
@@ -101,23 +96,6 @@ export default function SignUp() {
                     <button type="submit" className="btn-sumbit-login">Sign Up</button>
                 </Flex>
             </form>
-
-
-            {isError &&
-                <Alert status='error'>
-                    <AlertIcon />
-                    There was an error processing your request
-                </Alert>}
-
-            {isSucces &&
-                <Alert status='success'>
-                    <AlertIcon />
-                    Votre compte a été créé
-                </Alert>}
-
-
-
-            {/*            <AuthDetails /> */}
         </div>
     )
 }

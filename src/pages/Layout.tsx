@@ -1,13 +1,11 @@
 import { Box } from '@chakra-ui/react';
-import React, { createContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from "../components/Navbar/Navbar";
-import Alert from '../utils/Alerts';
-import AlertContext from './AlertContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Layout() {
-    const [errorMessage, setErrorMessage] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
     const [userId, setUserId] = useState<string | null>(null)
     const dbrequest = window.indexedDB.open('firebaseLocalStorageDb', 1);
     dbrequest.onsuccess = (e) => {
@@ -19,11 +17,20 @@ export default function Layout() {
         }
     };
 
-    return <AlertContext.Provider value={{ setErrorMessage, setSuccessMessage }}>
-        <Box height='100%'>
-            <Navbar userId={userId} setUserId={setUserId} />
-            <Alert errorMessage={errorMessage} successMessage={successMessage} />
-            <Outlet context={[userId, setUserId]} />
-        </Box>
-    </AlertContext.Provider>
+    return <Box height='100%'>
+        <Navbar userId={userId} setUserId={setUserId} />
+        <Outlet context={[userId, setUserId]} />
+        <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme="colored"
+        />
+    </Box>
 }

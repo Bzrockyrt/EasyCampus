@@ -1,10 +1,11 @@
 import { useNavigate, useOutletContext } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import '../style/App.css'
 import { deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { Button, HStack, Skeleton, Text } from '@chakra-ui/react';
 import { auth, db } from '../firebase';
 import { deleteUser, signOut } from 'firebase/auth';
+import { throwError, throwSuccess } from '../utils/alerts';
 
 export default function Profile() {
   const [userId, setUserId] = useOutletContext()
@@ -56,6 +57,10 @@ export default function Profile() {
       <HStack marginTop={"15px"} gap={"15px"} justifyContent="center">
         <Button colorScheme={"blue"} onClick={() => navigate('/edit')}>Modifier mon compte</Button>
         <Button colorScheme={"red"} onClick={() => deleteAccount()}>Supprimer mon compte</Button>
+      </HStack>
+      <HStack marginTop={"15px"} gap={"15px"} justifyContent="center">
+        <Button colorScheme={"blue"} onClick={() => throwSuccess('success')}>test success</Button>
+        <Button colorScheme={"red"} onClick={() => throwError("error")}>test error</Button>
       </HStack>
     </div>
   )

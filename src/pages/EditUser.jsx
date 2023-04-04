@@ -1,10 +1,11 @@
-import { Alert, AlertIcon, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { getAuth, updateEmail, updatePassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import './style/SignIn.css'
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase.js";
+import { throwSuccess } from "../utils/alerts";
 
 export default function EditUser() {
     const navigate = useNavigate()
@@ -16,15 +17,7 @@ export default function EditUser() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [isSucces, setIsSucces] = useState({ status: false, alert: "" });
     const [modified, setModified] = useState(0)
-
-    function throwSuccess(alert) {
-        setIsSucces({ status: true, alert });
-        setTimeout(() => {
-            setIsSucces({ status: false, alert: "" })
-        }, 3000)
-    }
 
     async function getUserData() {
         const docRef = doc(db, "users", userId);
@@ -66,7 +59,6 @@ export default function EditUser() {
                 })
                 .catch((error) => {
                     console.log(error);
-
                 });
         }
 
@@ -133,14 +125,6 @@ export default function EditUser() {
                     <button className="btn-sumbit-login">Password</button>
                 </Flex>
             </form>
-            {isSucces.status &&
-                <div style={{ width: "100%", position: "absolute", top: "75px", display: "flex", justifyContent: "center" }}>
-                    <Alert maxWidth={"500px"} borderRadius={"15px"} status='success'>
-                        <AlertIcon />
-                        {isSucces.alert}
-                    </Alert>
-                </div>
-            }
         </div>
     )
 }
