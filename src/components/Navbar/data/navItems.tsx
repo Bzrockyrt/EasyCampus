@@ -3,8 +3,9 @@ import { NavItem } from "../type";
 
 export const NAV_ITEMS: Array<NavItem> = [
   {
-    label: 'Inspiration',
-    children: [
+    label: 'Lesson',
+    href: '/lesson',
+    /*children: [
       {
         label: 'Explore Design Work',
         subLabel: 'Trending Design to inspire you',
@@ -15,7 +16,7 @@ export const NAV_ITEMS: Array<NavItem> = [
         subLabel: 'Up-and-coming Designers',
         href: '#',
       },
-    ],
+    ],*/
   },
   {
     label: 'Find Work',
