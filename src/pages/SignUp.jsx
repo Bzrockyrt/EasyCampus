@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useContext, useState } from "react";
 import { auth, db } from "../firebase";
+import { Input } from '@chakra-ui/react'
 import './style/SignIn.css'
 import { doc, setDoc } from "firebase/firestore";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
@@ -48,52 +49,68 @@ export default function SignUp() {
         <div className="sign-in-container">
             <form onSubmit={signUp} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
-                    <h1 className="text-login">Créer mon compte</h1>
-                    <Flex flexDirection="column" justifyContent={'center'}>
-                        <input className="champs-login"
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        ></input>
-                        <input className="champs-login"
-                            type="password"
-                            placeholder="Mot de passe"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        ></input>
-                        <input className="champs-login"
-                            type="password"
-                            placeholder="Confirmez votre mot de passe"
-                            value={passwordConfirmation}
-                            onChange={(e) => setPasswordConfirmation(e.target.value)}
-                            required
-                        ></input>
-                        <input className="champs-login"
-                            type="text"
-                            placeholder="Nom"
-                            value={nom}
-                            onChange={(e) => setNom(e.target.value)}
-                            required
-                        ></input>
-                        <input className="champs-login"
-                            type="text"
-                            placeholder="Prénom"
-                            value={prenom}
-                            onChange={(e) => setPrenom(e.target.value)}
-                            required
-                        ></input>
-                        <input className="champs-login"
-                            type="number"
-                            placeholder="Téléphone"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required
-                        ></input>
-                    </Flex>
-                    <button type="submit" className="btn-sumbit-login">Sign Up</button>
+                    <div className="sign-up-css">
+
+                        <h1 className="text-login">Créer mon compte</h1>
+                        <Flex flexDirection="column" justifyContent={'center'}>
+
+                            <Input className="champs-login"
+                                type="email"
+                                placeholder='Email'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                size='md'
+                                borderColor={"gray"} />
+
+
+                            <Input className="champs-login"
+                                type="password"
+                                placeholder="Mot de passe"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                size='md'
+                                borderColor={"gray"} />
+
+
+                            <Input className="champs-login"
+                                type="password"
+                                placeholder="Confirmez votre mot de passe"
+                                value={passwordConfirmation}
+                                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                size='md'
+                                borderColor={"gray"} />
+
+
+
+                            <Input className="champs-login"
+                                type="text"
+                                placeholder="Nom"
+                                value={nom}
+                                onChange={(e) => setNom(e.target.value)}
+                                size='md'
+                                borderColor={"gray"} />
+
+
+
+                            <Input className="champs-login"
+                                type="text"
+                                placeholder="Prénom"
+                                value={prenom}
+                                onChange={(e) => setPrenom(e.target.value)}
+                                size='md'
+                                borderColor={"gray"} />
+
+                            <Input className="champs-login"
+                                type="number"
+                                placeholder="Téléphone"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                size='md'
+                                borderColor={"gray"} />
+
+                        </Flex>
+                        <button type="submit" className="btn-sumbit-login">Sign Up</button>
+                    </div>
                 </Flex>
             </form>
         </div>
