@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Alert, AlertIcon, Flex } from "@chakra-ui/react";
 import { getAuth, updateEmail, updatePassword } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import './style/SignIn.css'
@@ -16,7 +16,15 @@ export default function EditUser() {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [isSucces, setIsSucces] = useState({ status: false, alert: "" });
+    const [modified, setModified] = useState(0)
 
+    function throwSuccess(alert) {
+        setIsSucces({ status: true, alert });
+        setTimeout(() => {
+            setIsSucces({ status: false, alert: "" })
+        }, 3000)
+    }
 
     async function getUserData() {
         const docRef = doc(db, "users", userId);
@@ -33,7 +41,15 @@ export default function EditUser() {
     async function saveUserToFirestore() {
         try {
             const ref = doc(db, 'users', userId)
-            await setDoc(ref, { email, nom, prenom, phone })
+            let toUpdate = {
+                email: email ? email : userData.email.stringValue,
+                nom: nom ? nom : userData.nom.stringValue,
+                prenom: prenom ? prenom : userData.prenom.stringValue,
+                phone: phone ? phone : userData.phone.stringValue,
+            }
+            await setDoc(ref, toUpdate)
+            setModified(modified + 1)
+            throwSuccess("Vos informations ont été modifiées")
         } catch (err) {
             console.log(err)
         }
@@ -43,14 +59,16 @@ export default function EditUser() {
         e.preventDefault();
 
         const auth = getAuth();
-        updateEmail(auth.currentUser, email)
-            .then((userCredential) => {
-                saveUserToFirestore()
-            })
-            .catch((error) => {
-                console.log(error);
+        if (email) {
+            updateEmail(auth.currentUser, email)
+                .then((userCredential) => {
+                    saveUserToFirestore()
+                })
+                .catch((error) => {
+                    console.log(error);
 
-            });
+                });
+        }
 
         const authPassword = getAuth();
         if (password && password == passwordConfirmation) {
@@ -65,7 +83,7 @@ export default function EditUser() {
 
     useEffect(() => {
         getUserData()
-    }, [userId])
+    }, [userId, modified])
 
     if (!userId) navigate('/signin')
     return (
@@ -115,6 +133,14 @@ export default function EditUser() {
                     <button className="btn-sumbit-login">Password</button>
                 </Flex>
             </form>
+            {isSucces.status &&
+                <div style={{ width: "100%", position: "absolute", top: "75px", display: "flex", justifyContent: "center" }}>
+                    <Alert maxWidth={"500px"} borderRadius={"15px"} status='success'>
+                        <AlertIcon />
+                        {isSucces.alert}
+                    </Alert>
+                </div>
+            }
         </div>
     )
 }

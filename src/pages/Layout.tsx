@@ -2,7 +2,8 @@ import { Box } from '@chakra-ui/react';
 import React, { createContext, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from "../components/Navbar/Navbar";
-import { Outlet } from 'react-router-dom'
+import Alert from '../utils/Alerts';
+import AlertContext from './AlertContext';
 
 export default function Layout() {
     const [errorMessage, setErrorMessage] = useState('')
