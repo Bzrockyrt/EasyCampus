@@ -1,11 +1,10 @@
 import { InputGroup, Stack } from '@chakra-ui/react';
 import React, { Component, useState } from 'react'
 import { Form } from 'react-router-dom';
-import { Card, CardHeader, CardBody, CardFooter, IconButton, Grid, GridItem } from '@chakra-ui/react'
 import Carousel from 'react-bootstrap/Carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-import './style/HomePage.css'
+import Card from '../../components/Card/Card';
 
 export default function HomePage(){
     const users = [
@@ -35,41 +34,50 @@ export default function HomePage(){
             title : 'Economie',
             user : users[0],
             imageURL : 'Economy.jpg',
+            notation : 4.7,
             description : `Description écrite par l'étudiant proposant le cours`
-        },{
+        }
+        ,{
             title : 'Informatique',
             user : users[1],
             imageURL : 'IT.jpg',
+            notation : 4.4,
             description : `Description écrite par l'étudiant proposant le cours`
         },{
             title : 'Management',
             user : users[2],
             imageURL : 'Management.jpg',
+            notation : 4.2,
             description : `Description écrite par l'étudiant proposant le cours`
         },{
             title : 'Mathématiques',
             user : users[3],
             imageURL : 'Maths.jpg',
+            notation : 4.3,
             description : `Description écrite par l'étudiant proposant le cours`
         },{
             title : 'Economie',
             user : users[0],
             imageURL : 'Economy.jpg',
+            notation : 3.0,
             description : `Description écrite par l'étudiant proposant le cours`
         },{
             title : 'Informatique',
             user : users[1],
             imageURL : 'IT.jpg',
+            notation : 4.5,
             description : `Description écrite par l'étudiant proposant le cours`
         },{
             title : 'Management',
             user : users[2],
             imageURL : 'Management.jpg',
+            notation : 4.9,
             description : `Description écrite par l'étudiant proposant le cours`
         },{
             title : 'Mathématiques',
             user : users[3],
             imageURL : 'Maths.jpg',
+            notation : 4.1,
             description : `Description écrite par l'étudiant proposant le cours`
         },
     ]
@@ -87,39 +95,7 @@ export default function HomePage(){
                     <div className="cards">
                         {
                             cards.map((card, i) => {
-                                // return <div key={i} className="card">
-                                //     <img src={card.imageURL} className='cardImage'/>
-                                //     <h1 className='cardTitle'>
-                                //         { card.title }
-                                //     </h1>
-                                //     <h3 className='cardUsername'>
-                                //         { card.user.firstname }
-                                //     </h3>
-                                //     <p className='cardDescription'>
-                                //         { card.description }
-                                //     </p>
-                                //     <button className='buttonCard'>
-                                //         Explore
-                                //     </button>
-                                // </div>
-                                return <Card maxW={300}>
-                                    <CardBody>
-                                        <Carousel>
-                                            <Carousel.Item>
-                                                <img src={ card.imageURL } className='d-block w-100' alt='Image of the course'/>
-                                            </Carousel.Item>
-                                            <Carousel.Item>
-                                                <p>Mettre ici différentes informations concernant le cours</p>
-                                            </Carousel.Item>
-                                        </Carousel>
-                                        { card.description }
-                                        {/* <Stack>
-                                            <button>
-                                                <img src='Heart.gif' width={50}/>
-                                            </button>
-                                        </Stack> */}
-                                    </CardBody>
-                                </Card>
+                                return <Card lessonData={card}/>
                             })
                         }
                     </div>

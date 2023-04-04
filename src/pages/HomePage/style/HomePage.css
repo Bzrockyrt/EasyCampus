@@ -13,41 +13,10 @@ body{
 .container {
     position: relative;
     height: 100vh;
-    width: 100%;
+    width: 300px;
     margin: auto;
     padding: 0px 20px;
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,1), url(`images`))
-}
-
-.cards{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.card{
-    flex: 0 0 calc(33.33% - 20px);
-    max-width: calc(33.33% - 20px);
-    width: 100%;
-    background: #FFFFFF;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    transition: .3s;
-    border: 2px solid transparent;
-}
-
-.card:hover{
-    border-color: #1D39C4;
-    cursor: pointer;
-}
-
-.cardImage{
-    border-radius: 10px;
-}
-
-.cardTitle{
-    color: red;
 }
 
 .cardUsername{
