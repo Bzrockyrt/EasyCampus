@@ -1,6 +1,9 @@
 .sign-in-container {
     display: flex;
     flex-direction: row;
+    height: calc(100vh - 61px);
+    background-size: cover;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("public/amphi.jpeg");
 }
 
 .sign-in-component {
@@ -11,19 +14,17 @@
     background-color: yellow;
 }
 
-.form-login{
+.form-login {
     display: flex;
     justify-content: center;
     height: 600px;
     width: 2000px;
-    background-color: white;
 }
 
 .text-login {
     font-size: 25px;
     text-align: left;
     width: 350px;
-    text-decoration: underline;
     margin-bottom: 10px;
     font-family: Bahnschrift;
     font-weight: bold;
@@ -32,6 +33,11 @@
 .champs-login {
     margin-top: 25px;
     border-bottom: #0b1a3b solid;
+    border: solid;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 2px;
+    background-color: #eeeeee;
 }
 
 .btn-sumbit-login {
@@ -43,4 +49,26 @@
     justify-content: center;
     background-color: #293a68;
     color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.sign-in-css {
+    border: solid;
+    border-width: 1px;
+    border-radius: 30px;
+    padding: 15px;
+    box-shadow: 5px 5px 15px rgb(0, 0, 0);
+    background-color: #ffffffce;
+}
+
+.sign-up-css {
+    border: solid;
+    border-width: 1px;
+    border-radius: 30px;
+    padding: 15px;
+    box-shadow: 5px 5px 15px rgb(0, 0, 0);
+    background-color: #ffffffce;
 }
