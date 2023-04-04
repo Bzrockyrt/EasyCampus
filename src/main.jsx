@@ -11,10 +11,11 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
+import Layout from "./pages/Layout";
 
 const router = createBrowserRouter([
   {
-    element: <Navbar />,
+    element: <Layout />,
     children: [{
       path: "/",
       element: <Root />,

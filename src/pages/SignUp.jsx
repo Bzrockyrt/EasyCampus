@@ -1,12 +1,12 @@
 import { Flex } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { auth, db } from "../firebase";
 // import AuthDetails from './AuthDetails'
-import {
-    Alert,
-    AlertIcon,
-} from '@chakra-ui/react'
+// import {
+//     Alert,
+//     AlertIcon,
+// } from '@chakra-ui/react'
 import './style/SignIn.css'
 import { doc, setDoc } from "firebase/firestore";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
@@ -26,6 +26,7 @@ export default function SignUp() {
     const [nom, setNom] = useState("")
     const [prenom, setPrenom] = useState("")
     const [phone, setPhone] = useState("")
+    const { setErrorMessage, setSuccessMessage } = useContext(AlertContext)
 
     const [isError, setIsError] = useState({ status: false, alert: "" });
     const [isSucces, setIsSucces] = useState({ status: false, alert: "" });
@@ -46,7 +47,7 @@ export default function SignUp() {
 
     function checkIfMissingData() {
         if (!email) {
-            throwAlert("Veuillez rentrer un email");
+            setErrorMessage("Veuillez rentrer un email");
             return true;
         }
         if (!password) {
@@ -147,22 +148,22 @@ export default function SignUp() {
                     <button type="submit" className="btn-sumbit-login">Sign Up</button>
                 </Flex>
             </form>
-            {isError.status &&
+            {/* {isError.status &&
                 <div style={{ width: "100%", position: "absolute", top: "75px", display: "flex", justifyContent: "center" }}>
                     <Alert maxWidth={"500px"} borderRadius={"15px"} status='error'>
                         <AlertIcon />
                         {isError.alert}
                     </Alert>
                 </div>
-            }
-            {isSucces.status &&
+            } */}
+            {/* {isSucces.status &&
                 <div style={{ width: "100%", position: "absolute", top: "75px", display: "flex", justifyContent: "center" }}>
                     <Alert maxWidth={"500px"} borderRadius={"15px"} status='success'>
                         <AlertIcon />
                         {isSucces.alert}
                     </Alert>
                 </div>
-            }
+            } */}
         </div>
     )
 }
