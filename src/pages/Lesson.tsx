@@ -8,6 +8,7 @@ import {
     Alert,
     AlertIcon,
 } from '@chakra-ui/react'
+import AlertContext from "./AlertContext";
 
 export default function Lesson() {
     const navigate = useNavigate();
@@ -16,8 +17,23 @@ export default function Lesson() {
     const [duration, setDuration] = useState("");
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
-    const [isError, setIsError] = useState(false);
-    const [isSucces, setIsSucces] = useState(false);
+
+    const [isError, setIsError] = useState({ status: false, alert: "" });
+    const [isSucces, setIsSucces] = useState({ status: false, alert: "" });
+
+    function throwSuccess(alert) {
+        setIsSucces({ status: true, alert });
+        setTimeout(() => {
+            setIsSucces({ status: false, alert: "" })
+        }, 3000)
+    }
+
+    function throwAlert(alert) {
+        setIsError({ status: true, alert: alert });
+        setTimeout(() => {
+            setIsError({ status: false, alert: "" })
+        }, 3000)
+    }
 
     async function saveLessonToFirestore() {
         if (title) {
@@ -38,6 +54,14 @@ export default function Lesson() {
     const addLesson = (e) => {
         e.preventDefault();
         saveLessonToFirestore()
+            .then(() => {
+                console.log("test")
+                throwSuccess("Votre compte a été créé");
+            })
+            .catch(() => {
+                console.log("test err")
+                throwAlert("Une erreur est survenue lors de la création de votre compte");
+            });
 
     }
 
@@ -47,25 +71,25 @@ export default function Lesson() {
                 <Flex flexDirection="column" justifyContent={'center'}>
                     <h1 className="text-login">Add lesson</h1>
                     <Flex flexDirection="column" justifyContent={'center'}>
-                        <input className="champs-login"
+                        <input className="champs-login" required
                             type="text"
                             placeholder="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         ></input>
-                        <input className="champs-login"
+                        <input className="champs-login" required
                             type="number"
                             placeholder="duration"
                             value={duration}
                             onChange={(e) => setDuration(e.target.value)}
                         ></input>
-                        <input className="champs-login"
+                        <input className="champs-login" required
                             type="number"
                             placeholder="price"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                         ></input>
-                        <input className="champs-login"
+                        <input className="champs-login" required
                             type="text"
                             placeholder="description"
                             value={description}
@@ -77,17 +101,17 @@ export default function Lesson() {
             </form>
 
 
-            {isError &&
+            {/*isError &&
                 <Alert status='error'>
                     <AlertIcon />
                     There was an error processing your request
-                </Alert>}
+    </Alert>*/}
 
-            {isSucces &&
+            {/*isSucces &&
                 <Alert status='success'>
                     <AlertIcon />
                     Votre lesson a été créé
-                </Alert>}
+</Alert>*/}
 
 
 
