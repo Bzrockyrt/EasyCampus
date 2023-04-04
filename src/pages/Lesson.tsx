@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
-import { useOutletContext } from "react-router-dom";
+import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import {
@@ -10,23 +10,24 @@ import {
 } from '@chakra-ui/react'
 
 export default function Lesson() {
-    const { lessonId } = useParams();
-    //const [userId, setUserId] = useOutletContext();
+    const navigate = useNavigate();
+    const [userId] = useOutletContext();
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState("");
-    const [name, setName] = useState("");
+    const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [isError, setIsError] = useState(false);
     const [isSucces, setIsSucces] = useState(false);
 
     async function saveLessonToFirestore() {
-        if (name) {
+        if (title) {
             try {
                 const ref = addDoc(collection(db, "Lessons"), {
-                    description: description,
+                    userID: userId,
+                    title: title,
                     duration: duration,
-                    name: name,
                     price: price,
+                    description: description,
                 });
             } catch (e) {
                 console.log(e)
@@ -48,9 +49,9 @@ export default function Lesson() {
                     <Flex flexDirection="column" justifyContent={'center'}>
                         <input className="champs-login"
                             type="text"
-                            placeholder="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                         ></input>
                         <input className="champs-login"
                             type="number"
@@ -59,16 +60,16 @@ export default function Lesson() {
                             onChange={(e) => setDuration(e.target.value)}
                         ></input>
                         <input className="champs-login"
-                            type="text"
-                            placeholder="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        ></input>
-                        <input className="champs-login"
                             type="number"
                             placeholder="price"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
+                        ></input>
+                        <input className="champs-login"
+                            type="text"
+                            placeholder="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         ></input>
                     </Flex>
                     <button type="submit" className="btn-sumbit-login">Add lesson</button>
