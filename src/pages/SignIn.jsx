@@ -24,6 +24,7 @@ export default function SignIn() {
             });
     };
 
+    if (userId) navigate('/')
     return (
         <div className="sign-in-container">
             <form onSubmit={signIn} className="form-login">
