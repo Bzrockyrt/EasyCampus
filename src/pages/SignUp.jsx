@@ -32,10 +32,8 @@ export default function SignUp() {
 
     const signUp = (e) => {
         e.preventDefault();
-        // if (checkIfMissingData()) return;
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                setUserId(userCredential.user.uid)
                 saveUserToFirestore(userCredential.user.uid)
                 throwSuccess("Votre compte a été créé");
             })

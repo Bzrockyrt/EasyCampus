@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { auth } from "../firebase";
 import './style/SignIn.css'
@@ -17,7 +17,6 @@ export default function SignIn() {
             .then((userCredential) => {
                 setUserId(userCredential.user.uid)
                 navigate('/a')
-                // window.localStorage.setItem('uid', JSON.stringify(userCredential.user.uid))
             })
             .catch((error) => {
                 console.log(error);
@@ -49,6 +48,5 @@ export default function SignIn() {
                 </Flex>
             </form>
         </div>
-        // </div>
     )
 }

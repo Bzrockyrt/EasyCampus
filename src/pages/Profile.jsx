@@ -35,6 +35,7 @@ export default function Profile() {
       }).catch((error) => {
         console.log(error)
       });
+      throwSuccess('Votre compte a bien été supprimé')
     }).catch((error) => {
       console.log(error)
     });
@@ -57,10 +58,6 @@ export default function Profile() {
       <HStack marginTop={"15px"} gap={"15px"} justifyContent="center">
         <Button colorScheme={"blue"} onClick={() => navigate('/edit')}>Modifier mon compte</Button>
         <Button colorScheme={"red"} onClick={() => deleteAccount()}>Supprimer mon compte</Button>
-      </HStack>
-      <HStack marginTop={"15px"} gap={"15px"} justifyContent="center">
-        <Button colorScheme={"blue"} onClick={() => throwSuccess('success')}>test success</Button>
-        <Button colorScheme={"red"} onClick={() => throwError("error")}>test error</Button>
       </HStack>
     </div>
   )

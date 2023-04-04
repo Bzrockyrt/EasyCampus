@@ -4,18 +4,16 @@ import { Outlet } from 'react-router-dom';
 import Navbar from "../components/Navbar/Navbar";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Layout() {
     const [userId, setUserId] = useState<string | null>(null)
-    const dbrequest = window.indexedDB.open('firebaseLocalStorageDb', 1);
-    dbrequest.onsuccess = (e) => {
-        const request = dbrequest.result.transaction('firebaseLocalStorage')
-            .objectStore('firebaseLocalStorage')
-            .getAll();
-        request.onsuccess = () => {
-            setUserId(request.result[0].value.uid)
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setUserId(user.uid)
         }
-    };
+    });
 
     return <Box height='100%'>
         <Navbar userId={userId} setUserId={setUserId} />

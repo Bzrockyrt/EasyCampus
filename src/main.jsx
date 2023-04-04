@@ -6,7 +6,6 @@ import './style/index.css'
 import Root from './pages/root'
 import Profile from './pages/Profile'
 import { ChakraProvider } from "@chakra-ui/react";
-import Navbar from "./components/Navbar/Navbar";
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
