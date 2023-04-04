@@ -9,7 +9,7 @@ import { auth, db } from "../firebase";
 // } from '@chakra-ui/react'
 import './style/SignIn.css'
 import { doc, setDoc } from "firebase/firestore";
-import { useOutletContext } from "react-router-dom";
+import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import Alert from "../utils/Alerts";
 import AlertContext from "./AlertContext";
 
@@ -18,7 +18,8 @@ import AlertContext from "./AlertContext";
 // })
 
 export default function SignUp() {
-    const [, setUserId] = useOutletContext()
+    const navigate = useNavigate()
+    const [userId, setUserId] = useOutletContext()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -99,7 +100,8 @@ export default function SignUp() {
                 throwAlert("Une erreur est survenue lors de la création de votre compte");
             });
     };
-
+    console.log(userId)
+    if (userId) navigate('/')
     return (
         <div className="sign-in-container">
             <form onSubmit={signUp} className="form-login">

@@ -11,8 +11,10 @@ export default function Profile() {
   const [userData, setUserData] = useState(undefined)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate();
-  const docRef = doc(db, "users", userId);
-
+  let docRef
+  if (userId) {
+    docRef = doc(db, "users", userId);
+  }
 
   async function getUserData() {
     const user = await getDoc(docRef);
@@ -38,10 +40,11 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    getUserData()
+    if (userId) {
+      getUserData()
+    }
   }, [userId])
 
-  if (!userId) navigate('/signin')
   return (
     <div id="login">
       <Text>PROFILE</Text>
