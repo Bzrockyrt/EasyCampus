@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
 import Layout from "./pages/Layout";
+import Lesson from './pages/Lesson'
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
     {
       path: "/sheerid",
       element: <SheerId />,
+    },
+    {
+      path: "/lesson",
+      element: <Lesson />,
     },
     /* THIS IS A TEST */
     {
