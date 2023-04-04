@@ -73,6 +73,15 @@ export default function Navbar() {
               fontWeight={400}
               color={'white'}
               variant={'link'}
+              href={'/homepage'}>
+              Home Page
+            </Button>
+            <Button
+              as={'a'}
+              fontSize={'sm'}
+              fontWeight={400}
+              color={'white'}
+              variant={'link'}
               href={'/signin'}>
               Sign In
             </Button>

@@ -11,6 +11,7 @@ import SignIn from './pages/SignIn/SignIn'
 import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
 import DeleteAccount from './pages/DeleteAccount/DeleteAccount'
+import HomePage from './pages/HomePage/HomePage'
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
       path: "/profile",
       element: <Profile />,
+    },
+    {
+      path: '/homepage',
+      element: <HomePage/>
     },
     /* THIS IS A TEST */
     {
