@@ -5,6 +5,8 @@ import Carousel from 'react-bootstrap/Carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import Card from '../../components/Card/Card';
+import FilterItem from '../../components/FilterItem/FilterItem'
+import FilterButton from '../../components/FilterButton/FilterButton'
 
 export default function HomePage(){
     const users = [
@@ -82,16 +84,41 @@ export default function HomePage(){
         },
     ]
 
+    const filters = [
+        {
+            imageURL : 'star.png',
+            title : 'Economie'
+        },
+        {
+            imageURL : 'star.png',
+            title : 'Informatique'
+        },
+        {
+            imageURL : 'star.png',
+            title : 'Management'
+        },
+        {
+            imageURL : 'star.png',
+            title : 'Mathématiques'
+        },
+    ]
+
     return(
-        <div className='container'>
-            <div>
-                <div>
-                    <h6>Mettre dans ce div le filtrage des cards dans le HomePage</h6>
-                </div>
+        <div>
+            <div className='filterBar'>
+                {
+                    filters.map((filter, i) => {
+                        return <FilterItem itemData={filter}/>
+                    })
+                }
+                {/* <button className='filterBarButton'>
+                    <img src='Reglages.png' className='filterBarButtonImage'/>
+                    <div className='filterBarButtonTitle'>Filter</div>
+                </button> */}
+                {/* <FilterButton></FilterButton> */}
             </div>
             <div>
                 <div>
-                    <h1>Responsive Cards</h1>
                     <div className="cards">
                         {
                             cards.map((card, i) => {
