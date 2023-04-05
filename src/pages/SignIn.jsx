@@ -27,7 +27,7 @@ export default function SignIn() {
     if (userId) navigate('/')
     return (
         <div class="body">
-            <div className="sign-in-container">
+            <div className="sign-in-container backgroundImage">
                 <form onSubmit={signIn} className="form-login">
                     <Flex flexDirection="column" justifyContent={'center'}>
                         <div className="sign-in-css">
@@ -40,7 +40,8 @@ export default function SignIn() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     size='md'
-                                    borderColor={"gray"} />
+                                    borderColor={"gray"} 
+                                    required/>
 
                                 <Input className="champs-login"
                                     placeholder='Enter your password'
@@ -48,7 +49,8 @@ export default function SignIn() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     size='md'
-                                    borderColor={"gray"} />
+                                    borderColor={"gray"} 
+                                    required/>
                                 <a href="/signup" style={{ marginTop: "20px" }}>No account? Create one!</a>
 
                             </Flex>

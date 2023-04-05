@@ -46,7 +46,7 @@ export default function SignUp() {
     console.log(userId)
     if (userId) navigate('/')
     return (
-        <div className="sign-in-container">
+        <div className="sign-in-container backgroundImage" >
             <form onSubmit={signUp} className="form-login">
                 <Flex flexDirection="column" justifyContent={'center'}>
                     <div className="sign-up-css">
@@ -60,7 +60,8 @@ export default function SignUp() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 size='md'
-                                borderColor={"gray"} />
+                                borderColor={"gray"}
+                                required />
 
 
                             <Input className="champs-login"
@@ -69,7 +70,8 @@ export default function SignUp() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 size='md'
-                                borderColor={"gray"} />
+                                borderColor={"gray"} 
+                                required/>
 
 
                             <Input className="champs-login"
@@ -78,7 +80,8 @@ export default function SignUp() {
                                 value={passwordConfirmation}
                                 onChange={(e) => setPasswordConfirmation(e.target.value)}
                                 size='md'
-                                borderColor={"gray"} />
+                                borderColor={"gray"} 
+                                required/>
 
 
 
@@ -88,7 +91,8 @@ export default function SignUp() {
                                 value={nom}
                                 onChange={(e) => setNom(e.target.value)}
                                 size='md'
-                                borderColor={"gray"} />
+                                borderColor={"gray"} 
+                                required/>
 
 
 
@@ -98,7 +102,8 @@ export default function SignUp() {
                                 value={prenom}
                                 onChange={(e) => setPrenom(e.target.value)}
                                 size='md'
-                                borderColor={"gray"} />
+                                borderColor={"gray"} 
+                                required/>
 
                             <Input className="champs-login"
                                 type="number"
@@ -106,7 +111,8 @@ export default function SignUp() {
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 size='md'
-                                borderColor={"gray"} />
+                                borderColor={"gray"} 
+                                required/>
 
                         </Flex>
                         <button type="submit" className="btn-sumbit-login">Sign Up</button>
