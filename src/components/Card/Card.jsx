@@ -1,5 +1,7 @@
 import { Card as CardChakra, CardHeader, CardBody, CardFooter, Heading, Stack, Button, Grid, GridItem } from '@chakra-ui/react'
 
+<script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+
 function handleClick(){
     alert('Test du click sur une card');
 }
@@ -31,7 +33,14 @@ export default function Card(props){
                     { lessonData.price }
                 </div>
                 <div className='cardButtonLike'>
-                    <button>Like</button>
+                    <button>
+                        <lord-icon
+                            src="https://cdn.lordicon.com/pnhskdva.json"
+                            trigger="hover"
+                            colors="primary:#c71f16"
+                            style="width:250px;height:250px">
+                        </lord-icon>
+                    </button>
                 </div>
             </div>
         </div>

@@ -63,16 +63,17 @@
   margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
-  padding: 5px;
-  background-color: #CCCCCC;
+  padding: 0px;
+  border-radius: 10px;
   /* -webkit-box-shadow: 5px 5px 15px 5px #000000; 
-box-shadow: 5px 5px 15px 5px #000000; */
+  box-shadow: 5px 5px 15px 5px #000000; */
 }
 
 .cardContainer:hover{
   /*animation-name: cardAnimation;*/
   /*animation-duration: .3s;*/
   transform: scale(1.03);
+  background-color: #F2F2F2;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -103,6 +104,7 @@ box-shadow: 5px 5px 15px 5px #000000; */
 .cardWrapper{
   width: 100%;
   margin: 0px auto;
+  padding: 0px 3px 0px 3px;
   display: grid;
   grid-template-columns: repeat(auto-fill, auto);
   justify-content: center;
