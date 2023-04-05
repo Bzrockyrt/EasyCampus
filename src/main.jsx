@@ -12,6 +12,8 @@ import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
 import Layout from "./pages/Layout";
 import Lesson from './pages/Lesson'
+import DeleteAccount from './pages/DeleteAccount/DeleteAccount'
+import HomePage from './pages/HomePage/HomePage'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,10 @@ const router = createBrowserRouter([
     {
       path: "/profile",
       element: <Profile />,
+    },
+    {
+      path: '/homepage',
+      element: <HomePage/>
     },
     {
       path: "/sheerid",
