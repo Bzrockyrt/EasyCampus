@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     },
     {
       path: '/homepage',
-      element: <HomePage/>
+      element: <HomePage />
     },
     {
       path: "/sheerid",
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     },
     {
       path: "/lesson",
-      element: <Lesson />,
+      element: <HomePage />,
     },
     /* THIS IS A TEST */
     {
