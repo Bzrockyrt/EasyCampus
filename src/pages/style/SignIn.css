@@ -73,5 +73,5 @@
 
 .backgroundImage{
     background-size: cover;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("public/amphi.jpeg");
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("/amphi.jpeg");
 }
