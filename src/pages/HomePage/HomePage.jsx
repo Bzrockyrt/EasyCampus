@@ -11,20 +11,30 @@ export default function HomePage() {
 
     async function getLessonData() {
         const querySnapshot = await getDocs(collection(db, "Lessons"));
+        let lesson = {}
         console.log(querySnapshot)
         const data = []
         querySnapshot.forEach(async (lessonDoc) => {
             let object = lessonDoc._document.data.value.mapValue.fields
             let keys = Object.keys(object)
-            let lesson = {}
             keys.forEach((key) => lesson[key] = object[key].stringValue)
-            if (object.userID.stringValue) {
-                const user = await getDoc(doc(db, "users", object.userID.stringValue));
-                const username = user._document.data.value.mapValue.fields.prenom.stringValue
-                lesson.userID = username
-            }
-            data.push(lesson)
+            // console.log(lesson)
+
         });
+
+        lesson.forEach(async (object) => {
+            if (object.userID.stringValue) {
+                // console.log("userID", object.userID.stringValue)
+                const user = await getDoc(doc(db, "users", object.userID.stringValue));
+                // console.log("user", user)
+                const username = user._document.data.value.mapValue.fields.prenom.stringValue
+                // // console.log(username)
+                lesson.userID = username
+                console.log(lesson)
+            }
+        });
+
+        data.push(lesson)
         setTabLessonsData(data)
     }
 
