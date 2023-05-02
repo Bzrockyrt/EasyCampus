@@ -44,6 +44,8 @@ export default function Lesson() {
                     duration: duration,
                     price: price,
                     description: description,
+                    imgUrl: "Economy.jpg",
+                    notation: "5"
                 });
             } catch (e) {
                 console.log(e)
