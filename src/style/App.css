@@ -71,7 +71,8 @@
 
 .cardContainer:hover{
   /*animation-name: cardAnimation;*/
-  /*animation-duration: .3s;*/
+  animation-duration: .3s;
+  transition-duration: .3s;
   transform: scale(1.03);
   background-color: #F2F2F2;
   border-radius: 5px;
@@ -150,10 +151,86 @@
   grid-column: 1;
 }
 
+.cardLike{
+  grid-row: 4;
+  grid-column: 2;
+  border-color: 0px transparent;
+}
+
 .cardButtonLike{
   grid-row: 4;
   grid-column: 2;
+  border-color: 0px transparent;
 }
+
+.filterBar{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.filterItemContainer{
+  width: 150px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 3px;
+  margin-right: 3px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  cursor: pointer;
+}
+
+.filterItemContainer:hover{
+  animation-duration: .3s;
+  transition-duration: .3s;
+  transform: scale(1.03);
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.filterItemSelected{
+  border-radius: 5px;
+  background-color: #F2F2F2;
+}
+
+.filterItemImage{
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  justify-content: center;
+  text-align: center;
+  align-self: center;
+}
+
+.filterBarButton{
+  border: 1px solid #E7E7E7;
+  margin-left: 10px;
+  margin-right: 5px;
+  width: 100px;
+  height: 40px;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  display: flex;
+}
+
+.filterBarButtonImage{
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.filterBarButtonTitle{
+  align-content: stretch;
+}
+
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
