@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [{
       path: "/",
-      element: <Root />,
+      element: <HomePage />,
     },
     {
       path: "/signin",
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     },
     {
       path: '/homepage',
-      element: <HomePage/>
+      element: <HomePage />
     },
     {
       path: "/sheerid",
