@@ -3,16 +3,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './pages/App'
 import './style/index.css'
-import Root from './pages/root'
 import Profile from './pages/Profile'
 import { ChakraProvider } from "@chakra-ui/react";
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
 import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
 import Layout from "./pages/Layout";
 import Lesson from './pages/Lesson'
-import DeleteAccount from './pages/DeleteAccount/DeleteAccount'
 import HomePage from './pages/HomePage/HomePage'
 
 const router = createBrowserRouter([
@@ -21,14 +17,6 @@ const router = createBrowserRouter([
     children: [{
       path: "/",
       element: <HomePage />,
-    },
-    {
-      path: "/signin",
-      element: <SignIn />,
-    },
-    {
-      path: "/signup",
-      element: <SignUp />,
     },
     {
       path: "/edit",

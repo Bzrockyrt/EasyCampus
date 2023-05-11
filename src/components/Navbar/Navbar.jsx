@@ -21,6 +21,8 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
+import SignUpButton from '../SignUpButton/SignUpButton';
+import SignInButton from '../SignInButton/SignInButton';
 
 export default function Navbar({ userId, setUserId }) {
   const { isOpen, onToggle } = useDisclosure();
@@ -103,26 +105,8 @@ export default function Navbar({ userId, setUserId }) {
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
-            <Button
-              fontSize={'sm'}
-              fontWeight={400}
-              color={'white'}
-              variant={'link'}
-              onClick={() => navigate('/signin')}>
-              Se connecter
-            </Button>
-            <Button
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize={'sm'}
-              fontWeight={600}
-              color={'white'}
-              bg={'#293b6b'}
-              onClick={() => navigate('/signup')}
-              _hover={{
-                bg: 'pink.300',
-              }}>
-              Créer un compte
-            </Button>
+            <SignInButton setUserId={setUserId} />
+            <SignUpButton />
           </Stack>}
       </Flex>
       <Collapse in={isOpen} animateOpacity>
