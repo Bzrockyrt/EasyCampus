@@ -34,17 +34,12 @@
   }
 }
 
-
-.allCard{
-  width: 350px;
-  margin-bottom: 20px;
-}
-
 .cards{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin: 0 4%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-gap: 20px;
+  width: 100%;
+  justify-content: center;
 }
 
 .card {
@@ -56,7 +51,6 @@
 }
 
 .cardContainer{
-  width: 300px;
   border: blue;
   border-color: black;
   margin-top: 10px;
