@@ -1,81 +1,35 @@
-import { useNavigate, useOutletContext } from 'react-router-dom'
-import React, { useEffect, useContext, useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
+import React from 'react'
 import '../style/App.css'
-import { deleteDoc, doc, getDoc } from 'firebase/firestore';
-import { Button, HStack, Skeleton, Text } from '@chakra-ui/react';
-import { auth, db } from '../firebase';
-import { deleteUser, signOut } from 'firebase/auth';
-import { throwError, throwSuccess } from '../utils/alerts';
+import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import UsersPanel from '../components/UsersPanel/UsersPanel';
+import Userdata from '../components/Userdata/UserData';
 
 export default function Profile() {
-  const [userId, setUserId] = useOutletContext()
-  const [userData, setUserData] = useState(undefined)
-  const [isLoading, setIsLoading] = useState(true)
-  const navigate = useNavigate();
-  let docRef
-  if (userId) {
-    docRef = doc(db, "users", userId);
-  }
+  const [userId, , isAdmin] = useOutletContext()
 
-  async function getUserData() {
-    const user = await getDoc(docRef);
-    if (user) {
-      setUserData(user._document.data.value.mapValue.fields)
-      setIsLoading(false)
-    }
-  }
-
-  async function deleteAccount() {
-    const user = auth.currentUser;
-    deleteUser(user).then(async () => {
-      await deleteDoc(docRef);
-      signOut(auth).then(() => {
-        setUserId(null)
-        navigate('/')
-      }).catch((error) => {
-        console.log(error)
-      });
-      throwSuccess('Votre compte a bien été supprimé')
-    }).catch((error) => {
-      console.log(error)
-    });
-  }
-
-  useEffect(() => {
-    if (userId) {
-      getUserData()
-    }
-  }, [userId])
 
   return (
-    <div id="login">
-      <Text>PROFILE</Text>
-      <Skeleton isLoaded={!isLoading}><Text>Nom: {userData?.nom.stringValue}</Text></Skeleton>
-      <Skeleton isLoaded={!isLoading}><Text>Prenom: {userData?.prenom.stringValue}</Text></Skeleton>
-      <Skeleton isLoaded={!isLoading}><Text>Email: {userData?.email.stringValue}</Text></Skeleton>
-      <Skeleton isLoaded={!isLoading}><Text>Téléphone: {userData?.phone.stringValue}</Text></Skeleton>
-
-      <HStack marginTop={"15px"} gap={"15px"} justifyContent="center">
-        <Button colorScheme={"blue"} onClick={() => navigate('/edit')}>Modifier mon compte</Button>
-        <Button colorScheme={"red"} onClick={() => deleteAccount()}>Supprimer mon compte</Button>
-      </HStack>
-    </div>
+    <Flex className='backgroundImage' height={'calc(100vh - 60px)'} width={'100%'} justifyContent={'center'} paddingTop={'10vh'}>
+      <Box className='sign-in-css' minWidth={'600px'} width={'50%'} height={'75%'}>
+        <Tabs height={'100%'}>
+          <TabList height={'10%'}>
+            <Tab>Profile</Tab>
+            {isAdmin &&
+              <Tab>Utilisateurs</Tab>}
+          </TabList>
+          <TabPanels height={'90%'}>
+            <TabPanel height={'100%'} padding={0}>
+              <Userdata userId={userId} dataToDisplay={['nom', 'prenom', 'email', 'phone']} />
+            </TabPanel>
+            {isAdmin &&
+              <TabPanel height={'100%'} padding={0}>
+                <UsersPanel />
+              </TabPanel>
+            }
+          </TabPanels>
+        </Tabs>
+      </Box>
+    </Flex>
   )
 }
-
-
-
-// const [user, setUser] =useState(null)
-
-// const auth = getAuth(firebaseConfig);
-// connectAuthEmulator(auth, "http://localhost:5173");
-
-// // Login using email/password
-// const loginEmailPassword = async () => {
-//   const loginEmail = txtEmail.value
-//   const loginPassword = txtPassword.value
-
-//   const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-// }
-
-// btnLogin.addEventListener("click", loginEmailPassword)

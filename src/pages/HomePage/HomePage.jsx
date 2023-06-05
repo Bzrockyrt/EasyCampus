@@ -1,6 +1,6 @@
 import { InputGroup, Skeleton, Stack } from '@chakra-ui/react';
 import React, { useEffect, useState, Component } from 'react'
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+// import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import Card from '../../components/Card/Card';
