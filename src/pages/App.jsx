@@ -3,6 +3,7 @@ import { useState } from 'react'
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import reactLogo from '../assets/react.svg'
 import '../style/App.css'
+import '../pages/Lesson/style/Lesson.css'
 
 export default function App() {
   const [count, setCount] = useState(0)
