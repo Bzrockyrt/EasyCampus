@@ -8,8 +8,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
 import Layout from "./pages/Layout";
-import Lesson from './pages/Lesson'
-import HomePage from './pages/HomePage/HomePage'
+import CreateLesson from './pages/CreateLesson';
+import Lesson from './pages/Lesson/Lesson';
+import HomePage from './pages/HomePage/HomePage';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
     {
       path: "/sheerid",
       element: <SheerId />,
+    },
+    {
+      path: "/createlesson",
+      element: <CreateLesson />,
     },
     {
       path: "/lesson",

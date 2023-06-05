@@ -2,6 +2,7 @@ import { Card as CardChakra, Skeleton } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 // <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
 
@@ -10,6 +11,8 @@ function handleClick() {
 }
 
 export default function Card(props) {
+    const navigate = useNavigate();
+
     const { lessonData } = props;
     const [username, setUsername] = useState('')
     useEffect(() => {
@@ -22,7 +25,7 @@ export default function Card(props) {
     console.log('lessonData', lessonData)
     return (
         <div className='allCard'>
-            <div className='cardContainer' onClick={handleClick}>
+            <div className='cardContainer' onClick={() => navigate('/lesson', { state : { id : 1, name : 'tetetetetetetet'}})}>
                 <div>
                     <img src={lessonData.imgUrl} className='cardImage' />
                 </div>

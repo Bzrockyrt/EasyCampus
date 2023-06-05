@@ -5,7 +5,7 @@ import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { throwError, throwSuccess } from '../utils/alerts';
 
-export default function Lesson() {
+export default function CreateLesson() {
     const navigate = useNavigate();
     const [userId] = useOutletContext();
     const [description, setDescription] = useState("");
