@@ -1,0 +1,17 @@
+.test {
+    background-color: rgb(50, 50, 50);
+    width: 15vw;
+    height: 100vh;
+}
+
+.test1 {
+    background-color: red;
+    width: 85vw;
+}
+
+.test2 {
+    background-color: green;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

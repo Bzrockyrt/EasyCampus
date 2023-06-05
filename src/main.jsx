@@ -8,8 +8,11 @@ import { ChakraProvider } from "@chakra-ui/react";
 import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
 import Layout from "./pages/Layout";
-import Lesson from './pages/Lesson'
-import HomePage from './pages/HomePage/HomePage'
+import Lesson from './pages/Lesson';
+import DeleteAccount from './pages/DeleteAccount/DeleteAccount'
+import HomePage from './pages/HomePage/HomePage';
+import AdminHomePage from './pages/Admin/adminhomepage';
+import AdminMatiere from './pages/Admin/adminFormMatiere';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +40,14 @@ const router = createBrowserRouter([
     {
       path: "/lesson",
       element: <Lesson />,
+    },
+    {
+      path: "/adminhomepage",
+      element: <AdminHomePage />,
+    },
+    {
+      path: "/adminmatiere",
+      element: <AdminMatiere />,
     },
     /* THIS IS A TEST */
     {
