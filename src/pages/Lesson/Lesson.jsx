@@ -66,11 +66,11 @@ export default function Lesson() {
 
                 <div className='lesson-description'>
                     {/* Titre de la leçon */}
-                    <h1>{docData.title}</h1>
+                    {docData && (<h1>{docData.title}</h1>)}
                     {/* Catégorie de la leçon */}
                     <Link className="linkcourse" textAlign={"left"} display="block" onClick={() => courseReservationModal.onOpen()}>Mathematiques</Link>
                     {/* Description de la leçon */}
-                    <p>{docData.description}</p>
+                    <p>Durant cette leçon, vous allez apprendre les concepts de bases des mathématiques modernes.</p>
                 </div>
                 <div className='lesson-localization'>
                     <Text fontStyle="italic" textAlign="left">Mettre ici la localisation de l'étudiant proposant le cours. On pourra faire appel à l'API de Google Maps pour afficher une carte</Text>
@@ -121,6 +121,12 @@ export default function Lesson() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+
+            <div>
+      {docData && (
+        <p>{docData.title}</p>
+      )}
+    </div>
         </div>
     )
 }
