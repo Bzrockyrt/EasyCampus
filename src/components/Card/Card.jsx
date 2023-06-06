@@ -2,6 +2,8 @@ import { Card as CardChakra, Skeleton } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import React, { useEffect, useState } from "react";
+import { getStorage, ref } from 'firebase/storage';
+import destructureData from '../../utils/destructureData';
 
 // <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
 
@@ -14,12 +16,27 @@ export default function Card(props) {
     const [username, setUsername] = useState('')
     useEffect(() => {
         const getUsername = async () => {
-            const user = await getDoc(doc(db, "users", lessonData.userID));
-            setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+            if (lessonData.userID) {
+                const user = await getDoc(doc(db, "users", lessonData.userID));
+                setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+            }
+        }
+        const getMatiereImage = async () => {
+            if (lessonData.matiereId) {
+                const matiere = await getDoc(doc(db, "Matieres", lessonData.matiereId));
+                console.log(destructureData(matiere))
+                const imgUrl = destructureData(matiere).imgUrl
+                const storage = getStorage();
+                const pathReference = ref(storage, imgUrl);
+                console.log(pathReference)
+                return pathReference
+                console.log(pathReference)
+            }
         }
         getUsername()
+        getMatiereImage()
     }, [])
-    console.log('lessonData', lessonData)
+
     return (
         <div className='allCard'>
             <div className='cardContainer' onClick={handleClick}>

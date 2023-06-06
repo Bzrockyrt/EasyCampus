@@ -1,7 +1,7 @@
-import { Flex, Input, Select } from '@chakra-ui/react';
-import React, { useState } from "react";
+import { Flex, Input, Select, Skeleton } from '@chakra-ui/react';
+import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { throwError, throwSuccess } from '../utils/alerts';
 
@@ -12,7 +12,9 @@ export default function Lesson() {
     const [duration, setDuration] = useState("");
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
-    const [subject, setSubject] = useState("")
+    const [matiereId, setMatiereId] = useState("")
+    const [matieres, setMatieres] = useState([])
+    const [isMatiereLoading, setIsMatiereLoading] = useState(true)
 
     async function saveLessonToFirestore() {
         if (title) {
@@ -23,8 +25,7 @@ export default function Lesson() {
                     duration,
                     price,
                     description,
-                    subject,
-                    imgUrl: "Economy.jpg",
+                    matiereId,
                     notation: "5"
                 });
             } catch (e) {
@@ -45,9 +46,29 @@ export default function Lesson() {
                 console.log("test err")
                 throwError("Une erreur est survenue lors de la création de votre leçon");
             });
-
     }
-    console.log(subject)
+
+    async function getMatieres() {
+        const querySnapshot = await getDocs(collection(db, "Matieres"));
+        if (querySnapshot) {
+            const matieres = []
+            querySnapshot.docs.forEach((matiereDoc, index) => {
+                let matiere = {}
+                let object = matiereDoc._document.data.value.mapValue.fields
+                let keys = Object.keys(object)
+                keys.forEach((key) => matiere[key] = object[key].stringValue)
+                matiere.id = matiereDoc.id
+                matieres.push(matiere)
+            });
+            setMatieres(matieres)
+            setIsMatiereLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getMatieres()
+    }, [])
+
     return (
         <div className="sign-in-container">
             <form onSubmit={addLesson} className="form-login">
@@ -78,15 +99,15 @@ export default function Lesson() {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         ></Input>
-                        <Select required
-                            type="text"
-                            placeholder="Sélecionner une matière"
-                            value={subject}
-                            onChange={(e) => setSubject(e.target.value)}>
-                            <option value='Mathématiques'>Mathématiques</option>
-                            <option value='Economie'>Economie</option>
-                            <option value='Fançais'>Fançais</option>
-                        </Select>
+                        <Skeleton isLoaded={!isMatiereLoading}>
+                            <Select required
+                                type="text"
+                                placeholder="Sélecionner une matière"
+                                value={matiereId}
+                                onChange={(e) => setMatiereId(e.target.value)}>
+                                {matieres?.map((matiere) => <option key={matiere.id} value={matiere.id}>{matiere.nom}</option>)}
+                            </Select>
+                        </Skeleton>
                     </Flex>
                     <button type="submit" className="btn-sumbit-login">Créer</button>
                 </Flex>

@@ -1,8 +1,8 @@
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
-import { deleteUser, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteUser, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { deleteDoc, doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { auth, db } from '../../firebase';
 import { throwError, throwSuccess } from '../../utils/alerts';
 
@@ -10,24 +10,20 @@ export default function DeleteAccountModal({ targetedUserId, isOpen, onClose }) 
     const [userId, setUserId, isAdmin] = useOutletContext()
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    console.log('auth.currentUser', auth.currentUser)
-    async function getUserData(userId) {
-        let docRef = doc(db, "users", userId);
-        const querySnapshot = await getDoc(docRef);
-        if (querySnapshot) console.log('querySnapshot', querySnapshot)
-    }
 
     async function deleteAccount() {
-        if (userId != targetedUserId) {
-            deleteUser(auth.currentUser).then(async () => {
-                let docRef = doc(db, "users", targetedUserId);
-                await deleteDoc(docRef);
-                throwSuccess('Votre compte a bien été supprimé')
-            }).catch((error) => {
-                throwError('Une erreur est survenue lors de la suppression de votre compte ')
-                console.log(error)
-            });
-        } else if (auth) {
+        // fetch(`http://localhost:5173/deleteUser/:${targetedUserId}`)
+        // if (userId != targetedUserId && isAdmin) {
+        //     deleteUser(auth.currentUser).then(async () => {
+        //         let docRef = doc(db, "users", targetedUserId);
+        //         await deleteDoc(docRef);
+        //         throwSuccess('Votre compte a bien été supprimé')
+        //     }).catch((error) => {
+        //         throwError('Une erreur est survenue lors de la suppression de votre compte ')
+        //         console.log(error)
+        //     });
+        // } else 
+        if (auth) {
             signInWithEmailAndPassword(auth, auth.currentUser.email, password)
                 .then(() => {
                     deleteUser(auth.currentUser).then(async () => {
@@ -51,10 +47,6 @@ export default function DeleteAccountModal({ targetedUserId, isOpen, onClose }) 
                 });
         }
     }
-
-    useEffect(() => {
-        getUserData(targetedUserId)
-    }, [targetedUserId])
 
     return <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

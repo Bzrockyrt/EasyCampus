@@ -19,13 +19,10 @@ export default function Layout() {
             let docRef = doc(db, "users", user.uid);
             const querySnapshot = await getDoc(docRef);
             if (querySnapshot) {
-                console.log('querySnapshot', querySnapshot)
                 setIsAdmin(querySnapshot._document.data.value.mapValue.fields.role.stringValue == 'admin' ? true : false)
             }
         }
-    }
-    );
-    console.log('isAdmin', isAdmin)
+    });
 
     return <Box height='100%'>
         <Navbar userId={userId} setUserId={setUserId} />

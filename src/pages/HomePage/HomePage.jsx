@@ -28,7 +28,7 @@ export default function HomePage() {
         }
         getLessonData()
     }, []);
-    console.log('tabLessonsData', tabLessonsData)
+
     return (
         <div>
             <div>

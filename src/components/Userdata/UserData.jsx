@@ -11,16 +11,18 @@ export default function Userdata({ userId, dataToDisplay, width }) {
     const deleteAccountDisclosure = useDisclosure()
 
     async function getUserData(id) {
-        let docRef = doc(db, "users", id);
-        const querySnapshot = await getDoc(docRef);
-        if (querySnapshot) {
-            let user = {}
-            let object = querySnapshot._document.data.value.mapValue.fields
-            let keys = Object.keys(object)
-            keys.forEach((key) => user[key] = object[key].stringValue)
-            user.id = querySnapshot.id
-            setUserData(user)
-            setIsLoading(false)
+        if (id) {
+            let docRef = doc(db, "users", id);
+            const querySnapshot = await getDoc(docRef);
+            if (querySnapshot) {
+                let user = {}
+                let object = querySnapshot._document.data.value.mapValue.fields
+                let keys = Object.keys(object)
+                keys.forEach((key) => user[key] = object[key].stringValue)
+                user.id = querySnapshot.id
+                setUserData(user)
+                setIsLoading(false)
+            }
         }
     }
 
@@ -47,6 +49,6 @@ export default function Userdata({ userId, dataToDisplay, width }) {
         <Box height={'10%'} display={'flex'} justifyContent={'center'}>
             <Button colorScheme={"red"} onClick={() => deleteAccountDisclosure.onOpen()}>Supprimer ce compte</Button>
         </Box>
-        <DeleteAccountModal userId={userId} isOpen={deleteAccountDisclosure.isOpen} onClose={deleteAccountDisclosure.onClose} />
+        <DeleteAccountModal targetedUserId={userId} isOpen={deleteAccountDisclosure.isOpen} onClose={deleteAccountDisclosure.onClose} />
     </Box>
 }
