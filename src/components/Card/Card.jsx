@@ -23,9 +23,10 @@ export default function Card(props) {
         getUsername()
     }, [])
     console.log('lessonData', lessonData)
+    console.log('lessonDataID', lessonData.id)
     return (
         <div className='allCard'>
-            <div className='cardContainer' onClick={() => navigate('/lesson', { state : { id : 1, name : 'tetetetetetetet'}})}>
+            <div className='cardContainer' onClick={() => navigate('/lesson', { state : { id : lessonData.id, name : lessonData.id}})}>
                 <div>
                     <img src={lessonData.imgUrl} className='cardImage' />
                 </div>

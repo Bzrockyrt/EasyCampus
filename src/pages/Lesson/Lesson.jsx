@@ -1,32 +1,33 @@
+import React, { useState, useEffect } from 'react';
+import { getDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase';
 import {useLocation} from 'react-router-dom';
 
-export default function Lesson() {
-    const location = useLocation();
-    return (
-        <div className='container'>
-            <div className='left-column'>
-                <img data-image="image" src='' alt=''></img>
-            </div>
+export default function Lesson() {  
+  const [docData, setDocData] = useState(null);
+  const location = useLocation();
 
-            <div className='right-column'>
-                <div className='lesson-description'>
-                    {/* Titre de la leçon */}
-                    <h1>Présentation concepts mathématiques</h1>
-                    {/* Catégorie de la leçon */}
-                    <span>Mathématiques</span>
-                    {/* Description de la leçon */}
-                    <p>Durant cette leçon, vous allez apprendre les concepts de bases des mathématiques modernes.</p>
-                </div>
-                <div className='lesson_location'>
+  useEffect(() => {
+    console.log('lessonID',location.state.id)
+    const fetchData = async () => {
+      try {
+        const docRef = doc(db, 'Lessons', location.state.id);
+        const querySnapshot = await getDoc(docRef);
+        const docData = querySnapshot.data();
+        setDocData(docData);
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
-                </div>
-                <div className='lesson-price'>
-                    {/* Prix de la leçon */}
-                    <span>150,00€</span>
-                    {/* Bouton pour ajouter s'inscrire à la leçon */}
-                    <a href="#" class="cart-btn">S'inscrire</a>
-                </div>
-            </div>
-        </div>
-    )
-}
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      {docData && (
+        <p>{docData.title}</p>
+      )}
+    </div>
+  );
+};
