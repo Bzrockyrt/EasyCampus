@@ -20,6 +20,20 @@
         margin-right: auto;
         border-radius: 10px;
     }
+
+    .buttonTableHour{
+        border-radius: 5px;
+        border: 0px;
+        padding: 10px;
+        margin: 0px;
+        height: auto;
+        width: 150px;
+        transition: 0.5s;
+    }
+
+    .buttonTableHour:hover{
+        background-color: #EEEEEE;
+    }
 /* End - Column left */
 
 .right-column {
