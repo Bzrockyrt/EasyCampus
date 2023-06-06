@@ -1,4 +1,5 @@
 .container{
+    width: 80%;
     margin: 0 auto;
     padding: 15px;
     display: flex;
@@ -7,20 +8,17 @@
 /* Start - Columns */
 .left-column {
     width: 65%;
-    position: relative;
+    margin-top: 60px;
+    align-items: center;
+    align-content: center;
 }
 /* Start - Column left */
     .left-column img {
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0;
-        transition: all 0.3s ease;
-    }
-   
-    .left-column img.active {
-        opacity: 1;
+        width: 80%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
     }
 /* End - Column left */
 
@@ -30,17 +28,31 @@
 }
 
 /* Start - Column right */
+    .goback{
+        text-align: right;
+        margin-top: 10px;
+        margin-bottom: 50px;
+    }
+
+    .goback button{
+        text-align: center;
+    }
+        .goback button:hover{
+            border: 0px;
+        }
+
     .lesson-description {
-        border-bottom: 1px solid #E1E8EE;
         margin-bottom: 20px;
     }
 
-    .lesson-description span {
+    .lesson-description .linkcourse {
         font-size: 12px;
         color: #358ED7;
         letter-spacing: 1px;
         text-transform: uppercase;
         text-decoration: none;
+        text-align: left;
+        margin-top: 20px;
     }
 
     .lesson-description h1 {
@@ -48,6 +60,7 @@
         font-size: 52px;
         color: #43484D;
         letter-spacing: -2px;
+        text-align: left;
     }
 
     .lesson-description p {
@@ -55,7 +68,29 @@
         font-weight: 300;
         color: #86939E;
         line-height: 24px;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
+
+    .lesson-localization {
+        margin-bottom: 20px;
+    }
+
+    .lesson-price{
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #E1E8EE;
+        padding-top: 20px;
+    }
+
+        .lesson-price span{
+            color: #111111;
+            font-weight: 700;
+            font-size: 28px;
+            font-style: italic;
+            text-align: center;
+        }
 /* End - Column right */
 
 /* End - Columns */
