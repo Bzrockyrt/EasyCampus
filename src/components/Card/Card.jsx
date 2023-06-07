@@ -38,7 +38,6 @@ export default function Card(props) {
                     const storage = getStorage();
                     if (imgUrl) {
                         getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                            console.log(url)
                             setPathReference(url)
                             setIsLoading(false)
                         }).catch(function (error) {
@@ -56,7 +55,7 @@ export default function Card(props) {
         <div className='allCard'>
             <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
                 <div style={{ height: '200px' }}>
-                    <Skeleton isLoaded={isLoading}><img src={pathReference} className='cardImage' /></Skeleton>
+                    <Skeleton isLoaded={!isLoading}><img src={pathReference} className='cardImage' /></Skeleton>
                 </div>
                 <div className='cardWrapper'>
                     <div className='cardTitle'>
