@@ -25,7 +25,7 @@ export default function SignUpButton({ shouldOpen }) {
     async function saveUserToFirestore(userId) {
         try {
             const ref = doc(db, 'users', userId)
-            await setDoc(ref, { email, nom, prenom, phone })
+            await setDoc(ref, { email, nom, prenom, phone, role: "user" })
         } catch (e) {
             console.log(e)
         }
@@ -36,7 +36,7 @@ export default function SignUpButton({ shouldOpen }) {
             .then((userCredential) => {
                 saveUserToFirestore(userCredential.user.uid)
                 throwSuccess("Votre compte a été créé");
-                onClose
+                onClose()
             })
             .catch((error) => {
                 console.log(error);
@@ -44,11 +44,12 @@ export default function SignUpButton({ shouldOpen }) {
             });
     };
 
-    if (shouldOpen) onOpen
+    if (shouldOpen) onOpen()
 
     return (
         <>
             <Button
+                id='signUpButton'
                 display={{ base: 'none', md: 'inline-flex' }}
                 fontSize={'sm'}
                 fontWeight={600}

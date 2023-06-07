@@ -15,9 +15,12 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "ajax": "^0.0.4",
     "bootstrap": "^5.2.3",
     "firebase": "^9.17.2",
     "flatpickr": "^4.6.13",
+    "firebase-admin": "^11.9.0",
+    "firebase-functions": "^4.4.0",
     "framer-motion": "^10.3.1",
     "i": "^0.3.7",
     "jwt-decode": "^3.1.2",
@@ -29,6 +32,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.9.0",
     "react-toastify": "^9.1.2",
+    "save": "^2.9.0",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {

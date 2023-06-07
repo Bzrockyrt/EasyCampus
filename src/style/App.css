@@ -87,6 +87,8 @@
 .cardImage{
   border-radius: 10px;
   top: 0px;
+  height: 200px;
+  width: 100%;
 }
 
 .cardStarNotation{

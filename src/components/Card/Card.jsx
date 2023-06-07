@@ -2,6 +2,8 @@ import { Card as CardChakra, Skeleton } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import React, { useEffect, useState } from "react";
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import destructureData from '../../utils/destructureData';
 import { useNavigate } from 'react-router-dom';
 
 // <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
@@ -15,20 +17,37 @@ export default function Card(props) {
 
     const { lessonData } = props;
     const [username, setUsername] = useState('')
+    const [pathReference, setPathReference] = useState('')
+
     useEffect(() => {
         const getUsername = async () => {
-            const user = await getDoc(doc(db, "users", lessonData.userID));
-            setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+            if (lessonData.userID) {
+                const user = await getDoc(doc(db, "users", lessonData.userID));
+                setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+            }
+        }
+        const getMatiereImage = async () => {
+            if (lessonData.matiereId) {
+                const matiere = await getDoc(doc(db, "Matieres", lessonData.matiereId));
+                console.log(destructureData(matiere))
+                const imgUrl = destructureData(matiere).imgUrl
+                const storage = getStorage();
+                getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                    setPathReference(url)
+                }).catch(function (error) {
+                    console.log('Error when fetching lessonImage', error)
+                });
+            }
         }
         getUsername()
+        getMatiereImage()
     }, [])
-    console.log('lessonData', lessonData)
-    console.log('lessonDataID', lessonData.id)
+
     return (
         <div className='allCard'>
-            <div className='cardContainer' onClick={() => navigate('/lesson', { state : { id : lessonData.id, name : lessonData.id}})}>
-                <div>
-                    <img src={lessonData.imgUrl} className='cardImage' />
+            <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
+                <div style={{ height: '200px' }}>
+                    <img src={pathReference} className='cardImage' />
                 </div>
                 <div className='cardWrapper'>
                     <div className='cardTitle'>
