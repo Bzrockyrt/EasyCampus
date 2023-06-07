@@ -1,3 +1,20 @@
+.header{
+    margin: auto;
+    align-items: center;
+    margin-right: 20px;
+}
+
+    .header .goback{
+        text-align: right;
+        margin-top: 10px;
+        margin-bottom: 50px;
+    }
+    
+    .header .goback button{
+        text-align: center;
+    }
+    
+
 .container{
     width: 80%;
     margin: 0 auto;
@@ -11,7 +28,7 @@
     width: 65%;
     margin-top: 60px;
     align-items: center;
-    align-content: center;
+    align-content: center; 
 }
 /* Start - Column left */
     .left-column img {
@@ -41,19 +58,6 @@
 }
 
 /* Start - Column right */
-    .goback{
-        text-align: right;
-        margin-top: 10px;
-        margin-bottom: 50px;
-    }
-
-    .goback button{
-        text-align: center;
-    }
-        .goback button:hover{
-            border: 0px;
-        }
-
     .lesson-description {
         margin-bottom: 20px;
     }

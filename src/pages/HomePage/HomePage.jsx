@@ -34,11 +34,6 @@ export default function HomePage() {
     console.log('tabLessonsData', tabLessonsData)
     return (
         <div>
-            <div>
-                <div>
-                    <h6>Mettre dans ce div le filtrage des cards dans le HomePage</h6>
-                </div>
-            </div>
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
                     <div>

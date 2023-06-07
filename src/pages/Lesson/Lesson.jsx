@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { color } from "framer-motion";
+import { throwError, throwSuccess } from "../../utils/alerts";
 
 export default function Lesson() {  
     const [userId, ,] = useOutletContext();
@@ -39,6 +40,9 @@ export default function Lesson() {
     async function reservation(){
         // Mettre ici la logique pour l'inscription à un cours
         /*Créer en base un document réservation avec : 
+            - l'id de l'utilisateur actuel
+            - l'id de la leçon
+            - la date de la leçon
             - */
 
         await addDoc(collection(db, "Reservations"), {
@@ -48,7 +52,11 @@ export default function Lesson() {
 
         });
 
+        throwSuccess("Votre réservation a bien été prise en compte");
+
         courseReservationModal.onClose();
+
+        navigate('/');
     }
 
     useEffect(() => {
