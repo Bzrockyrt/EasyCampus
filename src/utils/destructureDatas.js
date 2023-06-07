@@ -2,7 +2,6 @@ export default function destructureDatas(datas, sortProperty) {
     if (datas && datas.length != 0) {
         let datasHolder = []
         datas.docs.forEach((userDoc, index) => {
-            console.log("userDoc", userDoc)
             let dataHolder = {}
             let object = userDoc._document.data.value.mapValue.fields
             let keys = Object.keys(object)

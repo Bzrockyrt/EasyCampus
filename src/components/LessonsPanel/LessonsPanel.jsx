@@ -38,7 +38,7 @@ export default function LessonsPanel() {
             }
         }
     }
-    console.log('lessons', lessons)
+
     function lessonFormOnClose() {
         lessonForm.onClose()
         setSelectedLesson(null)
