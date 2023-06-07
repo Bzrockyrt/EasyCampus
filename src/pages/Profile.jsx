@@ -27,7 +27,7 @@ export default function Profile() {
           </TabList>
           <TabPanels height={'90%'}>
             <TabPanel height={'100%'} padding={0}>
-              <Userdata userId={userId} dataToDisplay={isAdmin ? ['nom', 'prenom', 'email', 'phone', 'role'] : ['nom', 'prenom', 'email', 'phone']} />
+              <Userdata targetedUserId={userId} dataToDisplay={isAdmin ? ['nom', 'prenom', 'email', 'phone', 'role'] : ['nom', 'prenom', 'email', 'phone']} />
             </TabPanel>
             <TabPanel height={'100%'} padding={0}>
               <LessonsPanel />

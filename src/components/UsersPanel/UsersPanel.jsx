@@ -67,7 +67,7 @@ export default function UsersPanel() {
             <ModalOverlay />
             <ModalContent minHeight={'400px'} display={'flex'}>
                 <ModalBody height={'100%'}>
-                    <Userdata userId={userDetailId} dataToDisplay={['nom', 'prenom', 'email', 'phone', 'role']} width={'400px'} />
+                    <Userdata targetedUserId={userDetailId} dataToDisplay={['nom', 'prenom', 'email', 'phone', 'role']} width={'400px'} />
                 </ModalBody>
             </ModalContent>
         </Modal>

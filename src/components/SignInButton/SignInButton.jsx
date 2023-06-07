@@ -16,7 +16,7 @@ export default function SignInButton({ setUserId }) {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 setUserId(userCredential.user.uid)
-                navigate('/a')
+                navigate('/')
             })
             .catch((error) => {
                 console.log(error);

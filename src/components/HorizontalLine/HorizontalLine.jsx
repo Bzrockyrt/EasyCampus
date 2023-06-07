@@ -1,27 +1,42 @@
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Flex, HStack, Input, Select, Skeleton, Text } from '@chakra-ui/react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { db } from '../../firebase';
-import { throwSuccess } from '../../utils/alerts';
+import { throwError, throwSuccess } from '../../utils/alerts';
+import destructureData from '../../utils/destructureData';
 
-export default function HorizontalLine({ userId, label, value, bgColor }) {
+export default function HorizontalLine({ targetedUserId, label, value, bgColor }) {
+    const [userId, , isAdmin] = useOutletContext()
     const [currentValue, setCurrentValue] = useState(value)
     const [editMode, setEditMode] = useState(false)
-    const [role, setRole] = useState(value)
 
     async function editField() {
-        try {
-            const ref = doc(db, 'users', userId)
-            let toUpdate = {
-                [label]: currentValue,
+        if (targetedUserId) {
+            let user = await getDoc(doc(db, 'users', targetedUserId))
+            if (user) {
+                user = destructureData(user)
+                console.log('user', user)
+                if (userId == targetedUserId || (userId != targetedUserId && user.role != 'admin')) {
+                    try {
+                        const ref = doc(db, 'users', targetedUserId)
+                        let toUpdate = {
+                            [label]: currentValue,
+                        }
+                        console.log(toUpdate)
+                        await updateDoc(ref, toUpdate)
+                        throwSuccess("Ce champ a bien été modifié")
+                        setEditMode(false)
+                    } catch (err) {
+                        console.log(err)
+                    }
+                } else {
+                    setEditMode(false)
+                    setCurrentValue(value)
+                    throwError("Vous n'êtes pas autorisé à modifier cet utilisateur")
+                }
             }
-            await updateDoc(ref, toUpdate)
-            throwSuccess("Ce champ a bien été modifié")
-            setEditMode(false)
-        } catch (err) {
-            console.log(err)
         }
     }
 
@@ -35,7 +50,7 @@ export default function HorizontalLine({ userId, label, value, bgColor }) {
                     {currentValue}
                 </Text> :
                 label == 'role' ?
-                    <Select width={'68%'} value={role} onChange={(e) => setRole(e.target.value)}>
+                    <Select width={'68%'} value={currentValue} onChange={(e) => setCurrentValue(e.target.value)}>
                         <option value='user'>User</option>
                         <option value='admin'>Admin</option>
                     </Select> :

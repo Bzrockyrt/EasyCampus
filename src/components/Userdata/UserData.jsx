@@ -1,11 +1,13 @@
 import { Box, Button, Flex, Skeleton, Text, useDisclosure } from '@chakra-ui/react';
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { db } from '../../firebase';
 import DeleteAccountModal from '../DeleteAccountModal/DeleteAccountModal';
 import HorizontalLine from '../HorizontalLine/HorizontalLine';
 
-export default function Userdata({ userId, dataToDisplay, width }) {
+export default function Userdata({ targetedUserId, dataToDisplay, width }) {
+    const [userId, ,] = useOutletContext()
     const [userData, setUserData] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const deleteAccountDisclosure = useDisclosure()
@@ -27,8 +29,8 @@ export default function Userdata({ userId, dataToDisplay, width }) {
     }
 
     useEffect(() => {
-        getUserData(userId)
-    }, [userId])
+        getUserData(targetedUserId)
+    }, [targetedUserId])
 
     return <Box height={width ? width : '100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
@@ -40,15 +42,18 @@ export default function Userdata({ userId, dataToDisplay, width }) {
             <Skeleton isLoaded={!isLoading}>
                 <Box margin={'0 20%'}>
                     {userData && dataToDisplay.map((key, index) => {
-                        if (userData[key]) return <HorizontalLine key={key} userId={userData.id} label={key} value={userData[key]} bgColor={index % 2 != 0 ? "#dfdfdf" : "#f5f5f5"} />
+                        if (userData[key]) return <HorizontalLine key={key} targetedUserId={userData.id} label={key} value={userData[key]} bgColor={index % 2 != 0 ? "#dfdfdf" : "#f5f5f5"} />
+                        else if (key == 'role') return <HorizontalLine key={key} targetedUserId={userData.id} label={key} value={userData[key]} bgColor={index % 2 != 0 ? "#dfdfdf" : "#f5f5f5"} />
                         else return null
                     })}
                 </Box>
             </Skeleton>
         </Box>
-        <Box height={'10%'} display={'flex'} justifyContent={'center'}>
-            <Button colorScheme={"red"} onClick={() => deleteAccountDisclosure.onOpen()}>Supprimer ce compte</Button>
-        </Box>
-        <DeleteAccountModal targetedUserId={userId} isOpen={deleteAccountDisclosure.isOpen} onClose={deleteAccountDisclosure.onClose} />
+        {userId == targetedUserId && <>
+            <Box height={'10%'} display={'flex'} justifyContent={'center'}>
+                <Button colorScheme={"red"} onClick={() => deleteAccountDisclosure.onOpen()}>Supprimer ce compte</Button>
+            </Box>
+            <DeleteAccountModal targetedUserId={targetedUserId} isOpen={deleteAccountDisclosure.isOpen} onClose={deleteAccountDisclosure.onClose} />
+        </>}
     </Box>
 }
