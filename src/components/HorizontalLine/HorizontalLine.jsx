@@ -1,5 +1,5 @@
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons';
-import { Box, Flex, HStack, Input, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Input, Select, Skeleton, Text } from '@chakra-ui/react';
 import { doc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { throwSuccess } from '../../utils/alerts';
 export default function HorizontalLine({ userId, label, value, bgColor }) {
     const [currentValue, setCurrentValue] = useState(value)
     const [editMode, setEditMode] = useState(false)
+    const [role, setRole] = useState(value)
 
     async function editField() {
         try {
@@ -33,7 +34,12 @@ export default function HorizontalLine({ userId, label, value, bgColor }) {
                 <Text width={'68%'} textAlign={'left'}>
                     {currentValue}
                 </Text> :
-                <Input width={'68%'} value={currentValue} onChange={(e) => setCurrentValue(e.target.value)} />
+                label == 'role' ?
+                    <Select width={'68%'} value={role} onChange={(e) => setRole(e.target.value)}>
+                        <option value='user'>User</option>
+                        <option value='admin'>Admin</option>
+                    </Select> :
+                    <Input width={'68%'} value={currentValue} onChange={(e) => setCurrentValue(e.target.value)} />
             }
         </Flex>
         <Box>

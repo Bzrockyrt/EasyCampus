@@ -2,7 +2,7 @@ import { Card as CardChakra, Skeleton } from '@chakra-ui/react'
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import React, { useEffect, useState } from "react";
-import { getStorage, ref } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import destructureData from '../../utils/destructureData';
 
 // <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
@@ -14,6 +14,8 @@ function handleClick() {
 export default function Card(props) {
     const { lessonData } = props;
     const [username, setUsername] = useState('')
+    const [pathReference, setPathReference] = useState('')
+
     useEffect(() => {
         const getUsername = async () => {
             if (lessonData.userID) {
@@ -27,10 +29,11 @@ export default function Card(props) {
                 console.log(destructureData(matiere))
                 const imgUrl = destructureData(matiere).imgUrl
                 const storage = getStorage();
-                const pathReference = ref(storage, imgUrl);
-                console.log(pathReference)
-                return pathReference
-                console.log(pathReference)
+                getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                    setPathReference(url)
+                }).catch(function (error) {
+                    console.log('Error when fetching lessonImage', error)
+                });
             }
         }
         getUsername()
@@ -41,7 +44,7 @@ export default function Card(props) {
         <div className='allCard'>
             <div className='cardContainer' onClick={handleClick}>
                 <div>
-                    <img src={lessonData.imgUrl} className='cardImage' />
+                    <img src={pathReference} className='cardImage' />
                 </div>
                 <div className='cardWrapper'>
                     <div className='cardTitle'>

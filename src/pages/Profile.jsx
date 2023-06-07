@@ -5,6 +5,7 @@ import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/r
 import UsersPanel from '../components/UsersPanel/UsersPanel';
 import Userdata from '../components/Userdata/UserData';
 import MatieresPanel from '../components/MatieresPanel/MatieresPanel';
+import LessonsPanel from '../components/LessonsPanel/LessonsPanel';
 
 export default function Profile() {
   const [userId, , isAdmin] = useOutletContext()
@@ -16,6 +17,7 @@ export default function Profile() {
         <Tabs height={'100%'}>
           <TabList height={'10%'}>
             <Tab>Profile</Tab>
+            <Tab>Leçons</Tab>
             {isAdmin &&
               <Tab>Utilisateurs</Tab>
             }
@@ -25,7 +27,10 @@ export default function Profile() {
           </TabList>
           <TabPanels height={'90%'}>
             <TabPanel height={'100%'} padding={0}>
-              <Userdata userId={userId} dataToDisplay={['nom', 'prenom', 'email', 'phone']} />
+              <Userdata userId={userId} dataToDisplay={isAdmin ? ['nom', 'prenom', 'email', 'phone', 'role'] : ['nom', 'prenom', 'email', 'phone']} />
+            </TabPanel>
+            <TabPanel height={'100%'} padding={0}>
+              <LessonsPanel />
             </TabPanel>
             {isAdmin &&
               <TabPanel height={'100%'} padding={0}>

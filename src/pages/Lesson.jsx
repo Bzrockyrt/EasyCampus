@@ -1,13 +1,14 @@
-import { Flex, Input, Select, Skeleton } from '@chakra-ui/react';
+import { Button, Flex, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { throwError, throwSuccess } from '../utils/alerts';
+import destructureData from '../utils/destructureData';
 
-export default function Lesson() {
+export default function Lesson({ lessonId, isOpen, onOpen, onClose }) {
     const navigate = useNavigate();
-    const [userId] = useOutletContext();
+    const [userId, ,] = useOutletContext();
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState("");
     const [title, setTitle] = useState("");
@@ -15,37 +16,52 @@ export default function Lesson() {
     const [matiereId, setMatiereId] = useState("")
     const [matieres, setMatieres] = useState([])
     const [isMatiereLoading, setIsMatiereLoading] = useState(true)
+    const [lessonToEdit, setLessonToEdit] = useState(null)
 
-    async function saveLessonToFirestore() {
-        if (title) {
-            try {
-                const ref = addDoc(collection(db, "Lessons"), {
-                    userID: userId,
-                    title,
-                    duration,
-                    price,
-                    description,
-                    matiereId,
-                    notation: "5"
-                });
-            } catch (e) {
-                console.log(e)
-            }
+    function handleOnClose() {
+        onClose()
+        setDescription('')
+        setDuration('')
+        setTitle('')
+        setPrice('')
+        setMatiereId('')
+        setLessonToEdit(null)
+    }
+
+    async function addLesson() {
+        try {
+            await addDoc(collection(db, "Lessons"), {
+                userId,
+                title,
+                duration,
+                price,
+                description,
+                matiereId,
+                notation: "5"
+            });
+            handleOnClose()
+            throwSuccess("La leçon a été créée!");
+        } catch (e) {
+            console.log("Erreur addLesson", e)
+            throwError("Une erreur est survenue lors de la création de votre leçon");
         }
     }
 
-    const addLesson = (e) => {
-        e.preventDefault();
-        saveLessonToFirestore()
-            .then(() => {
-                console.log("test")
-                throwSuccess("Leçon créée!");
-                // should navigate to the lesson page
-            })
-            .catch(() => {
-                console.log("test err")
-                throwError("Une erreur est survenue lors de la création de votre leçon");
-            });
+    async function editLesson() {
+        try {
+            const ref = doc(db, 'Lessons', lessonToEdit.id)
+            let toUpdate = {}
+            if (lessonToEdit?.description != description) toUpdate.description = description
+            if (lessonToEdit?.duration != duration) toUpdate.duration = duration
+            if (lessonToEdit?.title != title) toUpdate.title = title
+            if (lessonToEdit?.price != price) toUpdate.price = price
+            if (lessonToEdit?.matiereId != matiereId) toUpdate.matiereId = matiereId
+            await updateDoc(ref, toUpdate)
+            handleOnClose()
+            throwSuccess("La leçon a bien été modifiée")
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     async function getMatieres() {
@@ -65,53 +81,80 @@ export default function Lesson() {
         }
     }
 
+    async function getLesson(id) {
+        if (id) {
+            let docRef = doc(db, "Lessons", id);
+            const querySnapshot = await getDoc(docRef);
+            const lesson = destructureData(querySnapshot)
+            if (lesson) {
+                setDescription(lesson?.description)
+                setDuration(lesson?.duration)
+                setMatiereId(lesson?.matiereId)
+                setPrice(lesson?.price)
+                setTitle(lesson?.title)
+                setLessonToEdit(lesson)
+            }
+        }
+    }
+
     useEffect(() => {
         getMatieres()
     }, [])
 
+    useEffect(() => {
+        getLesson(lessonId)
+    }, [lessonId])
+
     return (
-        <div className="sign-in-container">
-            <form onSubmit={addLesson} className="form-login">
-                <Flex flexDirection="column" justifyContent={'center'}>
-                    <h1 className="text-login">Créer une leçon</h1>
-                    <Flex flexDirection="column" justifyContent={'center'} gap={"15px"}>
-                        <Input required
-                            type="text"
-                            placeholder="Titre"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        ></Input>
-                        <Input required
-                            type="number"
-                            placeholder="Durée (en min)"
-                            value={duration}
-                            onChange={(e) => setDuration(e.target.value)}
-                        ></Input>
-                        <Input required
-                            type="number"
-                            placeholder="Prix"
-                            value={price}
-                            onChange={(e) => setPrice(e.target.value)}
-                        ></Input>
-                        <Input required
-                            type="text"
-                            placeholder="Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        ></Input>
-                        <Skeleton isLoaded={!isMatiereLoading}>
-                            <Select required
+        <>
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>
+                        <Text>{lessonId ? 'Modifier la leçon ' : 'Créer une leçon'}</Text>
+                    </ModalHeader>
+                    <ModalBody>
+                        <Flex flexDirection="column" justifyContent={'center'} gap={"15px"}>
+                            <Input required
                                 type="text"
-                                placeholder="Sélecionner une matière"
-                                value={matiereId}
-                                onChange={(e) => setMatiereId(e.target.value)}>
-                                {matieres?.map((matiere) => <option key={matiere.id} value={matiere.id}>{matiere.nom}</option>)}
-                            </Select>
-                        </Skeleton>
-                    </Flex>
-                    <button type="submit" className="btn-sumbit-login">Créer</button>
-                </Flex>
-            </form>
-        </div >
+                                placeholder="Titre"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            ></Input>
+                            <Input required
+                                type="number"
+                                placeholder="Durée (en min)"
+                                value={duration}
+                                onChange={(e) => setDuration(e.target.value)}
+                            ></Input>
+                            <Input required
+                                type="number"
+                                placeholder="Prix"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
+                            ></Input>
+                            <Input required
+                                type="text"
+                                placeholder="Description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            ></Input>
+                            <Skeleton isLoaded={!isMatiereLoading}>
+                                <Select required
+                                    type="text"
+                                    placeholder="Sélecionner une matière"
+                                    value={matiereId}
+                                    onChange={(e) => setMatiereId(e.target.value)}>
+                                    {matieres?.map((matiere) => <option key={matiere.id} value={matiere.id}>{matiere.nom}</option>)}
+                                </Select>
+                            </Skeleton>
+                        </Flex>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={() => { lessonId ? editLesson() : addLesson() }}>Créer</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
     )
 }
