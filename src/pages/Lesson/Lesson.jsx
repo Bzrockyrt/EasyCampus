@@ -210,8 +210,8 @@ export default function Lesson() {
                         </Flex>
                     </ModalBody>
                     <ModalFooter>
+                        <Button variant='ghost' marginRight="10px" onClick={courseReservationModal.onClose}>Annuler</Button>
                         <Button colorScheme='blue' onClick={() => reservation()}>Réserver</Button>
-                        <Button variant='ghost' marginLeft="10px" onClick={courseReservationModal.onClose}>Annuler</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
