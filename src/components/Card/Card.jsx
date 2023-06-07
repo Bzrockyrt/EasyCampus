@@ -18,6 +18,7 @@ export default function Card(props) {
     const { lessonData } = props;
     const [username, setUsername] = useState('')
     const [pathReference, setPathReference] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const getUsername = async () => {
@@ -31,16 +32,19 @@ export default function Card(props) {
         const getMatiereImage = async () => {
             if (lessonData.matiereId) {
                 const querySnapshot = await getDoc(doc(db, "Matieres", lessonData.matiereId));
-                console.log(destructureData(matiere))
-                const matiere = destructureData(querySnapshot)
-                const imgUrl = matiere?.imgUrl
-                const storage = getStorage();
-                if (imgUrl) {
-                    getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                        setPathReference(url)
-                    }).catch(function (error) {
-                        console.log('Error when fetching lessonImage', error)
-                    });
+                if (querySnapshot) {
+                    const matiere = destructureData(querySnapshot)
+                    const imgUrl = matiere?.imgUrl
+                    const storage = getStorage();
+                    if (imgUrl) {
+                        getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                            console.log(url)
+                            setPathReference(url)
+                            setIsLoading(false)
+                        }).catch(function (error) {
+                            console.log('Error when fetching lessonImage', error)
+                        });
+                    }
                 }
             }
         }
@@ -52,7 +56,7 @@ export default function Card(props) {
         <div className='allCard'>
             <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
                 <div style={{ height: '200px' }}>
-                    <img src={pathReference} className='cardImage' />
+                    <Skeleton isLoaded={isLoading}><img src={pathReference} className='cardImage' /></Skeleton>
                 </div>
                 <div className='cardWrapper'>
                     <div className='cardTitle'>

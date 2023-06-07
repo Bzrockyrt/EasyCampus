@@ -15,10 +15,8 @@ export default function HomePage() {
         const getLessonData = async () => {
             const querySnapshot = await getDocs(collection(db, "Lessons"));
             const lessons = []
-            console.log(querySnapshot)
             if (querySnapshot) {
                 querySnapshot.docs.forEach(async (lessonDoc, index) => {
-                    console.log(lessonDoc)
                     let lesson = {}
                     let object = lessonDoc._document.data.value.mapValue.fields
                     let keys = Object.keys(object)

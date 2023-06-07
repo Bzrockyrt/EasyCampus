@@ -146,7 +146,7 @@ export default function MatieresPanel() {
                 <ModalHeader>{selectedMatiere ? 'Modifier cette matière' : 'Créer une nouvelle matière'}</ModalHeader>
                 <ModalBody height={'100%'}>
                     <Input placeholder={selectedMatiere ? selectedMatiere.nom : 'Nom de la matière'} marginBottom={'15px'} onChange={(e) => setMatiereName(e.target.value)} />
-                    <Input id='fileInput' accept="image/*" placeholder="Ajouter une image" type="file" onChange={(e) => { setMatiereImage(document.getElementById("fileInput").files[0]), console.log('document.getElementById("fileInput").files[0]', document.getElementById("fileInput").files[0]) }} />
+                    <Input id='fileInput' accept="image/*" placeholder="Ajouter une image" type="file" onChange={(e) => setMatiereImage(document.getElementById("fileInput").files[0])} />
                 </ModalBody>
                 <ModalFooter justifyContent={'space-evenly'}>
                     <Button onClick={() => handleClose()}>

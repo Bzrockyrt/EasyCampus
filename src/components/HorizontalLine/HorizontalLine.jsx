@@ -17,7 +17,6 @@ export default function HorizontalLine({ targetedUserId, label, value, bgColor }
             let user = await getDoc(doc(db, 'users', targetedUserId))
             if (user) {
                 user = destructureData(user)
-                console.log('user', user)
                 if (userId == targetedUserId || (userId != targetedUserId && user.role != 'admin')) {
                     try {
                         const ref = doc(db, 'users', targetedUserId)

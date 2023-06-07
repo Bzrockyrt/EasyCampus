@@ -11,15 +11,13 @@ export default function LessonReservations({ lessonId, isOpen, onOpen, onClose }
     const [, , isAdmin] = useOutletContext()
     const [reservations, setReservations] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    console.log('lessonId', lessonId)
+
     async function getReservations() {
         if (lessonId) {
             const q = query(collection(db, "Reservations"), where("lessonId", "==", lessonId));
             const querySnapshot = await getDocs(q);
-            console.log('querySnapshot', querySnapshot)
             if (querySnapshot) {
                 const reservations = destructureDatas(querySnapshot)
-                console.log('reservations', reservations)
                 setReservations(reservations)
                 setIsLoading(false)
             }
