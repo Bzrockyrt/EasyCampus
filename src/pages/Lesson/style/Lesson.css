@@ -1,11 +1,11 @@
 .header{
     margin: auto;
     align-items: center;
-    margin-right: 20px;
+    margin-left: 20px;
 }
 
     .header .goback{
-        text-align: right;
+        text-align: left;
         margin-top: 10px;
         margin-bottom: 50px;
     }
