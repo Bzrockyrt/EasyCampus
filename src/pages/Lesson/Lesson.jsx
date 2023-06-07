@@ -1,25 +1,53 @@
 import { Button, Flex, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, Text, useDisclosure, Link,
-         Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, background, } from "@chakra-ui/react";
+         Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, background, Input } from "@chakra-ui/react";
 import { PhoneIcon, AddIcon, WarningIcon, ArrowLeftIcon } from '@chakra-ui/icons';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Input } from '@chakra-ui/react';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { color } from "framer-motion";
 
 export default function Lesson() {  
+    const [userId, ,] = useOutletContext();
     const [docData, setDocData] = useState(null);
     const location = useLocation();
     const courseTypeModal = useDisclosure();
     const courseReservationModal = useDisclosure();
     const navigate = useNavigate();
+    const now = new Date();
+
+    // let dateTimePicker = document.getElementById("dateTimePicker")
+    // if(dateTimePicker){
+    //     dateTimePicker.flatpickr({
+    //         enableTime: true,
+    //         noCalendar: true,
+    //         dateFormat: "H:i",
+    //         time_24hr: true,
+    //         locale: "fr",
+    //         theme: "light",
+    //         minuteIncrement: 15,
+    //     });
+    // }
 
     let selectedHour = "";
+    let selectedDateTime = new Date();
 
-    function register(){
+    function dateTimeChanged(value){
+        selectedDateTime = value;
+    }
+
+    async function reservation(){
         // Mettre ici la logique pour l'inscription à un cours
-        console.log("bouton : ", selectedHour);
+        /*Créer en base un document réservation avec : 
+            - */
+
+        await addDoc(collection(db, "Reservations"), {
+            userId,
+            lessonId : location.state.id,
+            date : selectedDateTime,
+
+        });
+
         courseReservationModal.onClose();
     }
 
@@ -60,18 +88,21 @@ export default function Lesson() {
   }, []);*/
             
   return (
-    <div className='container'>
-        <div className='left-column'>
-            <img src='Economy.jpg' alt=''></img>
-        </div>
-            
-            <div className='right-column'>
+    <div>
+        <div className="header">
                 <div className='goback'>
                     <button onClick={() => navigate('/')}>
                         <ArrowLeftIcon textAlign="center"/>
                         Retour
                     </button>                
                 </div>
+        </div>
+        <div className="container">
+        <div className='left-column'>
+            <img src='Economy.jpg' alt=''></img>
+        </div>
+            
+            <div className='right-column'>
 
                 <div className='lesson-description'>
                     {/* Titre de la leçon */}
@@ -121,7 +152,7 @@ export default function Lesson() {
                     <ModalBody width="100%">
                         <Flex flexDirection="column" justifyContent={'center'}>
                             <Text textAlign="center">Veuillez choisir un horaire pour votre cours</Text>
-                            <TableContainer width="100%">
+                            {/* <TableContainer width="100%">
                                 <Table variant='simple' width="100%">
                                     <Thead>
                                         <Tr>
@@ -163,23 +194,20 @@ export default function Lesson() {
 
                                     </Tfoot>
                                 </Table>
-                            </TableContainer>
+                            </TableContainer> */}
+                            <Input placeholder="Select Date and Time" size="md" type="datetime-local" onChange={(e) => dateTimeChanged(e.target.value)}
+                                    min={now}/>
                             
                             <Text textAlign="center" marginTop="20px" fontStyle="italic">En vous inscrivant à ce cours, vous serez mis en relation avec l'étudiant le proposant</Text>
                         </Flex>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' onClick={() => register()}>Réserver</Button>
+                        <Button colorScheme='blue' onClick={() => reservation()}>Réserver</Button>
                         <Button variant='ghost' marginLeft="10px" onClick={courseReservationModal.onClose}>Annuler</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
-            <div>
-      {docData && (
-        <p>{docData.title}</p>
-      )}
-    </div>
+        </div>
         </div>
     )
 }

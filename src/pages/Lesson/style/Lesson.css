@@ -3,6 +3,7 @@
     margin: 0 auto;
     padding: 15px;
     display: flex;
+    align-items: center;
 }
 
 /* Start - Columns */
@@ -16,8 +17,6 @@
     .left-column img {
         width: 80%;
         display: block;
-        margin-left: auto;
-        margin-right: auto;
         border-radius: 10px;
     }
 
