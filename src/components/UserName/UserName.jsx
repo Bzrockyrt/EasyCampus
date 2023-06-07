@@ -12,7 +12,7 @@ export default function UserName({ userId }) {
         if (userId) {
             const querySnapshot = await getDoc(doc(db, "users", userId))
             if (querySnapshot) {
-                const { nom, prenom } = destructureData(querySnapshot)
+                const { nom = 'User', prenom = 'Unknown' } = destructureData(querySnapshot)
                 setUserName(prenom + ' ' + nom)
             }
         }

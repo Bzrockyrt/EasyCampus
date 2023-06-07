@@ -107,7 +107,7 @@ export default function CreateLesson({ lessonId, isOpen, onOpen, onClose }) {
 
     return (
         <>
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={isOpen} onClose={() => handleOnClose()}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>
