@@ -15,12 +15,15 @@ export default function HomePage() {
         const getLessonData = async () => {
             const querySnapshot = await getDocs(collection(db, "Lessons"));
             const lessons = []
+            console.log(querySnapshot)
             if (querySnapshot) {
-                querySnapshot._snapshot.docChanges.forEach(async (lessonDoc, index) => {
+                querySnapshot.docs.forEach(async (lessonDoc, index) => {
+                    console.log(lessonDoc)
                     let lesson = {}
-                    let object = lessonDoc.doc.data.value.mapValue.fields
+                    let object = lessonDoc._document.data.value.mapValue.fields
                     let keys = Object.keys(object)
                     keys.forEach((key) => lesson[key] = object[key].stringValue)
+                    lesson.id = lessonDoc.id
                     lessons.push(lesson)
                 });
             }
@@ -31,11 +34,6 @@ export default function HomePage() {
     console.log('tabLessonsData', tabLessonsData)
     return (
         <div>
-            <div>
-                <div>
-                    <h6>Mettre dans ce div le filtrage des cards dans le HomePage</h6>
-                </div>
-            </div>
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
                     <div>

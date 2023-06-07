@@ -1,0 +1,139 @@
+.header{
+    margin: auto;
+    align-items: center;
+    margin-right: 20px;
+}
+
+    .header .goback{
+        text-align: right;
+        margin-top: 10px;
+        margin-bottom: 50px;
+    }
+    
+    .header .goback button{
+        text-align: center;
+    }
+    
+
+.container{
+    width: 80%;
+    margin: 0 auto;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Start - Columns */
+.left-column {
+    width: 65%;
+    margin-top: 60px;
+    align-items: center;
+    align-content: center; 
+}
+/* Start - Column left */
+    .left-column img {
+        width: 80%;
+        display: block;
+        border-radius: 10px;
+    }
+
+    .buttonTableHour{
+        border-radius: 5px;
+        border: 0px;
+        padding: 10px;
+        margin: 0px;
+        height: auto;
+        width: 150px;
+        transition: 0.5s;
+    }
+
+    .buttonTableHour:hover{
+        background-color: #EEEEEE;
+    }
+/* End - Column left */
+
+.right-column {
+    width: 35%;
+    margin-top: 60px;
+}
+
+/* Start - Column right */
+    .lesson-description {
+        margin-bottom: 20px;
+    }
+
+    .lesson-description .linkcourse {
+        font-size: 12px;
+        color: #358ED7;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: none;
+        text-align: left;
+        margin-top: 20px;
+    }
+
+    .lesson-description h1 {
+        font-weight: 300;
+        font-size: 52px;
+        color: #43484D;
+        letter-spacing: -2px;
+        text-align: left;
+    }
+
+    .lesson-description p {
+        font-size: 16px;
+        font-weight: 300;
+        color: #86939E;
+        line-height: 24px;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .lesson-localization {
+        margin-bottom: 20px;
+    }
+
+    .lesson-price{
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #E1E8EE;
+        padding-top: 20px;
+    }
+
+        .lesson-price span{
+            color: #111111;
+            font-weight: 700;
+            font-size: 28px;
+            font-style: italic;
+            text-align: center;
+        }
+/* End - Column right */
+
+/* End - Columns */
+
+@media (max-width: 940px){
+    .container{
+        flex-direction: column;
+        margin-top: 60px;
+    }
+ 
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+ 
+    .left-column img {
+        width: 300px;
+        right: 0;
+        top: -65px;
+        left: initial;
+    }
+}
+
+@media (max-width: 535px) {
+    .left-column img {
+        width: 220px;
+        top: -85px;
+    }
+  }
