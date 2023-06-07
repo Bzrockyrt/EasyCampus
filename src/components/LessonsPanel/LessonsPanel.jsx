@@ -1,13 +1,11 @@
-import { AddIcon, EditIcon, SearchIcon } from '@chakra-ui/icons';
-import { Box, Flex, IconButton, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
-import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
+import { AddIcon, EditIcon } from '@chakra-ui/icons';
+import { Box, Flex, IconButton, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { collection, getDocs, } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { db } from '../../firebase';
-import Lesson from '../../pages/Lesson';
-import destructureData from '../../utils/destructureData';
+import CreateLesson from '../../pages/CreateLesson';
 import destructureDatas from '../../utils/destructureDatas';
 import MatiereName from '../MatiereName/MatiereName';
-import Userdata from '../Userdata/UserData';
 
 export default function LessonsPanel() {
     const [lessons, setLessons] = useState([])
@@ -73,6 +71,6 @@ export default function LessonsPanel() {
             </Skeleton>
         </Box>
 
-        <Lesson lessonId={selectedLesson?.id} isOpen={isOpen} onOpen={onOpen} onClose={() => modalOnClose()} />
+        <CreateLesson lessonId={selectedLesson?.id} isOpen={isOpen} onOpen={onOpen} onClose={() => modalOnClose()} />
     </Box>
 }

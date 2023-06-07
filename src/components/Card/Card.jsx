@@ -45,8 +45,8 @@ export default function Card(props) {
 
     return (
         <div className='allCard'>
-            <div className='cardContainer' onClick={() => navigate('/lesson', { state : { id : lessonData.id, name : lessonData.id}})}>
-                <div>
+            <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
+                <div style={{ height: '200px' }}>
                     <img src={pathReference} className='cardImage' />
                 </div>
                 <div className='cardWrapper'>

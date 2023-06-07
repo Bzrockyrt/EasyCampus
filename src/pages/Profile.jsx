@@ -13,7 +13,7 @@ export default function Profile() {
 
   return (
     <Flex className='backgroundImage' height={'calc(100vh - 60px)'} width={'100%'} justifyContent={'center'} paddingTop={'10vh'}>
-      <Box className='sign-in-css' minWidth={'600px'} width={'50%'} height={'75%'}>
+      <Box className='sign-in-css' minWidth={'600px'} width={'60%'} height={'75%'}>
         <Tabs height={'100%'}>
           <TabList height={'10%'}>
             <Tab>Profile</Tab>

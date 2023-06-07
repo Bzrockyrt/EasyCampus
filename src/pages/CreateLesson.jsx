@@ -6,11 +6,7 @@ import { db } from "../firebase";
 import { throwError, throwSuccess } from '../utils/alerts';
 import destructureData from '../utils/destructureData';
 
-<<<<<<< HEAD:src/pages/CreateLesson.jsx
-export default function CreateLesson() {
-=======
-export default function Lesson({ lessonId, isOpen, onOpen, onClose }) {
->>>>>>> profile-page:src/pages/Lesson.jsx
+export default function CreateLesson({ lessonId, isOpen, onOpen, onClose }) {
     const navigate = useNavigate();
     const [userId, ,] = useOutletContext();
     const [description, setDescription] = useState("");
@@ -154,8 +150,9 @@ export default function Lesson({ lessonId, isOpen, onOpen, onClose }) {
                             </Skeleton>
                         </Flex>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button onClick={() => { lessonId ? editLesson() : addLesson() }}>Créer</Button>
+                    <ModalFooter justifyContent={'space-evenly'}>
+                        <Button onClick={() => handleOnClose()}>Annuler</Button>
+                        <Button colorScheme={'blue'} onClick={() => { lessonId ? editLesson() : addLesson() }}>Créer</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
