@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,7 @@ export default function SignInButton({ setUserId }) {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const signIn = (e) => {
-        e.preventDefault();
+    const signIn = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 setUserId(userCredential.user.uid)
@@ -23,6 +22,11 @@ export default function SignInButton({ setUserId }) {
                 console.log(error);
             });
     };
+
+    function handleOnClick() {
+        onClose()
+        document.getElementById('signUpButton').click()
+    }
 
     return (
         <>
@@ -60,6 +64,7 @@ export default function SignInButton({ setUserId }) {
                                 size='md'
                                 borderColor={"gray"}
                                 required />
+                            <Flex marginTop={'15px'}>Pas de compte?<a style={{ marginLeft: '5px' }} onClick={() => handleOnClick()}>Créez-en un ici!</a></Flex>
                         </Flex>
                     </ModalBody>
                     <ModalFooter>

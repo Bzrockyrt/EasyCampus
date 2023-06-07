@@ -5,7 +5,6 @@ import App from './pages/App'
 import './style/index.css'
 import Profile from './pages/Profile'
 import { ChakraProvider } from "@chakra-ui/react";
-import EditUser from './pages/EditUser'
 import SheerId from "./pages/SheerId";
 import Layout from "./pages/Layout";
 import CreateLesson from './pages/CreateLesson';
@@ -18,10 +17,6 @@ const router = createBrowserRouter([
     children: [{
       path: "/",
       element: <HomePage />,
-    },
-    {
-      path: "/edit",
-      element: <EditUser />,
     },
     {
       path: "/profile",
