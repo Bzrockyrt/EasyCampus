@@ -24,7 +24,6 @@ export default function HorizontalLine({ targetedUserId, label, value, bgColor }
                         let toUpdate = {
                             [label]: currentValue,
                         }
-                        console.log(toUpdate)
                         await updateDoc(ref, toUpdate)
                         throwSuccess("Ce champ a bien été modifié")
                         setEditMode(false)

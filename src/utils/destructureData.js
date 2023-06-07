@@ -1,5 +1,5 @@
 export default function destructureData(data) {
-    if (data) {
+    if (data._document) {
         let dataHolder = {}
         let object = data._document.data.value.mapValue.fields
         let keys = Object.keys(object)

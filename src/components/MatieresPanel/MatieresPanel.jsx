@@ -41,6 +41,7 @@ export default function MatieresPanel() {
     }
 
     async function createMatiere(matiereToEdit) {
+        const storageRef = ref(storage, matiereImage?.name);
         if (matiereToEdit) {
             let toUpdate = {}
             try {
@@ -48,10 +49,9 @@ export default function MatieresPanel() {
                 if (matiereImage) {
                     toUpdate.imgUrl = matiereImage?.name
                     try {
-                        const storageRef = ref(storage, matiereImage?.name);
                         uploadBytes(storageRef, matiereImage)
                     } catch (e) {
-                        console.log(e)
+                        console.log("image not uploaded", e)
                     }
                 }
                 const ref = doc(db, 'Matieres', matiereToEdit.id)
@@ -65,10 +65,9 @@ export default function MatieresPanel() {
         } else if (matiereName && matiereImage) {
             try {
                 try {
-                    const storageRef = ref(storage, matiereImage?.name);
                     uploadBytes(storageRef, matiereImage)
                 } catch (e) {
-                    console.log(e)
+                    console.log("image not uploaded", e)
                 }
                 addDoc(collection(db, "Matieres"), {
                     userID: userId,
@@ -87,7 +86,7 @@ export default function MatieresPanel() {
     async function deleteMatiere(matiereId) {
         try {
             await deleteDoc(doc(db, "Matieres", matiereId))
-            throwSuccess('La matière a été supprimé')
+            throwSuccess('La matière a été supprimée')
             getMatieres()
         } catch {
             throwError('Une erreur est survenue lors de la suppression de la matière')

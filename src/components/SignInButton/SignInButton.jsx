@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -45,30 +45,29 @@ export default function SignInButton({ setUserId }) {
                         <Text>Se connecter</Text>
                     </ModalHeader>
                     <ModalBody>
-                        <Flex flexDirection="column" justifyContent={'center'}>
-
-                            <Input className="champs-login"
-                                placeholder='Enter your email'
+                        <FormControl>
+                            <FormLabel>Adresse email</FormLabel>
+                            <Input placeholder='Email'
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 size='md'
                                 borderColor={"gray"}
-                                required />
-
-                            <Input className="champs-login"
-                                placeholder='Enter your password'
+                                required
+                                marginBottom={'25px'} />
+                            <FormLabel>Mot de passe</FormLabel>
+                            <Input placeholder='Mot de passe'
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 size='md'
                                 borderColor={"gray"}
                                 required />
-                            <Flex marginTop={'15px'}>Pas de compte?<a style={{ marginLeft: '5px' }} onClick={() => handleOnClick()}>Créez-en un ici!</a></Flex>
-                        </Flex>
+                        </FormControl>
+                        <Flex marginTop={'15px'}>Pas de compte?<a style={{ marginLeft: '5px' }} onClick={() => handleOnClick()}>Créez-en un ici!</a></Flex>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={() => signIn()}>Connecter</Button>
+                        <Button colorScheme={'blue'} onClick={() => signIn()}>Connecter</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

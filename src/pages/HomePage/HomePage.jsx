@@ -1,4 +1,4 @@
-import { InputGroup, Skeleton, Stack } from '@chakra-ui/react';
+import { Flex, InputGroup, Skeleton, Stack } from '@chakra-ui/react';
 import React, { useEffect, useState, Component } from 'react'
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
@@ -36,8 +36,7 @@ export default function HomePage() {
         <div>
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
-                    <div>
-                        <h1>Responsive Cards</h1>
+                    <Flex marginTop={'25px'}>
                         <div className="cards">
                             {
                                 tabLessonsData && tabLessonsData.map((card, i) => {
@@ -45,7 +44,7 @@ export default function HomePage() {
                                 })
                             }
                         </div>
-                    </div>
+                    </Flex>
                 </div>
             </Skeleton>
         </div>

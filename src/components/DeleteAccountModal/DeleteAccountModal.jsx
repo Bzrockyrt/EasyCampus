@@ -52,10 +52,10 @@ export default function DeleteAccountModal({ targetedUserId, isOpen, onClose }) 
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>Êtes-vous sûr(e) de vouloir supprimer votre compte?</ModalHeader>
-            {isAdmin && <ModalBody>
+            <ModalBody>
                 <Text fontStyle={'italic'} marginBottom={'5px'}>Afin de valider la suppression du compte, veuillez renseigner votre mot de passe :</Text>
                 <Input type={'password'} placeholder='Mot de passe' onChange={(e) => setPassword(e.target.value)} />
-            </ModalBody>}
+            </ModalBody>
             <ModalFooter justifyContent={'space-evenly'}>
                 <Button onClick={() => onClose()}>
                     Annuler

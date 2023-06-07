@@ -99,7 +99,7 @@ export default function CreateLesson({ lessonId, isOpen, onOpen, onClose }) {
 
     useEffect(() => {
         getMatieres()
-    }, [])
+    }, [lessonId])
 
     useEffect(() => {
         getLesson(lessonId)

@@ -23,20 +23,25 @@ export default function Card(props) {
         const getUsername = async () => {
             if (lessonData.userID) {
                 const user = await getDoc(doc(db, "users", lessonData.userID));
-                setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+                if (user._document) {
+                    setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+                }
             }
         }
         const getMatiereImage = async () => {
             if (lessonData.matiereId) {
-                const matiere = await getDoc(doc(db, "Matieres", lessonData.matiereId));
+                const querySnapshot = await getDoc(doc(db, "Matieres", lessonData.matiereId));
                 console.log(destructureData(matiere))
-                const imgUrl = destructureData(matiere).imgUrl
+                const matiere = destructureData(querySnapshot)
+                const imgUrl = matiere?.imgUrl
                 const storage = getStorage();
-                getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                    setPathReference(url)
-                }).catch(function (error) {
-                    console.log('Error when fetching lessonImage', error)
-                });
+                if (imgUrl) {
+                    getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                        setPathReference(url)
+                    }).catch(function (error) {
+                        console.log('Error when fetching lessonImage', error)
+                    });
+                }
             }
         }
         getUsername()
