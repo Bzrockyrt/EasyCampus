@@ -13,6 +13,7 @@ export default function HomePage() {
     const [tabLessonsData, setTabLessonsData] = useState([]);
     const [tabMatieresData, setTabMatieresData] = useState([]);
     const [filterTextValue, setfilterTextValue] = useState('all');
+    const [filteredLessons, setFilteredLessons] = useState([]);
 
     useEffect(() => {
         const getLessonData = async () => {
@@ -49,32 +50,38 @@ export default function HomePage() {
         getMatiereData();
     }, []);
 
-    let filteredLessonList = tabLessonsData.filter((lesson) => {
-        if(filterTextValue === 'physic'){
-            return lesson.matiereId === (tabMatieresData.id === "Physique");
-        }
-        else if(filterTextValue === 'french'){
-            return lesson.matiereId.nom === "Français";
-        }
-        else{
-            return lesson;
-        }
-    });
+    useEffect(() => {
+        setFilteredLessons(tabLessonsData.filter((lesson) => {
+            if(filterTextValue === 'all')
+                return true;
+            else{
+                return lesson.matiereId === filterTextValue; 
+            }
+        }));
+    }, [tabLessonsData, filterTextValue]);
+
+    // let filteredLessonList = tabLessonsData.filter((lesson) => {
+    //     if(filterTextValue === 'all')
+    //         return true;
+    //     else{
+    //         return lesson.matiereId === filterTextValue; 
+    //     }
+    // });
 
     function onFilterValueSelected(filterValue){
         console.log(filterValue);
         setfilterTextValue(filterValue);
     }
 
-    return (
+    return ( 
         <div>
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
-                    <FilterLesson filterValueSelected={onFilterValueSelected}></FilterLesson>
+                    <FilterLesson filterValueSelected={onFilterValueSelected} tabMatieresData={tabMatieresData}></FilterLesson>
                     <Flex marginTop={'25px'}>
                         <div className="cards">
                             {
-                                filteredLessonList && filteredLessonList.map((card, i) => {
+                                filteredLessons && filteredLessons.map((card, i) => {
                                     return <Card key={i} lessonData={card} />
                                 })
                             }

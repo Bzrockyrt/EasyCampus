@@ -23,7 +23,7 @@ export default function FilterLesson(props){
             } 
             setTabLessonsData(lessons)
         }
-        getLessonPriceRangeData()
+        getLessonPriceRangeData();
     }, []);
 
     function onFilterLessonChanged(event){
@@ -39,9 +39,15 @@ export default function FilterLesson(props){
         <div className="filterLesson-container">
             <select name='filterLesson-Lessontype' onChange={onFilterLessonChanged}>
                 <option selected disabled>Type de cours</option>
-                <option value={"all"}>Tous</option>
+                <option value={'all'}>Tous</option>
+                    {
+                        props.tabMatieresData && props.tabMatieresData.map((matiere, i) => {
+                            return <option value={matiere.id}>{matiere.nom}</option>
+                        })
+                    }
+                {/* <option value={"all"}>Tous</option>
                 <option value={"physic"}>Physique</option>
-                <option value={"french"}>Français</option>
+                <option value={"french"}>Français</option> */}
             </select>
             <p>Prix :</p>
             <RangeSlider defaultValue={[120, 180]} min={0} max={200} step={1} onChange={(e) => rangeSliderValueChanged(e.target.min, e.target.max)}>
