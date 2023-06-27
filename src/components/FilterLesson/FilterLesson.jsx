@@ -1,4 +1,4 @@
-import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, } from '@chakra-ui/react';
+import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, useRangeSlider } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
 export default function FilterLesson(props){
