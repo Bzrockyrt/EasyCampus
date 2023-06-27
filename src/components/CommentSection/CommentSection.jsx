@@ -1,5 +1,5 @@
-import { Box, Button, Flex, Icon, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { Box, Button, Divider, Flex, Icon, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { db } from '../../firebase';
@@ -11,7 +11,7 @@ import destructureDatas from '../../utils/destructureDatas';
 import { useOutletContext } from 'react-router-dom';
 
 
-export default function CommentSection() {
+export default function CommentSection({ lessonId }) {
     const [userId, ,] = useOutletContext()
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [comments, setComments] = useState([])
@@ -19,7 +19,7 @@ export default function CommentSection() {
     const [note, setNote] = useState(0)
 
     const getCommentData = async () => {
-        const querySnapshot = await getDocs(collection(db, "Comments"));
+        const querySnapshot = await getDocs(query(collection(db, "Comments"), where('lessonId', '==', lessonId)));
         const comments = destructureDatas(querySnapshot, 'creationDate')
         setComments(comments)
     }
@@ -30,18 +30,27 @@ export default function CommentSection() {
 
     async function handleOnSave() {
         try {
+            let dateCreated = new Date().toLocaleDateString('fr')
             await addDoc(collection(db, "Comments"), {
                 userId,
                 notation: note,
                 comment: commentToAdd,
+                dateCreated,
+                lessonId
             });
             throwSuccess("Le commentaire a été créée!");
             getCommentData()
-            onClose()
+            handleOnClose()
         } catch (e) {
             console.log("Erreur addComment", e)
             throwError("Une erreur est survenue lors de la création de votre commentaire");
         }
+    }
+
+    function handleOnClose() {
+        setNote(0)
+        setCommentToAdd('')
+        onClose()
     }
 
     return <Box margin={'200px 20% 0'}>
@@ -52,7 +61,7 @@ export default function CommentSection() {
             </Button>
         </Flex>
         {comments.length > 0 ?
-            comments.map((comment) => <Comment key={comment.id} comment={comment} />) :
+            comments.map((comment) => <Box key={comment.id}><Comment comment={comment} /><Divider marginTop={'5px'} /></Box>) :
             <Text fontSize={'12px'} fontStyle={'italic'} marginTop={'25px'}>Cet espace commentaire est vide 🙁</Text>
         }
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -75,7 +84,7 @@ export default function CommentSection() {
                     </Flex>
                 </ModalBody>
                 <ModalFooter flexDirection={'row'} justifyContent={'space-evenly'}>
-                    <Button fontSize={'sm'} fontWeight={600} onClick={onClose} colorScheme="gray" border="0px">
+                    <Button fontSize={'sm'} fontWeight={600} onClick={() => handleOnClose()} colorScheme="gray" border="0px">
                         Annuler
                     </Button>
                     <Button fontSize={'sm'} fontWeight={600} onClick={() => handleOnSave()} colorScheme="blue" border="0px">

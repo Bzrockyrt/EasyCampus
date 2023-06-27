@@ -21,7 +21,6 @@ export default function Comment({ comment }) {
         getUsername()
     }, [comment])
 
-    console.log(comment)
     return <Box>
         <Flex flexDirection={"column"} marginTop={"25px"}>
             <Flex flexDirection={"row"} justifyContent={'space-between'} alignItems={'center'}>
@@ -31,8 +30,8 @@ export default function Comment({ comment }) {
                     {comment.notation}
                 </div>
             </Flex>
-            <Text fontSize={'14px'} fontWeight={500} marginTop={"10px"}>{comment.comment}</Text>
-            <Text fontSize={'11px'} fontStyle={'italic'} textAlign={'right'}>{comment.creationdate}</Text>
+            <Text fontSize={'14px'} fontWeight={500} marginTop={"10px"} textAlign={'left'}>{comment.comment}</Text>
+            <Text fontSize={'11px'} fontStyle={'italic'} textAlign={'right'}>{comment.dateCreated}</Text>
         </Flex>
     </Box>
 }

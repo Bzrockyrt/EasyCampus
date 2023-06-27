@@ -5,6 +5,7 @@ export default function destructureDatas(datas, sortProperty) {
             let dataHolder = {}
             let object = userDoc._document.data.value.mapValue.fields
             let keys = Object.keys(object)
+            console.log('object', object)
             keys.forEach((key) => {
                 if (object[key].arrayValue) {
                     dataHolder[key] = object[key].arrayValue.values?.map((value) => value.stringValue)
@@ -14,6 +15,9 @@ export default function destructureDatas(datas, sortProperty) {
                 }
                 if (object[key].stringValue) {
                     dataHolder[key] = object[key].stringValue
+                }
+                if (object[key].timestampValue) {
+                    dataHolder[key] = object[key].timestampValue
                 }
             })
             dataHolder.id = userDoc.id
