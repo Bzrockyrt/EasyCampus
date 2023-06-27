@@ -23,15 +23,15 @@ export default function Comment({ comment }) {
 
     console.log(comment)
     return <Box>
-        <Flex flexDirection={"column"}>
-            <Flex flexDirection={"row"} justifyContent={'space-between'}>
+        <Flex flexDirection={"column"} marginTop={"25px"}>
+            <Flex flexDirection={"row"} justifyContent={'space-between'} alignItems={'center'}>
                 <Text fontSize={'18px'} fontWeight={600}>{username}</Text>
-                <div className='cardNotation'>
+                <div className='cardNotation' style={{}}>
                     <img src='star.png' className='cardStarNotation' />
                     {comment.notation}
                 </div>
             </Flex>
-            <Text fontSize={'14px'} fontWeight={500}>{comment.comment}</Text>
+            <Text fontSize={'14px'} fontWeight={500} marginTop={"10px"}>{comment.comment}</Text>
             <Text fontSize={'11px'} fontStyle={'italic'} textAlign={'right'}>{comment.creationdate}</Text>
         </Flex>
     </Box>
