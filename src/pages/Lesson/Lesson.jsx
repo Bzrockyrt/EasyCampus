@@ -58,7 +58,7 @@ export default function Lesson() {
                 console.log(e);
             }
         };
-        
+
         const getMatiereImage = async () => {
             if (docData.matiereId) {
                 const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
@@ -124,7 +124,7 @@ export default function Lesson() {
                         </Button>
                     </div>
                 </div>
-            <CommentSection />
+                <CommentSection />
                 <Modal isOpen={courseTypeModal.isOpen} onClose={courseTypeModal.onClose}>
                     <ModalOverlay />
                     <ModalContent>
@@ -153,7 +153,7 @@ export default function Lesson() {
                             <Flex flexDirection="column" justifyContent={'center'}>
                                 <Text textAlign="center">Veuillez choisir un horaire pour votre cours</Text>
                                 <Input placeholder="Select Date and Time" size="md" type="datetime-local" onChange={(e) => dateTimeChanged(e.target.value)}
-                                    min={now} width={'250px'} alignSelf={'center'} marginTop={'10px'}/>
+                                    min={now} width={'250px'} alignSelf={'center'} marginTop={'10px'} />
 
                                 <Text textAlign="center" marginTop="20px" fontStyle="italic">En vous inscrivant à ce cours, vous serez mis en relation avec l'étudiant le proposant</Text>
                             </Flex>
