@@ -66,12 +66,12 @@ export default function HomePage() {
             }
             return lesson.favorisedBy?.includes(userId)
         }))
-    }, [tabLessonsData, filteredLessons])
+    }, [tabLessonsData, filteredLessons, userId])
 
     function onFilterValueSelected(filterValue) {
         setfilterTextValue(filterValue);
     }
-    console.log(favorisedLessonList)
+
     return (
         <div>
             <Skeleton isLoaded={!!tabLessonsData}>
