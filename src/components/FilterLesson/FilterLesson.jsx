@@ -52,6 +52,7 @@ export default function FilterLesson(props){
                         })
                     }
             </select>
+            <input type={'range'} multiple></input>
             {/* <p>Notation :</p> */}
             {/* <RangeSlider min={0} max={5} step={0.1} onChange={(e) => rangeSliderValueChanged(e.target.value.min)}>
                 <RangeSliderTrack >
