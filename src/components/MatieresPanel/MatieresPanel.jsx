@@ -13,6 +13,7 @@ export default function MatieresPanel() {
     const [matieres, setMatieres] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [matiereName, setMatiereName] = useState('')
+    const [matiereHistoire, setMatiereHistoire] = useState('')
     const [matiereImage, setMatiereImage] = useState(null)
     const [selectedMatiere, setSelectedMatiere] = useState(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -46,6 +47,7 @@ export default function MatieresPanel() {
             let toUpdate = {}
             try {
                 if (matiereName) toUpdate.nom = matiereName
+                if (matiereHistoire) toUpdate.histoire = matiereHistoire
                 if (matiereImage) {
                     toUpdate.imgUrl = matiereImage?.name
                     try {
@@ -62,7 +64,7 @@ export default function MatieresPanel() {
             } catch (e) {
                 throwError('une erreur est survenue', e)
             }
-        } else if (matiereName && matiereImage) {
+        } else if (matiereName && matiereImage && matiereHistoire) {
             try {
                 try {
                     uploadBytes(storageRef, matiereImage)
@@ -70,6 +72,7 @@ export default function MatieresPanel() {
                     console.log("image not uploaded", e)
                 }
                 addDoc(collection(db, "Matieres"), {
+                    histoire: matiereHistoire,
                     userID: userId,
                     nom: matiereName,
                     imgUrl: matiereImage?.name,
@@ -95,6 +98,7 @@ export default function MatieresPanel() {
 
     function handleClose() {
         setMatiereName('')
+        setMatiereHistoire('')
         setMatiereImage(null)
         setSelectedMatiere(null)
         onClose()
@@ -146,6 +150,7 @@ export default function MatieresPanel() {
                 <ModalHeader>{selectedMatiere ? 'Modifier cette matière' : 'Créer une nouvelle matière'}</ModalHeader>
                 <ModalBody height={'100%'}>
                     <Input placeholder={selectedMatiere ? selectedMatiere.nom : 'Nom de la matière'} marginBottom={'15px'} onChange={(e) => setMatiereName(e.target.value)} />
+                    <Input placeholder={selectedMatiere ? selectedMatiere.histoire : 'Histoire de la matière'} marginBottom={'15px'} onChange={(e) => setMatiereHistoire(e.target.value)}/>
                     <Input id='fileInput' accept="image/*" placeholder="Ajouter une image" type="file" onChange={(e) => setMatiereImage(document.getElementById("fileInput").files[0])} />
                 </ModalBody>
                 <ModalFooter justifyContent={'space-evenly'}>
