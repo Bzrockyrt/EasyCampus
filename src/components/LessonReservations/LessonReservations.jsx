@@ -7,14 +7,13 @@ import { db } from '../../firebase';
 import destructureDatas from '../../utils/destructureDatas';
 import ReservationTableLine from '../ReservationTableLine/ReservationTableLine';
 
-export default function LessonReservations({ lessonId, isOpen, onOpen, onClose }) {
-    const [, , isAdmin] = useOutletContext()
+export default function LessonReservations({ lesson, isOpen, onClose }) {
     const [reservations, setReservations] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
     async function getReservations() {
-        if (lessonId) {
-            const q = query(collection(db, "Reservations"), where("lessonId", "==", lessonId));
+        if (lesson?.id) {
+            const q = query(collection(db, "Reservations"), where("lessonId", "==", lesson.id));
             const querySnapshot = await getDocs(q);
             if (querySnapshot) {
                 const reservations = destructureDatas(querySnapshot)
@@ -26,7 +25,7 @@ export default function LessonReservations({ lessonId, isOpen, onOpen, onClose }
 
     useEffect(() => {
         getReservations()
-    }, [lessonId])
+    }, [lesson])
 
     return <>
         <Modal size={"2xl"} isOpen={isOpen} onClose={onClose}>
@@ -44,11 +43,11 @@ export default function LessonReservations({ lessonId, isOpen, onOpen, onClose }
                                         <Th>Nom</Th>
                                         <Th>Prénom</Th>
                                         <Th>Date</Th>
-                                        <Th>Actions</Th>
+                                        <Th>Status</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    {reservations.map((reservation) => <ReservationTableLine reservation={reservation} refetch={() => getReservations()} />)}
+                                    {reservations.map((reservation) => <ReservationTableLine key={reservation.id} lessonUserId={lesson?.userId} reservation={reservation} refetch={() => getReservations()} />)}
                                 </Tbody>
                             </Table>
                         </TableContainer> :

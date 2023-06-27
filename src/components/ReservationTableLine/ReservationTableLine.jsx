@@ -1,13 +1,14 @@
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { HStack, Skeleton, Td, Tr } from '@chakra-ui/react';
-import { getAdditionalUserInfo } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { db } from '../../firebase';
 import { throwError, throwSuccess } from '../../utils/alerts';
 
-export default function ReservationTableLine({ reservation, refetch }) {
+export default function ReservationTableLine({ lessonUserId, reservation, refetch }) {
+    const [userId, ,] = useOutletContext()
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
@@ -49,10 +50,10 @@ export default function ReservationTableLine({ reservation, refetch }) {
     return <Tr key={reservation.id}>
         <Td><Skeleton isLoaded={!isLoading}>{user?.nom}</Skeleton></Td>
         <Td><Skeleton isLoaded={!isLoading}>{user?.prenom}</Skeleton></Td>
-        <Td>{reservation.date}</Td>
+        <Td>{new Date(reservation.date).toLocaleDateString() + ' - ' + new Date(reservation.date).toLocaleTimeString()}</Td>
         <Td>{reservation.status}</Td>
         <Td>
-            {reservation.status == "En attente" && <HStack height={'100%'} textAlign={'right'}>
+            {reservation.status == "En attente" && userId == lessonUserId && <HStack height={'100%'} textAlign={'right'}>
                 <CheckIcon onClick={() => editReservation(true)} cursor={'pointer'} />
                 <CloseIcon onClick={() => editReservation(false)} cursor={'pointer'} />
             </HStack>}

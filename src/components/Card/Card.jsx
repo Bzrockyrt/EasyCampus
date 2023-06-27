@@ -1,14 +1,14 @@
 import { Card as CardChakra, IconButton, Skeleton } from '@chakra-ui/react'
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import React, { useEffect, useState } from "react";
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import destructureData from '../../utils/destructureData';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { throwError, throwSuccess } from '../../utils/alerts';
+import { throwError } from '../../utils/alerts';
 import { AiFillHeart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
-import getAverage from '../../utils/getNote';
+import destructureDatas from '../../utils/destructureDatas';
 
 export default function Card({ lessonData, refetch }) {
     const navigate = useNavigate();
@@ -19,10 +19,11 @@ export default function Card({ lessonData, refetch }) {
     const [notation, setNotation] = useState(0)
 
     const getUsername = async () => {
-        if (lessonData.userID) {
-            const user = await getDoc(doc(db, "users", lessonData.userID));
-            if (user._document) {
-                setUsername(`${user._document.data.value.mapValue.fields.prenom.stringValue} ${user._document.data.value.mapValue.fields.nom.stringValue}`)
+        if (lessonData.userId) {
+            const querySnapshot = await getDoc(doc(db, "users", lessonData.userId));
+            const user = destructureData(querySnapshot)
+            if (user) {
+                setUsername(`${user.prenom} ${user.nom}`)
             }
         }
     }
@@ -44,11 +45,20 @@ export default function Card({ lessonData, refetch }) {
             }
         }
     }
+    const getNotation = async () => {
+        const querySnapshot = await getDocs(await query(collection(db, "Comments"), where('lessonId', '==', lessonData.id)));
+        const comments = destructureDatas(querySnapshot)
+        if (comments.length > 0) {
+            let total = 0
+            comments.forEach((comment) => total += Number(comment.notation))
+            setNotation(Math.round(total / comments.length * 10) / 10)
+        } else { setNotation('~') }
+    }
 
     useEffect(() => {
         getUsername()
         getMatiereImage()
-        getAverage({ lessonid: lessonData.id, setNotation })
+        getNotation()
     }, [lessonData])
 
     const handleFavorise = async (e) => {
@@ -72,7 +82,7 @@ export default function Card({ lessonData, refetch }) {
             throwError("Une erreur est survenue lors de l'ajout de la leçon au favori")
         }
     }
-    console.log('notation', notation)
+    console.log('username', username)
     return (
         <div className='allCard'>
             <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
@@ -87,11 +97,11 @@ export default function Card({ lessonData, refetch }) {
                         <img src='star.png' className='cardStarNotation' />
                         {notation}
                     </div>}
-                    {/* <Skeleton isLoaded={!!username}>
+                    <Skeleton isLoaded={!!username}>
                         <div className='cardUsername'>
                             {username}
                         </div>
-                    </Skeleton> */}
+                    </Skeleton>
                     <div className='cardPrice'>
                         {lessonData.price}€
                     </div>

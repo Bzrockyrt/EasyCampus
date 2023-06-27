@@ -7,9 +7,12 @@ import { db } from '../../firebase';
 import CreateLesson from '../../pages/CreateLesson';
 import { throwError, throwSuccess } from '../../utils/alerts';
 import destructureDatas from '../../utils/destructureDatas';
+import LessonComments from '../LessonComments/LessonComments';
 import LessonReservations from '../LessonReservations/LessonReservations';
 import MatiereName from '../MatiereName/MatiereName';
 import UserName from '../UserName/UserName';
+import { BiCommentDots } from 'react-icons/bi'
+import LessonNotationTableLine from '../LessonNotationTableLine/LessonNotationTableLine';
 
 export default function LessonsPanel() {
     const [userId, , isAdmin] = useOutletContext()
@@ -18,6 +21,7 @@ export default function LessonsPanel() {
     const [selectedLesson, setSelectedLesson] = useState(null)
     const lessonForm = useDisclosure()
     const reservationModal = useDisclosure()
+    const commentModal = useDisclosure()
 
     async function getlessons() {
         const lessonsRef = collection(db, "Lessons")
@@ -50,6 +54,11 @@ export default function LessonsPanel() {
         setSelectedLesson(null)
     }
 
+    function commentModalOnClose() {
+        commentModal.onClose()
+        setSelectedLesson(null)
+    }
+
     async function deletelesson(lessonId) {
         try {
             await deleteDoc(doc(db, "Lessons", lessonId))
@@ -62,7 +71,7 @@ export default function LessonsPanel() {
 
     useEffect(() => {
         getlessons()
-    }, [isAdmin])
+    }, [userId, isAdmin])
 
     return <Box height={'100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
@@ -93,14 +102,17 @@ export default function LessonsPanel() {
                                 <Td><MatiereName matiereId={lesson?.matiereId} /></Td>
                                 <Td>{lesson?.duration}</Td>
                                 <Td>{lesson?.price}€</Td>
-                                <Td>{lesson?.notation}€</Td>
+                                <LessonNotationTableLine lessonId={lesson.id} />
                                 <Td>
                                     <HStack gap='5px'>
-                                        <Tooltip label={'Modifier cette leçon'}>
-                                            <IconButton aria-label='edit-lesson' height={'30px'} icon={<EditIcon />} onClick={() => { lessonForm.onOpen(), setSelectedLesson(lesson) }} />
-                                        </Tooltip>
                                         <Tooltip label={'Voir les réservations'}>
                                             <IconButton aria-label='view-reservation' height={'30px'} icon={<InfoOutlineIcon />} onClick={() => { reservationModal.onOpen(), setSelectedLesson(lesson) }} />
+                                        </Tooltip>
+                                        <Tooltip label={'Voir les commentaires'}>
+                                            <IconButton aria-label='view-comments' height={'30px'} icon={<BiCommentDots />} onClick={() => { commentModal.onOpen(), setSelectedLesson(lesson) }} />
+                                        </Tooltip>
+                                        <Tooltip label={'Modifier cette leçon'}>
+                                            <IconButton aria-label='edit-lesson' height={'30px'} icon={<EditIcon />} onClick={() => { lessonForm.onOpen(), setSelectedLesson(lesson) }} />
                                         </Tooltip>
                                         <Tooltip label={'Supprimer cette leçon'}>
                                             <IconButton aria-label='delete-lesson' height={'30px'} icon={<DeleteIcon />} onClick={() => deletelesson(lesson.id)} />
@@ -115,7 +127,8 @@ export default function LessonsPanel() {
             </Skeleton>
         </Box>
 
-        <CreateLesson lessonId={selectedLesson?.id} isOpen={lessonForm.isOpen} onOpen={lessonForm.onOpen} onClose={() => lessonFormOnClose()} />
-        <LessonReservations lessonId={selectedLesson?.id} isOpen={reservationModal.isOpen} onOpen={reservationModal.onOpen} onClose={() => reservationModalOnClose()} />
+        <CreateLesson lessonId={selectedLesson?.id} isOpen={lessonForm.isOpen} onClose={() => lessonFormOnClose()} />
+        <LessonReservations lesson={selectedLesson} isOpen={reservationModal.isOpen} onClose={() => reservationModalOnClose()} />
+        <LessonComments lessonId={selectedLesson?.id} isOpen={commentModal.isOpen} onClose={() => commentModalOnClose()} />
     </Box>
 }

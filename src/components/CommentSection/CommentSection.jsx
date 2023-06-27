@@ -53,7 +53,7 @@ export default function CommentSection({ lessonId }) {
         onClose()
     }
 
-    return <Box margin={'200px 20% 0'}>
+    return <Box margin={'200px auto 0'} maxWidth={'800px'}>
         <Flex flexDirection={'row'} justifyContent={'space-between'}>
             <Text textAlign={'left'} fontSize={'24px'} fontWeight={600}>Commentaires :</Text>
             <Button fontSize={'sm'} fontWeight={600} onClick={() => onOpen()} colorScheme="blue" border="0px">
