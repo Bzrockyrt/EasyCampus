@@ -52,10 +52,7 @@ export default function LessonReservations({ lessonId, isOpen, onOpen, onClose }
                                 </Tbody>
                             </Table>
                         </TableContainer> :
-                            <HStack>
-                                <Text fontStyle={'italic'}>Il n'y a pas de réservation pour ce cours </Text>
-                                <Text>🙁</Text>
-                            </HStack>}
+                            <Text fontStyle={'italic'}>Il n'y a pas de réservation pour ce cours 🙁</Text>}
                     </Skeleton>
                 </ModalBody>
             </ModalContent>

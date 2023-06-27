@@ -56,7 +56,7 @@ export default function MatieresPanel() {
                 }
                 const ref = doc(db, 'Matieres', matiereToEdit.id)
                 await updateDoc(ref, toUpdate)
-                throwSuccess('La matière a bien été ajoutée')
+                throwSuccess('La matière a bien été modifiée')
                 getMatieres()
                 handleClose()
             } catch (e) {

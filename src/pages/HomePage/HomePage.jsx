@@ -8,6 +8,7 @@ import FilterLesson from '../../components/FilterLesson/FilterLesson';
 import FilterItem from '../../components/FilterItem/FilterItem'
 import FilterButton from '../../components/FilterButton/FilterButton'
 import { useOutletContext } from 'react-router-dom';
+import destructureDatas from '../../utils/destructureDatas';
 
 export default function HomePage() {
     const [userId, ,] = useOutletContext()
@@ -21,22 +22,9 @@ export default function HomePage() {
         const querySnapshot = await getDocs(collection(db, "Lessons"));
         const lessons = []
         if (querySnapshot) {
-            querySnapshot.docs.forEach(async (lessonDoc, index) => {
-                let lesson = {}
-                let object = lessonDoc._document.data.value.mapValue.fields
-                let keys = Object.keys(object)
-                keys.forEach((key) => {
-                    if (object[key].arrayValue) {
-                        lesson[key] = object[key].arrayValue.values.map((value) => value.stringValue)
-                    } else {
-                        lesson[key] = object[key].stringValue
-                    }
-                })
-                lesson.id = lessonDoc.id
-                lessons.push(lesson)
-            });
+            const lessons = destructureDatas(querySnapshot, 'creationDate')
+            setTabLessonsData(lessons)
         }
-        setTabLessonsData(lessons)
     }
 
     const getMatiereData = async () => {
@@ -89,9 +77,11 @@ export default function HomePage() {
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
                     <FilterLesson filterValueSelected={onFilterValueSelected} tabMatieresData={tabMatieresData}></FilterLesson>
-                    {favorisedLessonList && <>
-                        <Text fontSize={"lg"} fontWeight={600}>Cours favoris</Text>
-                        <Flex marginTop={'25px'}>
+                    {favorisedLessonList?.length > 0 && <>
+                        <div className="cards">
+                            <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours favoris</Text>
+                        </div>
+                        <Flex margin={'15px 0 30px'}>
                             <div className="cards">
                                 {
                                     favorisedLessonList && favorisedLessonList.map((card, i) => {
@@ -101,8 +91,10 @@ export default function HomePage() {
                             </div>
                         </Flex>
                     </>}
-                    <Text fontSize={"lg"} fontWeight={600}>Cours disponibles</Text>
-                    <Flex marginTop={'25px'}>
+                    <div className="cards">
+                        <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours disponibles</Text>
+                    </div>
+                    <Flex margin={'15px 0 30px'}>
                         <div className="cards">
                             {
                                 filteredLessons && filteredLessons.map((card, i) => {
