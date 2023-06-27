@@ -1,11 +1,9 @@
-import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, useRangeSlider } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { doc, getDoc, updateDoc, collection } from "firebase/firestore";
-import { auth, db } from "../../firebase";
-import Slider from '@mui/material/Slider';
+import { getDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase";
 
 
-export default function FilterLesson(props){
+export default function FilterLesson(props) {
 
     const [tabLessonsData, setTabLessonsData] = useState([]);
     const [rangeSliderMinValue, setRangeSliderMinValue] = useState();
@@ -24,17 +22,17 @@ export default function FilterLesson(props){
                     lesson.id = lessonDoc.id
                     lessons.push(lesson)
                 });
-            } 
+            }
             setTabLessonsData(lessons)
         }
         getLessonPriceRangeData();
     }, []);
 
-    function onFilterLessonChanged(event){
+    function onFilterLessonChanged(event) {
         props.filterValueSelected(event.target.value);
     }
 
-    function rangeSliderValueChanged(min){
+    function rangeSliderValueChanged(min) {
         console.log(min);
         console.log(max);
         setRangeSliderMinValue(min);
@@ -46,11 +44,11 @@ export default function FilterLesson(props){
             <select onChange={onFilterLessonChanged}>
                 <option defaultValue disabled>Type de cours</option>
                 <option value={'all'}>Tous</option>
-                    {
-                        props.tabMatieresData && props.tabMatieresData.map((matiere, i) => {
-                            return <option value={matiere.id}>{matiere.nom}</option>
-                        })
-                    }
+                {
+                    props.tabMatieresData && props.tabMatieresData.map((matiere, i) => {
+                        return <option value={matiere.id}>{matiere.nom}</option>
+                    })
+                }
             </select>
             <input type={'range'} multiple></input>
             {/* <p>Notation :</p> */}

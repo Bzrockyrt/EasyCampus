@@ -15,7 +15,6 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.13.6",
     "ajax": "^0.0.4",
     "bootstrap": "^5.2.3",
     "firebase": "^9.17.2",
