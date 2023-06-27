@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 export default function FilterLesson(props){
 
     const [tabLessonsData, setTabLessonsData] = useState([]);
-    let [rangeSliderMinValue, setRangeSliderMinValue] = useState();
-    let [rangeSliderMaxValue, setRangeSliderMaxValue] = useState();
+    const [rangeSliderMinValue, setRangeSliderMinValue] = useState();
+    const [rangeSliderMaxValue, setRangeSliderMaxValue] = useState();
 
     useEffect(() => {
         const getLessonPriceRangeData = async () => {
@@ -30,7 +30,9 @@ export default function FilterLesson(props){
         props.filterValueSelected(event.target.value);
     }
 
-    function rangeSliderValueChanged(min, max){
+    function rangeSliderValueChanged(min){
+        console.log(min);
+        console.log(max);
         setRangeSliderMinValue(min);
         setRangeSliderMaxValue(max);
     }
@@ -49,8 +51,8 @@ export default function FilterLesson(props){
                 <option value={"physic"}>Physique</option>
                 <option value={"french"}>Français</option> */}
             </select>
-            <p>Prix :</p>
-            <RangeSlider defaultValue={[120, 180]} min={0} max={200} step={1} onChange={(e) => rangeSliderValueChanged(e.target.min, e.target.max)}>
+            <p>Notes :</p>
+            <RangeSlider min={0} max={5} step={0.1} onChange={(e) => rangeSliderValueChanged(e.target.value.min)}>
                 <RangeSliderTrack >
                     <RangeSliderFilledTrack/>
                 </RangeSliderTrack>

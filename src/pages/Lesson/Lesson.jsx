@@ -12,25 +12,15 @@ import { throwError, throwSuccess } from "../../utils/alerts";
 
 export default function Lesson() {
     const [userId, ,] = useOutletContext();
-    const [docData, setDocData] = useState(null);
+    const [docData, setDocData] = useState([]);
+    const [matiereData, setMatiereData] = useState([]);
+    const [pathReference, setPathReference] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
     const location = useLocation();
     const courseTypeModal = useDisclosure();
     const courseReservationModal = useDisclosure();
     const navigate = useNavigate();
     const now = new Date();
-
-    // let dateTimePicker = document.getElementById("dateTimePicker")
-    // if(dateTimePicker){
-    //     dateTimePicker.flatpickr({
-    //         enableTime: true,
-    //         noCalendar: true,
-    //         dateFormat: "H:i",
-    //         time_24hr: true,
-    //         locale: "fr",
-    //         theme: "light",
-    //         minuteIncrement: 15,
-    //     });
-    // }
 
     let selectedHour = "";
     let selectedDateTime = new Date();
@@ -58,35 +48,44 @@ export default function Lesson() {
                 const docRef = doc(db, 'Lessons', location.state.id);
                 const querySnapshot = await getDoc(docRef);
                 const docData = querySnapshot.data();
+                const matiere = doc(db, 'Matieres', docData.matiereId);
+                const queryMatiereSnapshot = await getDoc(matiere);
+                const matiereData = queryMatiereSnapshot.data();
                 setDocData(docData);
+                setMatiereData(matiereData);
             } catch (e) {
                 console.log(e);
             }
         };
+        
+        const getMatiereImage = async () => {
+            if (docData.matiereId) {
+                const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
+                console.log('toto');
+                if (querySnapshot) {
+                    const matiere = destructureData(querySnapshot)
+                    const imgUrl = matiere?.imgUrl
+                    const storage = getStorage();
+                    if (imgUrl) {
+                        getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                            console.log(url);
+                            setPathReference(url)
+                            setIsLoading(false)
+                        }).catch(function (error) {
+                            console.log('Error when fetching lessonImage', error)
+                        });
+                    }
+                }
+            }
+        }
 
         fetchData();
+        getMatiereImage();
     }, []);
 
     function selectHourForCourse(param) {
         selectedHour = param;
     }
-
-    /*useEffect(() => {
-      console.log('lessonID',location.state.id)
-      const fetchData = async () => {
-        try {
-          const docRef = doc(db, 'Lessons', location.state.id);
-          const docData = querySnapshot.data();
-          const querySnapshot = await getDoc(docRef);
-          setDocData(docData);
-          console.log(docData)
-        } catch (e) {
-          console.log(e);
-        }
-  
-      };
-      fetchData();
-    }, []);*/
 
     return (
         <div>
@@ -100,7 +99,7 @@ export default function Lesson() {
             </div>
             <div className="container">
                 <div className='left-column'>
-                    <img src='Economy.jpg' alt=''></img>
+                    <img src={pathReference} alt=''></img>
                 </div>
 
                 <div className='right-column'>
@@ -109,20 +108,18 @@ export default function Lesson() {
                         {/* Titre de la leçon */}
                         {docData && (<h1>{docData.title}</h1>)}
                         {/* Catégorie de la leçon */}
-                        <Link className="linkcourse" textAlign={"left"} display="block" onClick={() => courseTypeModal.onOpen()}>Mathematiques</Link>
-                        {/* Description de la leçon */}
-                        <p>Durant cette leçon, vous allez apprendre les concepts de bases des mathématiques modernes.</p>
+                        <Link className="linkcourse" textAlign={"left"} display="block" onClick={() => courseTypeModal.onOpen()}>{matiereData.nom}</Link>
                     </div>
                     <div className='lesson-localization'>
-                        <Text fontStyle="italic" textAlign="left">Mettre ici la localisation de l'étudiant proposant le cours. On pourra faire appel à l'API de Google Maps pour afficher une carte</Text>
+                        <Text fontStyle="italic" textAlign="left">{docData.description}</Text>
                     </div>
                     <div className='lesson-price'>
                         {/* Prix de la leçon */}
-                        <span>150,00€</span>
+                        <span>{docData.price} €</span>
                         {/* Bouton pour ajouter s'inscrire à la leçon */}
                         {/* <a href="#" class="cart-btn" onClick={() => onOpen()}>S'inscrire</a> */}
                         <Button display={{ base: 'none', md: 'inline-flex' }} fontSize={'sm'} fontWeight={600} onClick={() => courseReservationModal.onOpen()} colorScheme="blue" border="0px">
-                            Horaires réservation
+                            Réserver
                         </Button>
                     </div>
                 </div>
@@ -131,19 +128,19 @@ export default function Lesson() {
                     <ModalContent>
                         <ModalHeader>
                             {/* <Text>S'inscrire au cours {location.state.name}</Text> */}
-                            <Text textAlign="center">Thématiques</Text>
+                            <Text textAlign="center">{matiereData.nom}</Text>
                         </ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <Flex flexDirection="column" justifyContent={'center'}>
-                                <Text textAlign="center">Souhaitez-vous vous inscrire pour ce cours ? Vous serez alors mis en relation avec l'étudiant le proposant</Text>
+                                <Text textAlign="center">{matiereData.histoire}</Text>
                             </Flex>
                         </ModalBody>
                         <ModalFooter>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
-                <Modal isOpen={courseReservationModal.isOpen} onClose={courseReservationModal.onClose} size="5xl">
+                <Modal isOpen={courseReservationModal.isOpen} onClose={courseReservationModal.onClose} size="2xl">
                     <ModalOverlay width="100%" />
                     <ModalContent width="100%">
                         <ModalHeader>
@@ -154,12 +151,12 @@ export default function Lesson() {
                             <Flex flexDirection="column" justifyContent={'center'}>
                                 <Text textAlign="center">Veuillez choisir un horaire pour votre cours</Text>
                                 <Input placeholder="Select Date and Time" size="md" type="datetime-local" onChange={(e) => dateTimeChanged(e.target.value)}
-                                    min={now} />
+                                    min={now} width={'250px'} alignSelf={'center'} marginTop={'10px'}/>
 
                                 <Text textAlign="center" marginTop="20px" fontStyle="italic">En vous inscrivant à ce cours, vous serez mis en relation avec l'étudiant le proposant</Text>
                             </Flex>
                         </ModalBody>
-                        <ModalFooter>
+                        <ModalFooter justifyContent={'space-evenly'}>
                             <Button variant='ghost' marginRight="10px" onClick={courseReservationModal.onClose}>Annuler</Button>
                             <Button colorScheme='blue' onClick={() => reservation()}>Réserver</Button>
                         </ModalFooter>

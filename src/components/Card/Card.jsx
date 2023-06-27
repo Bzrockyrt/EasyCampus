@@ -35,6 +35,7 @@ export default function Card(props) {
                     const storage = getStorage();
                     if (imgUrl) {
                         getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                            console.log(url);
                             setPathReference(url)
                             setIsLoading(false)
                         }).catch(function (error) {
