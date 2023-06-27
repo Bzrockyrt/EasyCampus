@@ -1,4 +1,4 @@
-import { Flex, InputGroup, Skeleton, Stack } from '@chakra-ui/react';
+import { Flex, InputGroup, Skeleton, Stack, Text } from '@chakra-ui/react';
 import React, { useEffect, useState, Component } from 'react'
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
@@ -28,7 +28,7 @@ export default function HomePage() {
                     lesson.id = lessonDoc.id
                     lessons.push(lesson)
                 });
-            } 
+            }
             setTabLessonsData(lessons)
         }
         const getMatiereData = async () => {
@@ -43,7 +43,7 @@ export default function HomePage() {
                     matiere.id = matiereDoc.id
                     matieres.push(matiere)
                 });
-            } 
+            }
             setTabMatieresData(matieres)
         }
         getLessonData();
