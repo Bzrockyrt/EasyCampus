@@ -1,5 +1,5 @@
 import { SearchIcon, LockIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { Alert, AlertIcon, AlertTitle, AlertDescription, Box, Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
 import { collection, getDocs, query, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { addDays } from "date-fns";
 import React, { useEffect, useState } from 'react';
@@ -40,12 +40,10 @@ export default function UsersPanel() {
             await updateDoc(userRef, {
                 blockedTime: futureTimestamp
             });
-
-            handleOnClose();
-            throwSuccess("L'utilisateur a été bloquée !");
+            onClose()
         } catch (e) {
             console.log("Erreur blockUser", e);
-            throwError("Une erreur est survenue lors du blocage de l'utilisateur.");
+            onClose()
         }
     }
 
@@ -74,8 +72,10 @@ export default function UsersPanel() {
                             {users.map((user) => <Tr key={user.id}>
                                 <Td>{user.nom}</Td>
                                 <Td>{user.prenom}</Td>
-                                <Td><IconButton aria-label='details' height={'30px'} icon={<SearchIcon />} onClick={() => { userDataDisclosure.onOpen(), setUserDetailId(user.id) }} /></Td>
-                                <Td><IconButton aria-label='details' height={'30px'} icon={<LockIcon />} onClick={() => { onOpen(), setUserDetailId(user.id) }} /></Td>
+                                <Td>
+                                    <IconButton aria-label='details' marginRight={'5px'} height={'30px'} icon={<SearchIcon />} onClick={() => { userDataDisclosure.onOpen(), setUserDetailId(user.id) }} />
+                                    <IconButton aria-label='details' height={'30px'} icon={<LockIcon />} onClick={() => { onOpen(), setUserDetailId(user.id) }} />
+                                </Td>
                             </Tr>
                             )}
                         </Tbody>
@@ -98,16 +98,16 @@ export default function UsersPanel() {
             <ModalContent display={'flex'}>
                 <ModalHeader>{'Restriction de compte'}</ModalHeader>
                 <ModalBody height={'100%'}>
-                    <Button onClick={() => handleClose()}>
+                    <Button onClick={() => onClose()} style={{ width: "100px" }}>
                         Annuler
                     </Button>
-                    <Button colorScheme={"yellow"} onClick={() => blockUser(7).handleClose()}>
+                    <Button colorScheme={"yellow"} onClick={() => blockUser(7).onClose} style={{ marginLeft: "10px", width: "100px" }}>
                         1 semaine
                     </Button>
-                    <Button colorScheme={"orange"} onClick={() => blockUser(30).handleClose()}>
+                    <Button colorScheme={"orange"} onClick={() => blockUser(30).onClose} style={{ marginLeft: "10px", width: "80px" }}>
                         1 mois
                     </Button>
-                    <Button colorScheme={"red"} onClick={() => blockUser(365).handleClose()}>
+                    <Button colorScheme={"red"} onClick={() => blockUser(365).onClose} style={{ marginLeft: "10px", width: "80px" }}>
                         1 an
                     </Button>
                 </ModalBody>
