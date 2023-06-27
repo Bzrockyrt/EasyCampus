@@ -113,9 +113,11 @@
   font-weight: bold;
   grid-row: 1;
   grid-column: 1;
+  height: 48px;
 }
 
 .cardNotation{
+  align-self: baseline;
   font-weight: lighter;
   text-align: right;
   margin-top: 10px;
@@ -143,6 +145,7 @@
 }
 
 .cardPrice{
+  align-self: center;
   grid-row: 4;
   grid-column: 1;
   justify-self: start;

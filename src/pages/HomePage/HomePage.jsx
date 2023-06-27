@@ -7,82 +7,106 @@ import Card from '../../components/Card/Card';
 import FilterLesson from '../../components/FilterLesson/FilterLesson';
 import FilterItem from '../../components/FilterItem/FilterItem'
 import FilterButton from '../../components/FilterButton/FilterButton'
+import { useOutletContext } from 'react-router-dom';
 
 export default function HomePage() {
-
+    const [userId, ,] = useOutletContext()
     const [tabLessonsData, setTabLessonsData] = useState([]);
     const [tabMatieresData, setTabMatieresData] = useState([]);
     const [filterTextValue, setfilterTextValue] = useState('all');
     const [filteredLessons, setFilteredLessons] = useState([]);
+    const [favorisedLessonList, setFavorisedLessonList] = useState([])
+
+    const getLessonData = async () => {
+        const querySnapshot = await getDocs(collection(db, "Lessons"));
+        const lessons = []
+        if (querySnapshot) {
+            querySnapshot.docs.forEach(async (lessonDoc, index) => {
+                let lesson = {}
+                let object = lessonDoc._document.data.value.mapValue.fields
+                let keys = Object.keys(object)
+                keys.forEach((key) => {
+                    if (object[key].arrayValue) {
+                        lesson[key] = object[key].arrayValue.values.map((value) => value.stringValue)
+                    } else {
+                        lesson[key] = object[key].stringValue
+                    }
+                })
+                lesson.id = lessonDoc.id
+                lessons.push(lesson)
+            });
+        }
+        setTabLessonsData(lessons)
+    }
+
+    const getMatiereData = async () => {
+        const querySnapshot = await getDocs(collection(db, "Matieres"));
+        const matieres = []
+        if (querySnapshot) {
+            querySnapshot.docs.forEach(async (matiereDoc, index) => {
+                let matiere = {}
+                let object = matiereDoc._document.data.value.mapValue.fields
+                let keys = Object.keys(object)
+                keys.forEach((key) => matiere[key] = object[key].stringValue)
+                matiere.id = matiereDoc.id
+                matieres.push(matiere)
+            });
+        }
+        setTabMatieresData(matieres)
+    }
 
     useEffect(() => {
-        const getLessonData = async () => {
-            const querySnapshot = await getDocs(collection(db, "Lessons"));
-            const lessons = []
-            if (querySnapshot) {
-                querySnapshot.docs.forEach(async (lessonDoc, index) => {
-                    let lesson = {}
-                    let object = lessonDoc._document.data.value.mapValue.fields
-                    let keys = Object.keys(object)
-                    keys.forEach((key) => lesson[key] = object[key].stringValue)
-                    lesson.id = lessonDoc.id
-                    lessons.push(lesson)
-                });
-            }
-            setTabLessonsData(lessons)
-        }
-        const getMatiereData = async () => {
-            const querySnapshot = await getDocs(collection(db, "Matieres"));
-            const matieres = []
-            if (querySnapshot) {
-                querySnapshot.docs.forEach(async (matiereDoc, index) => {
-                    let matiere = {}
-                    let object = matiereDoc._document.data.value.mapValue.fields
-                    let keys = Object.keys(object)
-                    keys.forEach((key) => matiere[key] = object[key].stringValue)
-                    matiere.id = matiereDoc.id
-                    matieres.push(matiere)
-                });
-            }
-            setTabMatieresData(matieres)
-        }
         getLessonData();
         getMatiereData();
     }, []);
 
     useEffect(() => {
         setFilteredLessons(tabLessonsData.filter((lesson) => {
-            if(filterTextValue === 'all')
+            if (filterTextValue === 'all')
                 return true;
-            else{
-                return lesson.matiereId === filterTextValue; 
+            else {
+                return lesson.matiereId === filterTextValue;
             }
         }));
     }, [tabLessonsData, filterTextValue]);
 
-    // let filteredLessonList = tabLessonsData.filter((lesson) => {
-    //     if(filterTextValue === 'all')
-    //         return true;
-    //     else{
-    //         return lesson.matiereId === filterTextValue; 
-    //     }
-    // });
+    useEffect(() => {
+        setFavorisedLessonList(filteredLessons.filter((lesson) => {
+            if (lesson.title == 'Test leçon compte PL') {
+                console.log(userId)
+                console.log(lesson.favorisedBy)
+            }
+            return lesson.favorisedBy?.includes(userId)
+        }))
+    }, [tabLessonsData, filteredLessons])
 
-    function onFilterValueSelected(filterValue){
-        console.log(filterValue);
+    function onFilterValueSelected(filterValue) {
         setfilterTextValue(filterValue);
     }
-
-    return ( 
+    console.log(favorisedLessonList)
+    return (
         <div>
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
                     <FilterLesson filterValueSelected={onFilterValueSelected} tabMatieresData={tabMatieresData}></FilterLesson>
+                    {favorisedLessonList && <>
+                        <Text fontSize={"lg"} fontWeight={600}>Cours favoris</Text>
+                        <Flex marginTop={'25px'}>
+                            <div className="cards">
+                                {
+                                    favorisedLessonList && favorisedLessonList.map((card, i) => {
+                                        return <Card key={i} lessonData={card} refetch={getLessonData} />
+                                    })
+                                }
+                            </div>
+                        </Flex>
+                    </>}
+                    <Text fontSize={"lg"} fontWeight={600}>Cours disponibles</Text>
                     <Flex marginTop={'25px'}>
                         <div className="cards">
                             {
                                 filteredLessons && filteredLessons.map((card, i) => {
-                                    return <Card key={i} lessonData={card} />
+                                    return <Card key={i} lessonData={card} refetch={getLessonData} />
                                 })
                             }
                         </div>

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { db } from '../../firebase';
 import CreateLesson from '../../pages/CreateLesson';
-import { throwError } from '../../utils/alerts';
+import { throwError, throwSuccess } from '../../utils/alerts';
 import destructureDatas from '../../utils/destructureDatas';
 import LessonReservations from '../LessonReservations/LessonReservations';
 import MatiereName from '../MatiereName/MatiereName';

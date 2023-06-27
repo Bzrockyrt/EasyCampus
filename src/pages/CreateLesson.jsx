@@ -6,7 +6,7 @@ import { db } from "../firebase";
 import { throwError, throwSuccess } from '../utils/alerts';
 import destructureData from '../utils/destructureData';
 
-export default function CreateLesson({ lessonId, isOpen, onOpen, onClose }) {
+export default function CreateLesson({ lessonId, isOpen, onClose }) {
     const navigate = useNavigate();
     const [userId, ,] = useOutletContext();
     const [description, setDescription] = useState("");
@@ -99,11 +99,8 @@ export default function CreateLesson({ lessonId, isOpen, onOpen, onClose }) {
 
     useEffect(() => {
         getMatieres()
-    }, [lessonId])
-
-    useEffect(() => {
         getLesson(lessonId)
-    }, [lessonId])
+    }, [lessonId, isOpen])
 
     return (
         <>
