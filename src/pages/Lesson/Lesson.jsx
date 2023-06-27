@@ -22,7 +22,7 @@ export default function Lesson() {
     const courseReservationModal = useDisclosure();
     const navigate = useNavigate();
     const now = new Date();
-
+    const lessonId = location.state.id
     let selectedHour = "";
     let selectedDateTime = new Date();
 
@@ -33,7 +33,7 @@ export default function Lesson() {
     async function reservation() {
         await addDoc(collection(db, "Reservations"), {
             userId,
-            lessonId: location.state.id,
+            lessonId,
             date: selectedDateTime,
             status: 'En attente'
 
@@ -125,7 +125,7 @@ export default function Lesson() {
                     </div>
                 </div>
             </div>
-            <CommentSection />
+            <CommentSection lessonId={lessonId} />
             <Modal isOpen={courseTypeModal.isOpen} onClose={courseTypeModal.onClose}>
                 <ModalOverlay />
                 <ModalContent>
