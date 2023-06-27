@@ -169,103 +169,27 @@
 
 
 .filterLesson-container{
-  display: flex;
-  justify-content: center;
   position: relative;
-  width: 250px;
-  height: 50px;
-  background-color: white;
-  border-radius: 2px;
-  border: #DDDDDD 0px solid;
+  font-family: Arial;
+  height: 100%;
+  padding: 10px;
 }
 
-  /* .filterLesson-container .searchbar{
-    position: relative;
-    width: 60px;
-    height: 60px;
-    background: #FFFFFF;
-    border-radius: 60px;
-    transition: 0.5s;
-    box-shadow: 0 0 0 5px black;
-  } */
-
-  .filterLesson-container .icon {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 120px;
-    display: flex;
-    align-items: center;
-  }
-  .filterLesson-container .icon:first-child {
-    left: 0;
-    display: none;
-    background: linear-gradient(90deg, #fff 70%, transparent);
-  }
-  .filterLesson-container .icon:last-child {
-    right: 0;
-    justify-content: flex-end;
-    background: linear-gradient(-90deg, #fff 70%, transparent);
-  }
-  .filterLesson-container .icon i {
-    width: 55px;
-    height: 55px;
+  .filterLesson-container select{
+    border: 2px solid #48cae4;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
     cursor: pointer;
-    font-size: 1.2rem;
-    text-align: center;
-    line-height: 55px;
-    border-radius: 50%;
-  }
-  .filterLesson-container .icon i:hover {
-    background: #efedfb;
-  }
-  .filterLesson-container .icon:first-child i {
-    margin-left: 15px;
-  } 
-  .filterLesson-container .icon:last-child i {
-    margin-right: 15px;
-  } 
-  .filterLesson-container .tabs-box {
-    display: flex;
-    gap: 12px;
-    list-style: none;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-  }
-  .filterLesson-container .tabs-box.dragging {
-    scroll-behavior: auto;
-    cursor: grab;
-  }
-  .filterLesson-container .tabs-box .tab {
-    cursor: pointer;
-    font-size: 1.18rem;
-    white-space: nowrap;
-    background: #f5f4fd;
-    padding: 13px 20px;
-    border-radius: 30px;
-    border: 1px solid #d8d5f2;
-  }
-  .filterLesson-container .tabs-box .tab:hover{
-    background: #efedfb;
-  }
-  .filterLesson-container .tabs-box.dragging .tab {
-    user-select: none;
-    pointer-events: none;
-  }
-  .filterLesson-container .tabs-box .tab.active{
-    color: #fff;
-    background: #5372F0;
-    border-color: transparent;
   }
 
-.filterLesson-container .filterLesson-Lessontype{
-  border: none;
-  appearance: none;
-  padding: 0 30px 0 0px;
-  width: 100%;
-  background-color: #2873FF;
-  font-size: 20px;
-}
+  .filterLesson-container option{
+    border: 2px solid #48cae4;
+    transition: 0.2s;
+  }
+
+    .filterLesson-container option:hover{
+      background-color: red;
+    }
 
 
 .filterBar{
