@@ -13,8 +13,9 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.1",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.6",
     "ajax": "^0.0.4",
     "bootstrap": "^5.2.3",
     "firebase": "^9.17.2",
@@ -32,6 +33,7 @@
     "react-icons": "^4.10.1",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.9.0",
+    "react-slider": "^2.0.5",
     "react-toastify": "^9.1.2",
     "save": "^2.9.0",
     "sort-by": "^1.2.0"

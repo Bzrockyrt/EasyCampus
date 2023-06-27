@@ -2,7 +2,7 @@ import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb
 import React, { useEffect, useState } from 'react';
 import { doc, getDoc, updateDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../firebase";
-
+import Slider from '@mui/material/Slider';
 
 
 export default function FilterLesson(props){
@@ -43,30 +43,7 @@ export default function FilterLesson(props){
 
     return (
         <div className="filterLesson-container">
-            <div class="icon">
-                <i id="left" class="fa-solid fa-angle-left"></i>
-            </div>
-            <ul class="tabs-box">
-                <li class="tab">Coding</li>
-                <li class="tab active">JavaScript</li>
-                <li class="tab">Podcasts</li>
-                <li class="tab">Databases</li>
-                <li class="tab">Web Development</li>
-                <li class="tab">Unboxing</li>
-                <li class="tab">History</li>
-                <li class="tab">Programming</li>
-                <li class="tab">Gadgets</li>
-                <li class="tab">Algorithms</li>
-                <li class="tab">Comedy</li>
-                <li class="tab">Gaming</li>
-                <li class="tab">Share Market</li>
-                <li class="tab">Smartphones</li>
-                <li class="tab">Data Structure</li>
-            </ul>
-            <div class="icon">
-                <i id="right" class="fa-solid fa-angle-right"></i>
-            </div>
-            {/* <select name='filterLesson-Lessontype' onChange={onFilterLessonChanged}>
+            <select onChange={onFilterLessonChanged}>
                 <option defaultValue disabled>Type de cours</option>
                 <option value={'all'}>Tous</option>
                     {
@@ -75,15 +52,16 @@ export default function FilterLesson(props){
                         })
                     }
             </select>
-            <p>Notes :</p>
-            <RangeSlider min={0} max={5} step={0.1} onChange={(e) => rangeSliderValueChanged(e.target.value.min)}>
+            <input type={'range'} multiple></input>
+            {/* <p>Notation :</p> */}
+            {/* <RangeSlider min={0} max={5} step={0.1} onChange={(e) => rangeSliderValueChanged(e.target.value.min)}>
                 <RangeSliderTrack >
                     <RangeSliderFilledTrack/>
                 </RangeSliderTrack>
                 <RangeSliderThumb boxSize={6} index={0} />
                 <RangeSliderThumb boxSize={6} index={1} />
-            </RangeSlider>
-            <p>{rangeSliderMinValue}</p>
+            </RangeSlider> */}
+            {/* <p>{rangeSliderMinValue}</p>
             <p>/</p>
             <p>{rangeSliderMaxValue}</p> */}
         </div>
