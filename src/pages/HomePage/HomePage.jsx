@@ -73,7 +73,7 @@ export default function HomePage() {
     }
 
     return (
-        <div>
+        <div style={{ margin: '0 25px' }}>
             <Skeleton isLoaded={!!tabLessonsData}>
                 <div>
                     <FilterLesson filterValueSelected={onFilterValueSelected} tabMatieresData={tabMatieresData}></FilterLesson>

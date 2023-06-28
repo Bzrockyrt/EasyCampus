@@ -1,8 +1,8 @@
 import {
     Button, Flex, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalCloseButton, Text, useDisclosure, Link,
-    Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, background, Input
+    Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, background, Input, Box, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Popover, PopoverFooter, Skeleton
 } from "@chakra-ui/react";
-import { PhoneIcon, AddIcon, WarningIcon, ArrowLeftIcon } from '@chakra-ui/icons';
+import { PhoneIcon, AddIcon, WarningIcon, ArrowLeftIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
@@ -10,13 +10,17 @@ import { db } from '../../firebase';
 import { color } from "framer-motion";
 import { throwError, throwSuccess } from "../../utils/alerts";
 import CommentSection from "../../components/CommentSection/CommentSection";
+import destructureData from "../../utils/destructureData";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 export default function Lesson() {
     const [userId, ,] = useOutletContext();
     const [docData, setDocData] = useState([]);
     const [matiereData, setMatiereData] = useState([]);
     const [pathReference, setPathReference] = useState('')
-    const [isLoading, setIsLoading] = useState(true)
+    const [username, setUsername] = useState('')
+    const [reportReason, setReportReason] = useState('')
+    const [isUserLoading, setIsUserLoading] = useState(true)
     const location = useLocation();
     const courseTypeModal = useDisclosure();
     const courseReservationModal = useDisclosure();
@@ -43,49 +47,71 @@ export default function Lesson() {
         navigate('/');
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const docRef = doc(db, 'Lessons', location.state.id);
-                const querySnapshot = await getDoc(docRef);
-                const docData = querySnapshot.data();
-                const matiere = doc(db, 'Matieres', docData.matiereId);
-                const queryMatiereSnapshot = await getDoc(matiere);
-                const matiereData = queryMatiereSnapshot.data();
-                setDocData(docData);
-                setMatiereData(matiereData);
-            } catch (e) {
-                console.log(e);
-            }
-        };
-
-        const getMatiereImage = async () => {
-            if (docData.matiereId) {
-                const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
-                console.log('toto');
-                if (querySnapshot) {
-                    const matiere = destructureData(querySnapshot)
-                    const imgUrl = matiere?.imgUrl
-                    const storage = getStorage();
-                    if (imgUrl) {
-                        getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                            console.log(url);
-                            setPathReference(url)
-                            setIsLoading(false)
-                        }).catch(function (error) {
-                            console.log('Error when fetching lessonImage', error)
-                        });
-                    }
+    const fetchData = async () => {
+        try {
+            const docRef = doc(db, 'Lessons', location.state.id);
+            const querySnapshot = await getDoc(docRef);
+            const docData = querySnapshot.data();
+            const matiere = doc(db, 'Matieres', docData.matiereId);
+            const queryMatiereSnapshot = await getDoc(matiere);
+            const matiereData = queryMatiereSnapshot.data();
+            setDocData(docData);
+            setMatiereData(matiereData);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    const getMatiereImage = async () => {
+        if (docData.matiereId) {
+            const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
+            if (querySnapshot) {
+                const matiere = destructureData(querySnapshot)
+                const imgUrl = matiere?.imgUrl
+                const storage = getStorage();
+                if (imgUrl) {
+                    getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                        setPathReference(url)
+                    }).catch(function (error) {
+                        console.log('Error when fetching lessonImage', error)
+                    });
                 }
             }
         }
+    }
+    const getUsername = async () => {
+        if (docData.userId) {
+            const querySnapshot = await getDoc(doc(db, "users", docData.userId));
+            const user = destructureData(querySnapshot)
+            if (user) {
+                setUsername(`${user.prenom} ${user.nom}`)
+                setIsUserLoading(false)
+            }
+        }
+    }
 
+    useEffect(() => {
         fetchData();
-        getMatiereImage();
     }, []);
 
-    function selectHourForCourse(param) {
-        selectedHour = param;
+    useEffect(() => {
+        getMatiereImage();
+        getUsername()
+    }, [docData]);
+
+    async function reportUser() {
+        if (!reportReason) {
+            throwError('Veuillez indiquer une raison afin de signaler un utilisateur')
+        } else {
+            let today = new Date()
+            await addDoc(collection(db, "Reports"), {
+                userReportedId: docData.userId,
+                reason: reportReason,
+                date: today,
+                userId
+
+            });
+            throwSuccess("Le signalement sera traité prochainement par nos administrateurs");
+        }
     }
 
     return (
@@ -114,6 +140,29 @@ export default function Lesson() {
                     <div className='lesson-localization'>
                         <Text fontStyle="italic" textAlign="left">{docData.description}</Text>
                     </div>
+                    <Skeleton isLoaded={!isUserLoading}>
+                        <Box color={"gray.600"} textAlign={'left'} marginBottom={'20px'} flexDirection={'row'} display={'flex'} alignItems={'center'}><Text>{username}</Text>
+                            <Popover trigger="hover" onClose={() => setReportReason('')}>
+                                <PopoverTrigger>
+                                    <InfoOutlineIcon marginLeft={'10px'} />
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <PopoverArrow />
+                                    <PopoverCloseButton />
+                                    <PopoverHeader>Voulez vous signaler cette utilisateur?</PopoverHeader>
+                                    <PopoverBody>
+                                        <Flex flexDirection={'column'}>
+                                            <Text>
+                                                Veuillez indiquer une raison :
+                                            </Text>
+                                            <Input value={reportReason} onChange={(e) => setReportReason(e.target.value)}></Input>
+                                        </Flex>
+                                    </PopoverBody>
+                                    <PopoverFooter justifyContent={'center'}><Button colorScheme={'red'} onClick={() => reportUser()}>Signaler</Button></PopoverFooter>
+                                </PopoverContent>
+                            </Popover>
+                        </Box>
+                    </Skeleton>
                     <div className='lesson-price'>
                         {/* Prix de la leçon */}
                         <span>{docData.price} €</span>

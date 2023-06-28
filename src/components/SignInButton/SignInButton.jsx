@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { Input } from '@chakra-ui/react'
+import { throwError } from "../../utils/alerts";
 
 export default function SignInButton({ setUserId }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -43,7 +44,7 @@ export default function SignInButton({ setUserId }) {
                 if (blockedTime && blockedTime.toDate() > new Date()) {
                     // Déconnexion de l'utilisateur
                     logout()
-                    console.log('L\'utilisateur a été déconnecté en raison d\'un blocage.');
+                    throwError(`Votre compte a été restreint : ${userData.blockedReason}`)
                     return;
                 }
             }
@@ -53,6 +54,7 @@ export default function SignInButton({ setUserId }) {
             navigate('/');
         } catch (error) {
             console.log(error);
+            throwError('Une erreur est survenue lors de la connexion')
         }
     };
 

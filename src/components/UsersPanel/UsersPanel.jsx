@@ -1,15 +1,18 @@
-import { SearchIcon, LockIcon } from '@chakra-ui/icons';
-import { Alert, AlertIcon, AlertTitle, AlertDescription, Box, Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
-import { collection, getDocs, query, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { SearchIcon, LockIcon, NotAllowedIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from '@chakra-ui/react';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { addDays } from "date-fns";
 import React, { useEffect, useState } from 'react';
 import { db } from '../../firebase';
 import Userdata from '../Userdata/UserData';
+import { throwError, throwSuccess } from '../../utils/alerts';
+import destructureDatas from '../../utils/destructureDatas';
 
 export default function UsersPanel() {
     const [users, setUsers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [userDetailId, setUserDetailId] = useState('')
+    const [blockReason, setBlockReason] = useState('')
     const userDataDisclosure = useDisclosure()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -17,15 +20,7 @@ export default function UsersPanel() {
     async function getUsers() {
         const querySnapshot = await getDocs(collection(db, "users"));
         if (querySnapshot) {
-            const users = []
-            querySnapshot.docs.forEach((userDoc, index) => {
-                let user = {}
-                let object = userDoc._document.data.value.mapValue.fields
-                let keys = Object.keys(object)
-                keys.forEach((key) => user[key] = object[key].stringValue)
-                user.id = userDoc.id
-                users.push(user)
-            });
+            const users = destructureDatas(querySnapshot, 'dateCreation')
             setUsers(users)
             setIsLoading(false)
         }
@@ -34,15 +29,17 @@ export default function UsersPanel() {
     async function blockUser(time) { // pas oublier la condition time
         try {
             const userRef = doc(db, "users", userDetailId); // Remplacez "lessonId" par l'ID du document existant
-            const currentTimestamp = serverTimestamp();
             const futureTimestamp = addDays(new Date(), time);
-
             await updateDoc(userRef, {
-                blockedTime: futureTimestamp
+                blockedTime: futureTimestamp,
+                blockedReason: blockReason
             });
+            throwSuccess(`L'utilisateur sera restreint jusqu'au : ${futureTimestamp}`)
+            getUsers()
             onClose()
         } catch (e) {
             console.log("Erreur blockUser", e);
+            throwError(`Une erreur est survenue`)
             onClose()
         }
     }
@@ -65,7 +62,8 @@ export default function UsersPanel() {
                             <Tr>
                                 <Th>Nom</Th>
                                 <Th>Prénom</Th>
-                                <Th>Détails</Th>
+                                <Th>Actions</Th>
+                                <Th>Restreint</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
@@ -74,8 +72,9 @@ export default function UsersPanel() {
                                 <Td>{user.prenom}</Td>
                                 <Td>
                                     <IconButton aria-label='details' marginRight={'5px'} height={'30px'} icon={<SearchIcon />} onClick={() => { userDataDisclosure.onOpen(), setUserDetailId(user.id) }} />
-                                    <IconButton aria-label='details' height={'30px'} icon={<LockIcon />} onClick={() => { onOpen(), setUserDetailId(user.id) }} />
+                                    <IconButton aria-label='details' height={'30px'} icon={<NotAllowedIcon />} onClick={() => { onOpen(), setUserDetailId(user.id) }} />
                                 </Td>
+                                <Td>{user.blockedTime && new Date(user.blockedTime) > new Date() && <Text>{new Date(user.blockedTime).toLocaleDateString() + ' - ' + new Date(user.blockedTime).toLocaleTimeString()}</Text>}</Td>
                             </Tr>
                             )}
                         </Tbody>
@@ -98,27 +97,22 @@ export default function UsersPanel() {
             <ModalContent display={'flex'}>
                 <ModalHeader>{'Restriction de compte'}</ModalHeader>
                 <ModalBody height={'100%'}>
-                    <Button onClick={() => onClose()} style={{ width: "100px" }}>
-                        Annuler
-                    </Button>
-                    <Button colorScheme={"yellow"} onClick={() => blockUser(7).onClose} style={{ marginLeft: "10px", width: "100px" }}>
-                        1 semaine
-                    </Button>
-                    <Button colorScheme={"orange"} onClick={() => blockUser(30).onClose} style={{ marginLeft: "10px", width: "80px" }}>
-                        1 mois
-                    </Button>
-                    <Button colorScheme={"red"} onClick={() => blockUser(365).onClose} style={{ marginLeft: "10px", width: "80px" }}>
-                        1 an
-                    </Button>
+                    <Flex flexDirection={'column'}>
+                        <Text fontSize={'16px'} fontWeight={600}>Raison de la restriction :</Text>
+                        <Input placeholder='Raison' value={blockReason} onChange={(e) => setBlockReason(e.target.value)} />
+                        <Flex flexDirection={'row'} justifyContent={'space-evenly'} marginTop={'15px'}>
+                            <Button colorScheme={"yellow"} onClick={() => blockUser(7)} style={{ marginLeft: "10px", width: "100px" }}>
+                                1 semaine
+                            </Button>
+                            <Button colorScheme={"orange"} onClick={() => blockUser(30)} style={{ marginLeft: "10px", width: "80px" }}>
+                                1 mois
+                            </Button>
+                            <Button colorScheme={"red"} onClick={() => blockUser(365)} style={{ marginLeft: "10px", width: "80px" }}>
+                                1 an
+                            </Button>
+                        </Flex>
+                    </Flex>
                 </ModalBody>
-                {/* <ModalFooter justifyContent={'space-evenly'}>
-                    <Button onClick={() => handleClose()}>
-                        Annuler
-                    </Button>
-                    <Button colorScheme={"red"} onClick={() => handleClose()}>
-                        Valider
-                    </Button>
-                </ModalFooter> */}
             </ModalContent>
         </Modal>
     </Box>

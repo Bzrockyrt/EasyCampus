@@ -35,7 +35,7 @@ export default function Userdata({ targetedUserId, dataToDisplay, width }) {
     return <Box height={width ? width : '100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
             <Text fontSize={'28px'} fontWeight={600}>
-                PROFILE
+                PROFIL
             </Text>
         </Flex>
         <Box height={'75%'}>
