@@ -94,20 +94,39 @@
         margin-bottom: 20px;
     }
 
-    .lesson-price{
+    .lesson-important{
         display: flex;
         justify-content: space-between;
         border-top: 1px solid #E1E8EE;
         padding-top: 20px;
     }
 
-        .lesson-price span{
-            color: #111111;
-            font-weight: 700;
-            font-size: 28px;
-            font-style: italic;
-            text-align: center;
+        .lesson-important .lesson-price-duration{
+            display: flex;
+            justify-content: space-between;
         }
+
+            .lesson-important .lesson-price-duration .lesson-price{
+                color: #111111;
+                font-weight: 700;
+                font-size: 28px;
+                font-style: italic;
+                text-align: center;
+            }
+        
+            .lesson-important .lesson-price-duration .lesson-duration{
+                color: #111111;
+                font-weight: 700;
+                font-size: 28px;
+                font-style: italic;
+                text-align: center;
+            }
+
+            .lesson-important .lesson-price-duration p{
+                text-align: center;
+                align-self: center;
+                padding: 0 10px 0 10px;
+            }
 /* End - Column right */
 
 /* End - Columns */
