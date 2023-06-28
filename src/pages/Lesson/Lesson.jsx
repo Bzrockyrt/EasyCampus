@@ -10,6 +10,9 @@ import { db } from '../../firebase';
 import { color } from "framer-motion";
 import { throwError, throwSuccess } from "../../utils/alerts";
 import CommentSection from "../../components/CommentSection/CommentSection";
+import destructureDatas from '../../utils/destructureDatas';
+import destructureData from '../../utils/destructureData';
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 
 export default function Lesson() {
     const [userId, ,] = useOutletContext();
@@ -42,6 +45,27 @@ export default function Lesson() {
         courseReservationModal.onClose();
         navigate('/');
     }
+    
+        
+    const getMatiereImage = async () => {
+        if (docData.matiereId) {
+            const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
+            console.log("TOTO");
+            if (querySnapshot) {
+                const matiere = destructureData(querySnapshot)
+                const imgUrl = matiere?.imgUrl
+                const storage = getStorage();
+                if (imgUrl) {
+                    getDownloadURL(ref(storage, imgUrl)).then((url) => {
+                        setPathReference(url)
+                        setIsLoading(false)
+                    }).catch(function (error) {
+                        console.log('Error when fetching lessonImage', error)
+                    });
+                }
+            }
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,27 +82,6 @@ export default function Lesson() {
                 console.log(e);
             }
         };
-
-        const getMatiereImage = async () => {
-            if (docData.matiereId) {
-                const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
-                console.log('toto');
-                if (querySnapshot) {
-                    const matiere = destructureData(querySnapshot)
-                    const imgUrl = matiere?.imgUrl
-                    const storage = getStorage();
-                    if (imgUrl) {
-                        getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                            console.log(url);
-                            setPathReference(url)
-                            setIsLoading(false)
-                        }).catch(function (error) {
-                            console.log('Error when fetching lessonImage', error)
-                        });
-                    }
-                }
-            }
-        }
 
         fetchData();
         getMatiereImage();
@@ -114,9 +117,15 @@ export default function Lesson() {
                     <div className='lesson-localization'>
                         <Text fontStyle="italic" textAlign="left">{docData.description}</Text>
                     </div>
-                    <div className='lesson-price'>
-                        {/* Prix de la leçon */}
-                        <span>{docData.price} €</span>
+                    <div className='lesson-important'>
+                        <div className="lesson-price-duration">
+                            {/* Prix de la leçon */}
+                            <span className="lesson-price">{docData.price} €</span>
+                            <p>pour</p>
+                            {/* Durée de la leçon */}
+                            <span className="lesson-duration">{docData.duration}</span>
+                            <p>minutes</p>
+                        </div>
                         {/* Bouton pour ajouter s'inscrire à la leçon */}
                         {/* <a href="#" class="cart-btn" onClick={() => onOpen()}>S'inscrire</a> */}
                         <Button display={{ base: 'none', md: 'inline-flex' }} fontSize={'sm'} fontWeight={600} onClick={() => courseReservationModal.onOpen()} colorScheme="blue" border="0px">

@@ -82,7 +82,7 @@ export default function Card({ lessonData, refetch }) {
             throwError("Une erreur est survenue lors de l'ajout de la leçon au favori")
         }
     }
-    console.log('username', username)
+    
     return (
         <div className='allCard'>
             <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
