@@ -48,7 +48,7 @@ export default function ReportsPanel() {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {reports.map((report) => <ReportTableLine report={report} refetch={getReports} />)}
+                            {reports.map((report) => <ReportTableLine key={report.id} report={report} refetch={getReports} />)}
                         </Tbody>
                     </Table>
                 </TableContainer>

@@ -7,6 +7,7 @@ import Userdata from '../components/Userdata/UserData';
 import MatieresPanel from '../components/MatieresPanel/MatieresPanel';
 import LessonsPanel from '../components/LessonsPanel/LessonsPanel';
 import ReportsPanel from '../components/ReportsPanel/ReportsPanel';
+import ReservationsPanel from '../components/ReservationsPanel/ReservationsPanel';
 
 export default function Profile() {
   const [userId, , isAdmin] = useOutletContext()
@@ -19,6 +20,7 @@ export default function Profile() {
           <TabList height={'10%'}>
             <Tab>Profil</Tab>
             <Tab>Leçons</Tab>
+            <Tab>Réservations</Tab>
             {isAdmin &&
               <Tab>Utilisateurs</Tab>
             }
@@ -35,6 +37,9 @@ export default function Profile() {
             </TabPanel>
             <TabPanel height={'100%'} padding={0}>
               <LessonsPanel />
+            </TabPanel>
+            <TabPanel height={'100%'} padding={0}>
+              <ReservationsPanel />
             </TabPanel>
             {isAdmin &&
               <TabPanel height={'100%'} padding={0}>

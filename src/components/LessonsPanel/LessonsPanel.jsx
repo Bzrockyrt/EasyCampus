@@ -1,5 +1,5 @@
 import { AddIcon, DeleteIcon, EditIcon, InfoOutlineIcon } from '@chakra-ui/icons';
-import { Box, Flex, HStack, IconButton, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useDisclosure } from '@chakra-ui/react';
+import { Box, css, Flex, HStack, IconButton, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tooltip, Tr, useDisclosure } from '@chakra-ui/react';
 import { collection, deleteDoc, doc, getDocs, query, where, } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
@@ -13,6 +13,7 @@ import MatiereName from '../MatiereName/MatiereName';
 import UserName from '../UserName/UserName';
 import { BiCommentDots } from 'react-icons/bi'
 import LessonNotationTableLine from '../LessonNotationTableLine/LessonNotationTableLine';
+import ReservationIconButton from '../ReservationIconButton/ReservationIconButton';
 
 export default function LessonsPanel() {
     const [userId, , isAdmin] = useOutletContext()
@@ -106,7 +107,16 @@ export default function LessonsPanel() {
                                 <Td>
                                     <HStack gap='5px'>
                                         <Tooltip label={'Voir les réservations'}>
-                                            <IconButton aria-label='view-reservation' height={'30px'} icon={<InfoOutlineIcon />} onClick={() => { reservationModal.onOpen(), setSelectedLesson(lesson) }} />
+                                            <IconButton
+                                                css={css`position: relative !important;`}
+                                                py={'2'}
+                                                colorScheme={'gray'}
+                                                aria-label='view-reservation'
+                                                size={'lg'}
+                                                icon={<ReservationIconButton lesson={lesson} />}
+                                                height={'30px'}
+                                                onClick={() => { reservationModal.onOpen(), setSelectedLesson(lesson) }}
+                                            />
                                         </Tooltip>
                                         <Tooltip label={'Voir les commentaires'}>
                                             <IconButton aria-label='view-comments' height={'30px'} icon={<BiCommentDots />} onClick={() => { commentModal.onOpen(), setSelectedLesson(lesson) }} />

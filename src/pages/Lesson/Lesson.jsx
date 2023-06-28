@@ -46,27 +46,6 @@ export default function Lesson() {
         courseReservationModal.onClose();
         navigate('/');
     }
-    
-        
-    const getMatiereImage = async () => {
-        if (docData.matiereId) {
-            const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
-            console.log("TOTO");
-            if (querySnapshot) {
-                const matiere = destructureData(querySnapshot)
-                const imgUrl = matiere?.imgUrl
-                const storage = getStorage();
-                if (imgUrl) {
-                    getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                        setPathReference(url)
-                        setIsLoading(false)
-                    }).catch(function (error) {
-                        console.log('Error when fetching lessonImage', error)
-                    });
-                }
-            }
-        }
-    }
 
     const fetchData = async () => {
         try {
@@ -184,9 +163,6 @@ export default function Lesson() {
                             </Popover>
                         </Box>
                     </Skeleton>
-                    <div className='lesson-price'>
-                        {/* Prix de la leçon */}
-                        <span>{docData.price} €</span>
                     <div className='lesson-important'>
                         <div className="lesson-price-duration">
                             {/* Prix de la leçon */}
@@ -222,7 +198,7 @@ export default function Lesson() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Modal isOpen={courseReservationModal.isOpen} onClose={courseReservationModal.onClose} size="2xl">
+            <Modal isOpen={courseReservationModal.isOpen} onClose={courseReservationModal.onClose} size="3xl">
                 <ModalOverlay width="100%" />
                 <ModalContent width="100%">
                     <ModalHeader>
@@ -235,7 +211,8 @@ export default function Lesson() {
                             <Input placeholder="Select Date and Time" size="md" type="datetime-local" onChange={(e) => dateTimeChanged(e.target.value)}
                                 min={now} width={'250px'} alignSelf={'center'} marginTop={'10px'} />
 
-                            <Text textAlign="center" marginTop="20px" fontStyle="italic">En vous inscrivant à ce cours, vous serez mis en relation avec l'étudiant le proposant</Text>
+                            <Text textAlign="center" marginTop="20px" fontStyle="italic">Après la demande de réservation, vous devrez attendre que le responsable de la leçon accepte.</Text>
+                            <Text textAlign="center" fontStyle="italic">Vous pourrez voir le status de votre demande dans l'onglet "Réservations" de la page "Profil"</Text>
                         </Flex>
                     </ModalBody>
                     <ModalFooter justifyContent={'space-evenly'}>
