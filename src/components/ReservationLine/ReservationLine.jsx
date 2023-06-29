@@ -18,10 +18,12 @@ export default function ReservationLine({ reservation }) {
     }
 
     async function getUsername(userId) {
-        const querySnapshot = await getDoc(doc(db, "users", userId))
-        if (querySnapshot) {
-            const user = destructureData(querySnapshot)
-            setUsername(`${user.prenom} ${user.nom}`)
+        if (userId) {
+            const querySnapshot = await getDoc(doc(db, "users", userId))
+            if (querySnapshot) {
+                const user = destructureData(querySnapshot)
+                setUsername(`${user.prenom} ${user.nom}`)
+            }
         }
     }
 
@@ -30,7 +32,9 @@ export default function ReservationLine({ reservation }) {
     }, [reservation])
 
     useEffect(() => {
-        getUsername(lesson.userId)
+        if (lesson) {
+            getUsername(lesson?.userId)
+        }
     }, [lesson])
 
     return <Tr key={reservation.id}>
