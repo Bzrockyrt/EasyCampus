@@ -111,7 +111,7 @@ export default function MatieresPanel() {
     return <Box height={'100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
             <Text width={"90%"} fontSize={'28px'} fontWeight={600}>
-                Matières
+                MATIÈRES
             </Text>
             <IconButton width={"10%"} colorScheme={'blue'} aria-label='add-matiere' icon={<AddIcon />} onClick={() => onOpen()}>Créer une nouvelle matière</IconButton>
         </Flex>
@@ -150,7 +150,7 @@ export default function MatieresPanel() {
                 <ModalHeader>{selectedMatiere ? 'Modifier cette matière' : 'Créer une nouvelle matière'}</ModalHeader>
                 <ModalBody height={'100%'}>
                     <Input placeholder={selectedMatiere ? selectedMatiere.nom : 'Nom de la matière'} marginBottom={'15px'} onChange={(e) => setMatiereName(e.target.value)} />
-                    <Input placeholder={selectedMatiere ? selectedMatiere.histoire : 'Histoire de la matière'} marginBottom={'15px'} onChange={(e) => setMatiereHistoire(e.target.value)}/>
+                    <Input placeholder={selectedMatiere ? selectedMatiere.histoire : 'Histoire de la matière'} marginBottom={'15px'} onChange={(e) => setMatiereHistoire(e.target.value)} />
                     <Input id='fileInput' accept="image/*" placeholder="Ajouter une image" type="file" onChange={(e) => setMatiereImage(document.getElementById("fileInput").files[0])} />
                 </ModalBody>
                 <ModalFooter justifyContent={'space-evenly'}>

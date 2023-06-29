@@ -36,22 +36,24 @@ export default function ReportsPanel() {
         </Flex>
         <Box height={'85%'}>
             <Skeleton isLoaded={!isLoading} height={'100%'} scrollBehavior={"auto"}>
-                <TableContainer height={'100%'} overflowY={"auto"}>
-                    <Table variant='simple' size={"sm"}>
-                        <Thead>
-                            <Tr>
-                                <Th>Effectué par</Th>
-                                <Th>Personne signalée</Th>
-                                <Th>Raison</Th>
-                                <Th>Date</Th>
-                                <Th>Actions</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {reports.map((report) => <ReportTableLine key={report.id} report={report} refetch={getReports} />)}
-                        </Tbody>
-                    </Table>
-                </TableContainer>
+                {reports.length > 0 ?
+                    <TableContainer height={'100%'} overflowY={"auto"}>
+                        <Table variant='simple' size={"sm"}>
+                            <Thead>
+                                <Tr>
+                                    <Th>Effectué par</Th>
+                                    <Th>Personne signalée</Th>
+                                    <Th>Raison</Th>
+                                    <Th>Date</Th>
+                                    <Th>Actions</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {reports.map((report) => <ReportTableLine key={report.id} report={report} refetch={getReports} />)}
+                            </Tbody>
+                        </Table>
+                    </TableContainer> :
+                    <Text fontSize={'12px'} fontStyle={'italic'} marginTop={'25px'}>Il n'y a aucun signalement 😃</Text>}
             </Skeleton>
         </Box>
     </Box>

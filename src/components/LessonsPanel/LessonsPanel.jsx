@@ -77,7 +77,7 @@ export default function LessonsPanel() {
     return <Box height={'100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
             <Text width={"90%"} fontSize={'28px'} fontWeight={600}>
-                Leçons
+                LEÇONS
             </Text>
             <IconButton width={"10%"} colorScheme={'blue'} aria-label='add-matiere' icon={<AddIcon />} onClick={() => lessonForm.onOpen()}>Créer une nouvelle matière</IconButton>
         </Flex>
