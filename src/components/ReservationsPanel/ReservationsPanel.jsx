@@ -22,7 +22,7 @@ export default function ReservationsPanel() {
     useEffect(() => {
         getReservations()
     }, [userId])
-    console.log(reservations)
+
     return <Box height={'100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
             <Text fontSize={'28px'} fontWeight={600}>

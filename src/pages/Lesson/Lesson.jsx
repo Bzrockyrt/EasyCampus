@@ -172,6 +172,9 @@ export default function Lesson() {
                             <span className="lesson-duration">{docData.duration}</span>
                             <p>minutes</p>
                         </div>
+                        <Button display={{ base: 'none', md: 'inline-flex' }} fontSize={'sm'} fontWeight={600} onClick={() => courseReservationModal.onOpen()} colorScheme="blue" border="0px">
+                            Réserver
+                        </Button>
                     </div>
                 </div>
             </div>

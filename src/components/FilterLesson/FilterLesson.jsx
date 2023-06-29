@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getDoc, collection } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import destructureDatas from '../../utils/destructureDatas';
 
 
 export default function FilterLesson(props) {
@@ -11,19 +12,11 @@ export default function FilterLesson(props) {
 
     useEffect(() => {
         const getLessonPriceRangeData = async () => {
-            const querySnapshot = await getDoc(collection(db, "Lessons"));
-            const lessons = []
+            const querySnapshot = await getDocs(collection(db, "Lessons"));
             if (querySnapshot) {
-                querySnapshot.docs.forEach(async (lessonDoc, index) => {
-                    let lesson = {}
-                    let object = lessonDoc._document.data.value.mapValue.fields
-                    let keys = Object.keys(object)
-                    keys.forEach((key) => lesson[key] = object[key].stringValue)
-                    lesson.id = lessonDoc.id
-                    lessons.push(lesson)
-                });
+                const lessons = destructureDatas(querySnapshot)
+                setTabLessonsData(lessons)
             }
-            setTabLessonsData(lessons)
         }
         getLessonPriceRangeData();
     }, []);
@@ -45,9 +38,7 @@ export default function FilterLesson(props) {
                 <option defaultValue disabled>Type de cours</option>
                 <option value={'all'}>Tous</option>
                 {
-                    props.tabMatieresData && props.tabMatieresData.map((matiere, i) => {
-                        return <option value={matiere.id}>{matiere.nom}</option>
-                    })
+                    props.tabMatieresData && props.tabMatieresData.map((matiere, i) => <option key={matiere.id} value={matiere.id}>{matiere.nom}</option>)
                 }
             </select>
             <input type={'range'} multiple></input>

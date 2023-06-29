@@ -13,7 +13,6 @@ export default function ReservationLine({ reservation }) {
         const querySnapshot = await getDoc(doc(db, "Lessons", lessonId));
         if (querySnapshot) {
             const test = destructureData(querySnapshot)
-            console.log('test', test)
             setLesson(test)
         }
     }
@@ -27,7 +26,6 @@ export default function ReservationLine({ reservation }) {
     }
 
     useEffect(() => {
-        console.log('reservation', reservation)
         getLesson(reservation.lessonId)
     }, [reservation])
 

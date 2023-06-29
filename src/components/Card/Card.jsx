@@ -82,38 +82,39 @@ export default function Card({ lessonData, refetch }) {
             throwError("Une erreur est survenue lors de l'ajout de la leçon au favori")
         }
     }
-    
+
     return (
-        <div className='allCard'>
-            <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
-                <div style={{ height: '200px' }}>
-                    <Skeleton isLoaded={!isLoading}><img src={pathReference} className='cardImage' /></Skeleton>
-                </div>
-                <div className='cardWrapper'>
-                    <div className='cardTitle'>
-                        {lessonData.title}
+        <Skeleton isLoaded={!isLoading}>
+            <div className='allCard'>
+                <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
+                    <div style={{ height: '200px' }}><img src={pathReference} className='cardImage' />
                     </div>
-                    {notation && <div className='cardNotation'>
-                        <img src='star.png' className='cardStarNotation' />
-                        {notation}
-                    </div>}
-                    <Skeleton isLoaded={!!username}>
-                        <div className='cardUsername'>
-                            {username}
+                    <div className='cardWrapper'>
+                        <div className='cardTitle'>
+                            {lessonData.title}
                         </div>
-                    </Skeleton>
-                    <div className='cardPrice'>
-                        {lessonData.price}€
-                    </div>
-                    <div className='cardButtonLike'>
-                        <IconButton
-                            variant={'ghost'}
-                            icon={lessonData?.favorisedBy?.includes(userId) ? <AiFillHeart size={23} /> : <AiOutlineHeart size={23} />}
-                            onClick={(e) => handleFavorise(e)}
-                        />
+                        {notation && <div className='cardNotation'>
+                            <img src='star.png' className='cardStarNotation' />
+                            {notation}
+                        </div>}
+                        <Skeleton isLoaded={!!username}>
+                            <div className='cardUsername'>
+                                {username}
+                            </div>
+                        </Skeleton>
+                        <div className='cardPrice'>
+                            {lessonData.price}€
+                        </div>
+                        <div className='cardButtonLike'>
+                            <IconButton
+                                variant={'ghost'}
+                                icon={lessonData?.favorisedBy?.includes(userId) ? <AiFillHeart size={23} /> : <AiOutlineHeart size={23} />}
+                                onClick={(e) => handleFavorise(e)}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Skeleton>
     );
 }

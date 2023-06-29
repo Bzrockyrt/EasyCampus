@@ -17,8 +17,6 @@ export default function HomePage() {
     const [filterTextValue, setfilterTextValue] = useState('all');
     const [filteredLessons, setFilteredLessons] = useState([]);
     const [favorisedLessonList, setFavorisedLessonList] = useState([])
-    const [isLessonsLoading, setIsLessonsLoading] = useState(true)
-    const [isFavoritesLoading, setIsFavoritesLoading] = useState(true)
 
     const getLessonData = async () => {
         const querySnapshot = await getDocs(collection(db, "Lessons"));
@@ -49,19 +47,15 @@ export default function HomePage() {
                 return lesson.matiereId === filterTextValue;
             }
         }));
-        setIsLessonsLoading(false)
     }, [tabLessonsData, filterTextValue]);
 
     useEffect(() => {
         setFavorisedLessonList(filteredLessons.filter((lesson) => {
             return lesson.favorisedBy?.includes(userId)
         }))
-        setIsFavoritesLoading(false)
     }, [tabLessonsData, filteredLessons, userId])
 
     function onFilterValueSelected(filterValue) {
-        setIsLessonsLoading(true)
-        setIsFavoritesLoading(true)
         setfilterTextValue(filterValue);
     }
 
@@ -74,17 +68,15 @@ export default function HomePage() {
                         <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours favoris</Text>
                     </div>
                     {favorisedLessonList?.length > 0 ?
-                        <Skeleton isLoaded={!isFavoritesLoading}>
-                            <Flex margin={'15px 0 30px'}>
-                                <div className="cards">
-                                    {
-                                        favorisedLessonList && favorisedLessonList.map((card, i) => {
-                                            return <Card key={i} lessonData={card} refetch={getLessonData} />
-                                        })
-                                    }
-                                </div>
-                            </Flex>
-                        </Skeleton>
+                        <Flex margin={'15px 0 30px'}>
+                            <div className="cards">
+                                {
+                                    favorisedLessonList && favorisedLessonList.map((card, i) => {
+                                        return <Card key={i} lessonData={card} refetch={getLessonData} />
+                                    })
+                                }
+                            </div>
+                        </Flex>
                         :
                         <div className="cards">
                             <Text fontSize={'12px'} fontStyle={'italic'} textAlign={'left'} margin={'15px 0 30px'}>Vous n'avez aucun cours en favori 🙁</Text>
@@ -93,17 +85,15 @@ export default function HomePage() {
                 <div className="cards">
                     <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours disponibles</Text>
                 </div>
-                <Skeleton isLoaded={!isLessonsLoading}>
-                    <Flex margin={'15px 0 30px'}>
-                        <div className="cards">
-                            {
-                                filteredLessons && filteredLessons.map((card, i) => {
-                                    return <Card key={i} lessonData={card} refetch={getLessonData} />
-                                })
-                            }
-                        </div>
-                    </Flex>
-                </Skeleton>
+                <Flex margin={'15px 0 30px'}>
+                    <div className="cards">
+                        {
+                            filteredLessons && filteredLessons.map((card, i) => {
+                                return <Card key={i} lessonData={card} refetch={getLessonData} />
+                            })
+                        }
+                    </div>
+                </Flex>
             </div>
         </div>
     );
