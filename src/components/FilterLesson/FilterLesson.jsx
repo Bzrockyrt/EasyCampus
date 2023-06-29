@@ -41,11 +41,7 @@ export default function FilterLesson(props) {
 
     return (
         <div className="filterLesson-container">
-<<<<<<< Updated upstream
-            <select onChange={onFilterLessonChanged}>
-=======
             <select name='filterLesson-Lessontype' onChange={onFilterLessonChanged}>
->>>>>>> Stashed changes
                 <option defaultValue disabled>Type de cours</option>
                 <option value={'all'}>Tous</option>
                 {
