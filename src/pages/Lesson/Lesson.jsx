@@ -46,27 +46,6 @@ export default function Lesson() {
         courseReservationModal.onClose();
         navigate('/');
     }
-    
-        
-    const getMatiereImage = async () => {
-        if (docData.matiereId) {
-            const querySnapshot = await getDoc(doc(db, "Matieres", docData.matiereId));
-            console.log("TOTO");
-            if (querySnapshot) {
-                const matiere = destructureData(querySnapshot)
-                const imgUrl = matiere?.imgUrl
-                const storage = getStorage();
-                if (imgUrl) {
-                    getDownloadURL(ref(storage, imgUrl)).then((url) => {
-                        setPathReference(url)
-                        setIsLoading(false)
-                    }).catch(function (error) {
-                        console.log('Error when fetching lessonImage', error)
-                    });
-                }
-            }
-        }
-    }
 
     const fetchData = async () => {
         try {
@@ -187,63 +166,64 @@ export default function Lesson() {
                     <div className='lesson-price'>
                         {/* Prix de la leçon */}
                         <span>{docData.price} €</span>
-                    <div className='lesson-important'>
-                        <div className="lesson-price-duration">
-                            {/* Prix de la leçon */}
-                            <span className="lesson-price">{docData.price} €</span>
-                            <p>pour</p>
-                            {/* Durée de la leçon */}
-                            <span className="lesson-duration">{docData.duration}</span>
-                            <p>minutes</p>
+                        <div className='lesson-important'>
+                            <div className="lesson-price-duration">
+                                {/* Prix de la leçon */}
+                                <span className="lesson-price">{docData.price} €</span>
+                                <p>pour</p>
+                                {/* Durée de la leçon */}
+                                <span className="lesson-duration">{docData.duration}</span>
+                                <p>minutes</p>
+                            </div>
+                            {/* Bouton pour ajouter s'inscrire à la leçon */}
+                            {/* <a href="#" class="cart-btn" onClick={() => onOpen()}>S'inscrire</a> */}
+                            <Button display={{ base: 'none', md: 'inline-flex' }} fontSize={'sm'} fontWeight={600} onClick={() => courseReservationModal.onOpen()} colorScheme="blue" border="0px">
+                                Réserver
+                            </Button>
                         </div>
-                        {/* Bouton pour ajouter s'inscrire à la leçon */}
-                        {/* <a href="#" class="cart-btn" onClick={() => onOpen()}>S'inscrire</a> */}
-                        <Button display={{ base: 'none', md: 'inline-flex' }} fontSize={'sm'} fontWeight={600} onClick={() => courseReservationModal.onOpen()} colorScheme="blue" border="0px">
-                            Réserver
-                        </Button>
                     </div>
                 </div>
-            </div>
-            <CommentSection lessonId={lessonId} />
-            <Modal isOpen={courseTypeModal.isOpen} onClose={courseTypeModal.onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>
-                        {/* <Text>S'inscrire au cours {location.state.name}</Text> */}
-                        <Text textAlign="center">{matiereData.nom}</Text>
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Flex flexDirection="column" justifyContent={'center'}>
-                            <Text textAlign="center">{matiereData.histoire}</Text>
-                        </Flex>
-                    </ModalBody>
-                    <ModalFooter>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-            <Modal isOpen={courseReservationModal.isOpen} onClose={courseReservationModal.onClose} size="2xl">
-                <ModalOverlay width="100%" />
-                <ModalContent width="100%">
-                    <ModalHeader>
-                        {/* <Text>S'inscrire au cours {location.state.name}</Text> */}
-                        <Text textAlign="center">Mathématiques</Text>
-                    </ModalHeader>
-                    <ModalBody width="100%">
-                        <Flex flexDirection="column" justifyContent={'center'}>
-                            <Text textAlign="center">Veuillez choisir un horaire pour votre cours</Text>
-                            <Input placeholder="Select Date and Time" size="md" type="datetime-local" onChange={(e) => dateTimeChanged(e.target.value)}
-                                min={now} width={'250px'} alignSelf={'center'} marginTop={'10px'} />
+                <CommentSection lessonId={lessonId} />
+                <Modal isOpen={courseTypeModal.isOpen} onClose={courseTypeModal.onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>
+                            {/* <Text>S'inscrire au cours {location.state.name}</Text> */}
+                            <Text textAlign="center">{matiereData.nom}</Text>
+                        </ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <Flex flexDirection="column" justifyContent={'center'}>
+                                <Text textAlign="center">{matiereData.histoire}</Text>
+                            </Flex>
+                        </ModalBody>
+                        <ModalFooter>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+                <Modal isOpen={courseReservationModal.isOpen} onClose={courseReservationModal.onClose} size="2xl">
+                    <ModalOverlay width="100%" />
+                    <ModalContent width="100%">
+                        <ModalHeader>
+                            {/* <Text>S'inscrire au cours {location.state.name}</Text> */}
+                            <Text textAlign="center">Mathématiques</Text>
+                        </ModalHeader>
+                        <ModalBody width="100%">
+                            <Flex flexDirection="column" justifyContent={'center'}>
+                                <Text textAlign="center">Veuillez choisir un horaire pour votre cours</Text>
+                                <Input placeholder="Select Date and Time" size="md" type="datetime-local" onChange={(e) => dateTimeChanged(e.target.value)}
+                                    min={now} width={'250px'} alignSelf={'center'} marginTop={'10px'} />
 
-                            <Text textAlign="center" marginTop="20px" fontStyle="italic">En vous inscrivant à ce cours, vous serez mis en relation avec l'étudiant le proposant</Text>
-                        </Flex>
-                    </ModalBody>
-                    <ModalFooter justifyContent={'space-evenly'}>
-                        <Button variant='ghost' marginRight="10px" onClick={courseReservationModal.onClose}>Annuler</Button>
-                        <Button colorScheme='blue' onClick={() => reservation()}>Réserver</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
+                                <Text textAlign="center" marginTop="20px" fontStyle="italic">En vous inscrivant à ce cours, vous serez mis en relation avec l'étudiant le proposant</Text>
+                            </Flex>
+                        </ModalBody>
+                        <ModalFooter justifyContent={'space-evenly'}>
+                            <Button variant='ghost' marginRight="10px" onClick={courseReservationModal.onClose}>Annuler</Button>
+                            <Button colorScheme='blue' onClick={() => reservation()}>Réserver</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </div>
         </div>
     )
 }

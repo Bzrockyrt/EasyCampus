@@ -17,10 +17,11 @@ export default function HomePage() {
     const [filterTextValue, setfilterTextValue] = useState('all');
     const [filteredLessons, setFilteredLessons] = useState([]);
     const [favorisedLessonList, setFavorisedLessonList] = useState([])
+    const [isLessonsLoading, setIsLessonsLoading] = useState(true)
+    const [isFavoritesLoading, setIsFavoritesLoading] = useState(true)
 
     const getLessonData = async () => {
         const querySnapshot = await getDocs(collection(db, "Lessons"));
-        const lessons = []
         if (querySnapshot) {
             const lessons = destructureDatas(querySnapshot, 'creationDate')
             setTabLessonsData(lessons)
@@ -29,18 +30,10 @@ export default function HomePage() {
 
     const getMatiereData = async () => {
         const querySnapshot = await getDocs(collection(db, "Matieres"));
-        const matieres = []
         if (querySnapshot) {
-            querySnapshot.docs.forEach(async (matiereDoc, index) => {
-                let matiere = {}
-                let object = matiereDoc._document.data.value.mapValue.fields
-                let keys = Object.keys(object)
-                keys.forEach((key) => matiere[key] = object[key].stringValue)
-                matiere.id = matiereDoc.id
-                matieres.push(matiere)
-            });
+            const matieres = destructureDatas(querySnapshot, 'title')
+            setTabMatieresData(matieres)
         }
-        setTabMatieresData(matieres)
     }
 
     useEffect(() => {
@@ -56,44 +49,51 @@ export default function HomePage() {
                 return lesson.matiereId === filterTextValue;
             }
         }));
+        setIsLessonsLoading(false)
     }, [tabLessonsData, filterTextValue]);
 
     useEffect(() => {
         setFavorisedLessonList(filteredLessons.filter((lesson) => {
-            if (lesson.title == 'Test leçon compte PL') {
-                console.log(userId)
-                console.log(lesson.favorisedBy)
-            }
             return lesson.favorisedBy?.includes(userId)
         }))
+        setIsFavoritesLoading(false)
     }, [tabLessonsData, filteredLessons, userId])
 
     function onFilterValueSelected(filterValue) {
+        setIsLessonsLoading(true)
+        setIsFavoritesLoading(true)
         setfilterTextValue(filterValue);
     }
 
     return (
         <div style={{ margin: '0 25px' }}>
-            <Skeleton isLoaded={!!tabLessonsData}>
-                <div>
-                    <FilterLesson filterValueSelected={onFilterValueSelected} tabMatieresData={tabMatieresData}></FilterLesson>
-                    {favorisedLessonList?.length > 0 && <>
-                        <div className="cards">
-                            <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours favoris</Text>
-                        </div>
-                        <Flex margin={'15px 0 30px'}>
-                            <div className="cards">
-                                {
-                                    favorisedLessonList && favorisedLessonList.map((card, i) => {
-                                        return <Card key={i} lessonData={card} refetch={getLessonData} />
-                                    })
-                                }
-                            </div>
-                        </Flex>
-                    </>}
+            <div>
+                <FilterLesson filterValueSelected={onFilterValueSelected} tabMatieresData={tabMatieresData}></FilterLesson>
+                {userId && <>
                     <div className="cards">
-                        <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours disponibles</Text>
+                        <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours favoris</Text>
                     </div>
+                    {favorisedLessonList?.length > 0 ?
+                        <Skeleton isLoaded={!isFavoritesLoading}>
+                            <Flex margin={'15px 0 30px'}>
+                                <div className="cards">
+                                    {
+                                        favorisedLessonList && favorisedLessonList.map((card, i) => {
+                                            return <Card key={i} lessonData={card} refetch={getLessonData} />
+                                        })
+                                    }
+                                </div>
+                            </Flex>
+                        </Skeleton>
+                        :
+                        <div className="cards">
+                            <Text fontSize={'12px'} fontStyle={'italic'} textAlign={'left'} margin={'15px 0 30px'}>Vous n'avez aucun cours en favori 🙁</Text>
+                        </div>}
+                </>}
+                <div className="cards">
+                    <Text fontSize={"lg"} textAlign={'left'} fontWeight={600}>Cours disponibles</Text>
+                </div>
+                <Skeleton isLoaded={!isLessonsLoading}>
                     <Flex margin={'15px 0 30px'}>
                         <div className="cards">
                             {
@@ -103,8 +103,8 @@ export default function HomePage() {
                             }
                         </div>
                     </Flex>
-                </div>
-            </Skeleton>
+                </Skeleton>
+            </div>
         </div>
     );
 }
