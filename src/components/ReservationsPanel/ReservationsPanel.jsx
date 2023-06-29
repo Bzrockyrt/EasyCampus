@@ -21,8 +21,8 @@ export default function ReservationsPanel() {
 
     useEffect(() => {
         getReservations()
-    }, [])
-
+    }, [userId])
+    console.log(reservations)
     return <Box height={'100%'}>
         <Flex height={'15%'} alignItems={'center'} justifyContent={'center'}>
             <Text fontSize={'28px'} fontWeight={600}>
@@ -30,7 +30,7 @@ export default function ReservationsPanel() {
             </Text>
         </Flex>
         <Box height={'85%'}>
-            <TableContainer height={'100%'} overflowY={"auto"}>
+            {reservations.length > 0 ? <TableContainer height={'100%'} overflowY={"auto"}>
                 <Table variant='simple' size={"sm"}>
                     <Thead>
                         <Tr>
@@ -40,10 +40,11 @@ export default function ReservationsPanel() {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {reservations.map((reservation) => <ReservationLine key={reservation.id} reservation={reservation} refetch={getReservations} />)}
+                        {reservations.map((reservation) => <ReservationLine key={reservation.id} reservation={reservation} />)}
                     </Tbody>
                 </Table>
-            </TableContainer>
+            </TableContainer> :
+                <Text fontSize={'12px'} fontStyle={'italic'} marginTop={'25px'}>Vous n'avez aucune réservation de cours 🙁</Text>}
         </Box>
     </Box>
 }
