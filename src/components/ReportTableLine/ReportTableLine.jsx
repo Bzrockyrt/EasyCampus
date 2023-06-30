@@ -1,5 +1,5 @@
 import { DeleteIcon, NotAllowedIcon } from '@chakra-ui/icons';
-import { Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Skeleton, Td, Tooltip, Tr, useDisclosure } from '@chakra-ui/react';
+import { Text, Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Skeleton, Td, Tooltip, Tr, useDisclosure } from '@chakra-ui/react';
 import { addDays } from 'date-fns';
 import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import React from 'react';
@@ -91,14 +91,14 @@ export default function ReportTableLine({ report, refetch }) {
                     <Flex flexDirection={'column'}>
                         <Text fontSize={'16px'} fontWeight={600}>Raison de la restriction :</Text>
                         <Input placeholder='Raison' value={blockReason} onChange={(e) => setBlockReason(e.target.value)} />
-                        <Flex flexDirection={'row'}>
-                            <Button colorScheme={"yellow"} onClick={() => blockUser(7)} style={{ marginLeft: "10px", width: "100px" }}>
+                        <Flex flexDirection={'row'} justifyContent={'space-evenly'} marginTop={'15px'}>
+                            <Button colorScheme={"yellow"} onClick={() => blockUser(7)} style={{ width: "100px" }}>
                                 1 semaine
                             </Button>
-                            <Button colorScheme={"orange"} onClick={() => blockUser(30)} style={{ marginLeft: "10px", width: "80px" }}>
+                            <Button colorScheme={"orange"} onClick={() => blockUser(30)} style={{ width: "80px" }}>
                                 1 mois
                             </Button>
-                            <Button colorScheme={"red"} onClick={() => blockUser(365)} style={{ marginLeft: "10px", width: "80px" }}>
+                            <Button colorScheme={"red"} onClick={() => blockUser(365)} style={{ width: "80px" }}>
                                 1 an
                             </Button>
                         </Flex>

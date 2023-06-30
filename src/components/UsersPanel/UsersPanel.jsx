@@ -101,13 +101,13 @@ export default function UsersPanel() {
                         <Text fontSize={'16px'} fontWeight={600}>Raison de la restriction :</Text>
                         <Input placeholder='Raison' value={blockReason} onChange={(e) => setBlockReason(e.target.value)} />
                         <Flex flexDirection={'row'} justifyContent={'space-evenly'} marginTop={'15px'}>
-                            <Button colorScheme={"yellow"} onClick={() => blockUser(7)} style={{ marginLeft: "10px", width: "100px" }}>
+                            <Button colorScheme={"yellow"} onClick={() => blockUser(7)} style={{ width: "100px" }}>
                                 1 semaine
                             </Button>
-                            <Button colorScheme={"orange"} onClick={() => blockUser(30)} style={{ marginLeft: "10px", width: "80px" }}>
+                            <Button colorScheme={"orange"} onClick={() => blockUser(30)} style={{ width: "80px" }}>
                                 1 mois
                             </Button>
-                            <Button colorScheme={"red"} onClick={() => blockUser(365)} style={{ marginLeft: "10px", width: "80px" }}>
+                            <Button colorScheme={"red"} onClick={() => blockUser(365)} style={{ width: "80px" }}>
                                 1 an
                             </Button>
                         </Flex>
