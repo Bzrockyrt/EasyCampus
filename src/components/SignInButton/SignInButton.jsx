@@ -73,6 +73,15 @@ export default function SignInButton({ setUserId }) {
         document.getElementById('signUpButton').click()
     }
 
+    if (isOpen){
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('signInButton').click()
+            }
+        });
+    }
+
     return (
         <>
             <Button
@@ -112,7 +121,7 @@ export default function SignInButton({ setUserId }) {
                         <Flex marginTop={'15px'}>Pas de compte?<a style={{ marginLeft: '5px', cursor:'pointer' }} onClick={() => handleOnClick()}>Créez-en un ici!</a></Flex>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme={'blue'} onClick={() => signIn()}>Connecter</Button>
+                        <Button id={'signInButton'} colorScheme={'blue'} onClick={() => signIn()}>Connecter</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
