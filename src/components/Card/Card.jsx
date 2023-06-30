@@ -83,10 +83,18 @@ export default function Card({ lessonData, refetch }) {
         }
     }
 
+    function goToLesson(lessonId)  {
+        if (userId){
+            navigate('/lesson', { state: { id: lessonId, name: lessonId } })
+        } else {
+            throwError('Vous devez vous connecter pour accéder à une leçon')
+        }
+    }
+
     return (
         <Skeleton isLoaded={!isLoading}>
             <div className='allCard'>
-                <div className='cardContainer' onClick={() => navigate('/lesson', { state: { id: lessonData.id, name: lessonData.id } })}>
+                <div className='cardContainer' onClick={() => goToLesson(lessonData.id)}>
                     <div style={{ height: '200px' }}><img src={pathReference} className='cardImage' />
                     </div>
                     <div className='cardWrapper'>

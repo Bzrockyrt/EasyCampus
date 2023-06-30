@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import destructureDatas from '../../utils/destructureDatas';
+import { Text, Flex } from '@chakra-ui/react';
 
 
 export default function FilterLesson(props) {
@@ -33,7 +34,8 @@ export default function FilterLesson(props) {
     }
 
     return (
-        <div className="filterLesson-container">
+        <div className="filterLesson-container" style={{display: 'flex', justifyContent:'center', alignItems:'center', gap:'15px'}}>
+            <Text>Filtre :</Text>
             <select name='filterLesson-Lessontype' onChange={onFilterLessonChanged}>
                 <option defaultValue disabled>Type de cours</option>
                 <option value={'all'}>Tous</option>
@@ -41,7 +43,7 @@ export default function FilterLesson(props) {
                     props.tabMatieresData && props.tabMatieresData.map((matiere, i) => <option key={matiere.id} value={matiere.id}>{matiere.nom}</option>)
                 }
             </select>
-            <input type={'range'} multiple></input>
+            {/* <input type={'range'} multiple></input> */}
             {/* <p>Notation :</p> */}
             {/* <RangeSlider min={0} max={5} step={0.1} onChange={(e) => rangeSliderValueChanged(e.target.value.min)}>
                 <RangeSliderTrack >

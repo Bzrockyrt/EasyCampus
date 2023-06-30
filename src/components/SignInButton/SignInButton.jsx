@@ -109,7 +109,7 @@ export default function SignInButton({ setUserId }) {
                                 borderColor={"gray"}
                                 required />
                         </FormControl>
-                        <Flex marginTop={'15px'}>Pas de compte?<a style={{ marginLeft: '5px' }} onClick={() => handleOnClick()}>Créez-en un ici!</a></Flex>
+                        <Flex marginTop={'15px'}>Pas de compte?<a style={{ marginLeft: '5px', cursor:'pointer' }} onClick={() => handleOnClick()}>Créez-en un ici!</a></Flex>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme={'blue'} onClick={() => signIn()}>Connecter</Button>

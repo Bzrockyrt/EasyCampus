@@ -5,8 +5,6 @@ import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import Card from '../../components/Card/Card';
 import FilterLesson from '../../components/FilterLesson/FilterLesson';
-import FilterItem from '../../components/FilterItem/FilterItem'
-import FilterButton from '../../components/FilterButton/FilterButton'
 import { useOutletContext } from 'react-router-dom';
 import destructureDatas from '../../utils/destructureDatas';
 
